@@ -723,11 +723,41 @@ class PriceMonitorService:
                 return
 
             # Prepare modification request
+            # CRITICAL FIX: "it should not wait".
+            # If we set Price == Trigger, it places a Limit Order AT the trigger.
+            # If market gaps, it waits.
+            # We must set Price significantly 'worse' than Trigger to ensure immediate fill (Marketable Limit).
+            # SELL SL (Long Position): Trigger 100, Limit 90.
+            # BUY SL (Short Position): Trigger 100, Limit 110.
+            
+            trigger_val = float(new_sl)
+            limit_price_val = trigger_val
+            
+            # Assuming 'quantity' is positive integer
+            # We need to know the ACTION of the SL ORDER.
+            # If position is BUY, SL Order is SELL.
+            # If position is SELL, SL Order is BUY.
+            
+            sl_action = 'SELL' if position['action'] == 'BUY' else 'BUY'
+            
+            buffer_points = 10.0 # Aggressive buffer to ensure fill
+            
+            if sl_action == 'SELL':
+                # Sell Limit should be Lower than Trigger
+                limit_price_val = trigger_val - buffer_points
+                if limit_price_val < 0.05: limit_price_val = 0.05 # Minimum tick
+            else:
+                # Buy Limit should be Higher than Trigger
+                limit_price_val = trigger_val + buffer_points
+                
+            # Log the aggressive SL logic
+            # logger.info(f"⚡ Trailing SL: Trigger {trigger_val}, Limit {limit_price_val} ({sl_action}) for immediate fill")
+
             success, response, status = modify_order(
                 order_data={
                     'orderid': sl_order_id,
-                    'price': str(new_sl),
-                    'trigger_price': str(new_sl),
+                    'price': str(limit_price_val), 
+                    'trigger_price': str(trigger_val),
                     'quantity': str(position['quantity'])
                 },
                 auth_token=auth_token,
@@ -793,7 +823,22 @@ class PriceMonitorService:
             else:
                 exit_price = str(position['final_target'])
 
-            # Place exit order (LIMIT order for exact price execution as per user request)
+            # Determine Exit Type and Price
+            # User Request: "always exits must exuecute at market once triggered ... no more waiting"
+            # Switch to MARKET order for ALL Exits (SL, Targets, Partial).
+            
+            final_ordertype = 'MARKET'
+            final_price = '0' # Market orders exit at best price
+            
+            # Legacy logic for LIMIT exits is removed/overridden to enforce immediate exit.
+            # If explicit LIMIT exit is ever needed, we can add a 'force_limit' flag later.
+            
+            if reason == "stop_loss":
+                logger.info("🛑 SL Hit -> Triggering MARKET Exit")
+            elif reason in ["partial_t1", "t3_final_exit", "target_reached"]:
+                 logger.info(f"🎯 Target/Exit ({reason}) -> Triggering MARKET Exit")
+
+            # Place exit order
             # Include all required fields: apikey, strategy, symbol, exchange, action, quantity
             order_data = {
                 'apikey': api_key if api_key else '',  # Required field for validation
@@ -802,8 +847,8 @@ class PriceMonitorService:
                 'exchange': exchange,
                 'action': action,  # Required field (was transaction_type)
                 'quantity': str(quantity),
-                'price': exit_price,
-                'pricetype': 'LIMIT',
+                'price': final_price,
+                'pricetype': final_ordertype,
                 'product': position['signal_data'].get('product', position.get('product', 'MIS'))
             }
             

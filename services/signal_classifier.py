@@ -356,7 +356,7 @@ class SignalClassifier:
         # Robust pattern: Keyword (captured) + optional separator (:- or :) + optional junk + currency + number (captured)
         # Matches: "above 2500", "above:- 24", "Entry: 350", "at ₹1400", "Buy @ 1650"
         price_patterns = [
-            r'(above|below|around|near|@|at|cmp|price|entry)(?:[:-]*)\s*[^0-9\n]*\s*(\d+(?:\.\d+)?)'
+            r'\b(above|below|around|near|@|at|cmp|price|entry)\b(?:[:-]*)\s*[^0-9\n]*\s*(\d+(?:\.\d+)?)'
         ]
         
         for p in price_patterns:
@@ -374,14 +374,21 @@ class SignalClassifier:
         if 'price' not in data:
              # Find all potential prices (floats or integers)
              all_nums = re.findall(r'\b\d+(?:\.\d+)?\b', text)
+             
+             # Get strike price to exclude
+             strike_exclude = str(data.get('strike', ''))
+             
              for num in all_nums:
-                 # Filter out likely Strike prices (often large round numbers like 45000, 21000) if we have a strike
-                 # Or if it matches exactly the strike extracted earlier
-                 if data.get('strike') and (num == data.get('strike') or float(num) == float(data.get('strike'))):
-                     continue
-                 # Filter out if it matches a known SL or Target (extracted later, so we might need a 2nd pass or be smart)
-                 # Heuristic: Start with first valid number
+                 # exclude strictly if matches strike
+                 try:
+                    if strike_exclude and float(num) == float(strike_exclude):
+                        continue
+                 except ValueError:
+                    pass
+
                  data['price'] = num
+                 if not data.get('condition'): 
+                    data['condition'] = 'at' # Default
                  break
         
         # 4. Extract Stop Loss (SL)

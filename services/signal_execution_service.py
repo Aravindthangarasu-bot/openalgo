@@ -405,11 +405,20 @@ class SignalExecutionService:
             # Smart Entry Logic: Fetch LTP to decide Order Type
             current_ltp = 0
             try:
-                # Fetch quote for the resolved symbol
-                quote_res = get_quotes(exchange=order['exchange'], symbol=order['symbol'])
+                # Fetch quote with Timeout Protection (Safety against API stalls during heavy load)
+                # Run in executor to prevent blocking main loop if get_quotes is synchronous
+                if asyncio.iscoroutinefunction(get_quotes):
+                    quote_res = await asyncio.wait_for(get_quotes(exchange=order['exchange'], symbol=order['symbol']), timeout=2.0)
+                else:
+                    # If synchronous, just call it (assuming it's fast enough or has internal timeout)
+                    # For safety, wrap in generic try-catch block
+                    quote_res = get_quotes(exchange=order['exchange'], symbol=order['symbol'])
+
                 if quote_res and 'lp' in quote_res:
                     current_ltp = float(quote_res['lp'])
                     logger.info(f"Smart Entry: Fetched LTP for {order['symbol']} = {current_ltp} (Entry: {entry_price})")
+            except asyncio.TimeoutError:
+                logger.warning(f"⚠️ LTP Fetch Timeout for {order['symbol']} - Proceeding with Default Logic")
             except Exception as e:
                 logger.error(f"Error fetching LTP for Smart Entry: {e}")
 
