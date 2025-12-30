@@ -44,6 +44,7 @@ from blueprints.websocket_example import websocket_bp  # Import the websocket ex
 from blueprints.pnltracker import pnltracker_bp  # Import the pnl tracker blueprint
 from blueprints.python_strategy import python_strategy_bp  # Import the python strategy blueprint
 from blueprints.telegram import telegram_bp  # Import the telegram blueprint
+from blueprints.telegram_signal import telegram_signal_bp  # Import the telegram signal blueprint
 from blueprints.security import security_bp  # Import the security blueprint
 from blueprints.sandbox import sandbox_bp  # Import the sandbox blueprint
 from blueprints.logging import logging_bp  # Import the logging blueprint
@@ -112,6 +113,9 @@ def create_app():
     
     # Store csrf instance in app config for use in other modules
     app.csrf = csrf
+
+    # Disable Rate Limiter locally to avoid "Rate limit exceeded" errors
+    app.config['RATELIMIT_ENABLED'] = False
 
     # Initialize Flask-Limiter with the app object
     limiter.init_app(app)
@@ -214,6 +218,7 @@ def create_app():
     app.register_blueprint(pnltracker_bp)  # Register PnL tracker blueprint
     app.register_blueprint(python_strategy_bp)  # Register Python strategy blueprint
     app.register_blueprint(telegram_bp)  # Register Telegram blueprint
+    app.register_blueprint(telegram_signal_bp)  # Register Telegram Signal blueprint
     app.register_blueprint(security_bp)  # Register Security blueprint
     app.register_blueprint(sandbox_bp)  # Register Sandbox blueprint
     app.register_blueprint(playground_bp)  # Register API playground blueprint
@@ -234,81 +239,120 @@ def create_app():
         init_latency_monitoring(app)
 
         # Auto-start Telegram bot if it was active (non-blocking)
+        # try:
+        #     import sys
+        #     bot_config = get_bot_config()
+        #     if bot_config.get('is_active') and bot_config.get('bot_token'):
+        #         logger.debug("Auto-starting Telegram bot (background)...")
+
+        #         # Check if we're in eventlet environment
+        #         if 'eventlet' in sys.modules:
+        #             logger.debug("Eventlet detected during auto-start - using synchronous initialization")
+        #             # Use synchronous initialization for eventlet
+        #             success, message = telegram_bot_service.initialize_bot_sync(token=bot_config['bot_token'])
+        #             if success:
+        #                 success, message = telegram_bot_service.start_bot()
+        #                 if success:
+        #                     logger.debug(f"Telegram bot auto-started successfully: {message}")
+        #                 else:
+        #                     logger.error(f"Failed to auto-start Telegram bot: {message}")
+        #             else:
+        #                 logger.error(f"Failed to initialize Telegram bot: {message}")
+        #         else:
+        #             # Initialize and start bot in background thread (non-blocking)
+        #             import asyncio
+        #             import threading
+
+        #             def init_and_start_bot():
+        #                 try:
+        #                     loop = asyncio.new_event_loop()
+        #                     asyncio.set_event_loop(loop)
+        #                     try:
+        #                         success, message = loop.run_until_complete(
+        #                             telegram_bot_service.initialize_bot(token=bot_config['bot_token'])
+        #                         )
+        #                     finally:
+        #                         loop.close()
+
+        #                     if success:
+        #                         success, message = telegram_bot_service.start_bot()
+        #                         if success:
+        #                             logger.debug(f"Telegram bot auto-started successfully: {message}")
+        #                         else:
+        #                             logger.error(f"Failed to auto-start Telegram bot: {message}")
+        #                     else:
+        #                         logger.error(f"Failed to initialize Telegram bot: {message}")
+        #                 except Exception as e:
+        #                     logger.error(f"Error in Telegram bot background startup: {e}")
+
+        #             # Start in background - don't wait for completion
+        #             # thread = threading.Thread(target=init_and_start_bot, daemon=True)
+        #             # thread.start()
+        #             logger.debug("Telegram bot initialization started in background")
+
+        # except Exception as e:
+        #     logger.error(f"Error auto-starting Telegram bot: {str(e)}")
+
+        # Auto-start Telegram Signal Listener (Userbot)
         try:
-            import sys
-            bot_config = get_bot_config()
-            if bot_config.get('is_active') and bot_config.get('bot_token'):
-                logger.debug("Auto-starting Telegram bot (background)...")
+             from services.telegram_listener_service import telegram_listener
+             import asyncio
+             import threading
+             
+             def start_listener_loop():
+                 loop = asyncio.new_event_loop()
+                 asyncio.set_event_loop(loop)
+                 try:
+                     loop.run_until_complete(telegram_listener.connect())
+                     # Keep loop running for events
+                     loop.run_forever()
+                 except Exception as e:
+                     logger.error(f"Signal Listener Error: {e}")
+                 finally:
+                     loop.close()
 
-                # Check if we're in eventlet environment
-                if 'eventlet' in sys.modules:
-                    logger.debug("Eventlet detected during auto-start - using synchronous initialization")
-                    # Use synchronous initialization for eventlet
-                    success, message = telegram_bot_service.initialize_bot_sync(token=bot_config['bot_token'])
-                    if success:
-                        success, message = telegram_bot_service.start_bot()
-                        if success:
-                            logger.debug(f"Telegram bot auto-started successfully: {message}")
-                        else:
-                            logger.error(f"Failed to auto-start Telegram bot: {message}")
-                    else:
-                        logger.error(f"Failed to initialize Telegram bot: {message}")
-                else:
-                    # Initialize and start bot in background thread (non-blocking)
-                    import asyncio
-                    import threading
-
-                    def init_and_start_bot():
-                        try:
-                            loop = asyncio.new_event_loop()
-                            asyncio.set_event_loop(loop)
-                            try:
-                                success, message = loop.run_until_complete(
-                                    telegram_bot_service.initialize_bot(token=bot_config['bot_token'])
-                                )
-                            finally:
-                                loop.close()
-
-                            if success:
-                                success, message = telegram_bot_service.start_bot()
-                                if success:
-                                    logger.debug(f"Telegram bot auto-started successfully: {message}")
-                                else:
-                                    logger.error(f"Failed to auto-start Telegram bot: {message}")
-                            else:
-                                logger.error(f"Failed to initialize Telegram bot: {message}")
-                        except Exception as e:
-                            logger.error(f"Error in Telegram bot background startup: {e}")
-
-                    # Start in background - don't wait for completion
-                    thread = threading.Thread(target=init_and_start_bot, daemon=True)
-                    thread.start()
-                    logger.debug("Telegram bot initialization started in background")
-
+             if os.getenv("TELEGRAM_API_ID"):
+                 thread = threading.Thread(target=start_listener_loop, daemon=True)
+                 thread.start()
+                 logger.info("Telegram Signal Listener started in background")
         except Exception as e:
-            logger.error(f"Error auto-starting Telegram bot: {str(e)}")
+            logger.error(f"Error starting Signal Listener: {e}")
+        
+        # Start Price Monitoring Service for trailing SL
+        try:
+            from services.price_monitor_service import price_monitor
+            import asyncio
+            
+            def start_price_monitor():
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    loop.run_until_complete(price_monitor.start_monitoring())
+                except Exception as e:
+                    logger.error(f"Price Monitor Error: {e}")
+                finally:
+                    loop.close()
+            
+            monitor_thread = threading.Thread(target=start_price_monitor, daemon=True)
+            monitor_thread.start()
+            logger.info("Price Monitor Service started - Trailing SL active")
+        except Exception as e:
+            logger.error(f"Error starting Price Monitor: {e}")
 
-    @app.before_request
-    def check_session_expiry():
-        """Check session validity before each request"""
+            logger.info("Price Monitor Service started - Trailing SL active")
+        except Exception as e:
+            logger.error(f"Error starting Price Monitor: {e}")
+
+    @app.after_request
+    def log_response(response):
+        """Log request details to terminal for debugging"""
         from flask import request
-        from utils.session import is_session_valid, revoke_user_tokens
-        
-        # Skip session check for static files, API endpoints, and public routes
-        if (request.path.startswith('/static/') or 
-            request.path.startswith('/api/') or 
-            request.path in ['/', '/auth/login', '/auth/reset-password', '/setup', '/download', '/faq'] or
-            request.path.startswith('/auth/broker/') or  # OAuth callbacks
-            request.path.startswith('/_reload-ws')):  # WebSocket reload endpoint
-            return
-        
-        # Check if user is logged in and session is expired
-        if session.get('logged_in') and not is_session_valid():
-            logger.info(f"Session expired for user: {session.get('user')} - revoking tokens")
-            revoke_user_tokens()
-            session.clear()
-            # Don't redirect here, let individual routes handle it
-    
+        # Only log API requests to reduce noise
+        if request.path.startswith('/api/'):
+             # Force print to stdout with flush to ensure visibility
+            print(f"[REQUEST LOG] {request.method} {request.path} - Status: {response.status_code}", flush=True)
+        return response
+
     @app.errorhandler(400)
     def csrf_error(error):
         """Custom handler for CSRF errors (400 Bad Request)"""

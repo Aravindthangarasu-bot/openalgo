@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/sandbox/position_manager.py
+# hypothesis_version: 6.148.8
+
+[0.0, 200, 404, 500, 2000, '%Y-%m-%d %H:%M:%S', '%d-%b-%Y', '%d-%b-%y', '0', '0.00', '03:00', '100', '5', ':', 'APR', 'AUG', 'AUTO_SQUARE_OFF', 'Asia/Kolkata', 'BCD', 'BFO', 'BUY', 'CDS', 'CNC', 'DEC', 'FEB', 'JAN', 'JUL', 'JUN', 'MAR', 'MARKET', 'MAY', 'MCX', 'MIS', 'MTM update completed', 'NCDEX', 'NFO', 'NOV', 'NRML', 'OCT', 'SELL', 'SEP', 'SESSION_EXPIRY_TIME', '__main__', 'action', 'analyze', 'average_price', 'data', 'error', 'exchange', 'ltp', 'message', 'mode', 'mtm_update_interval', 'orderid', 'pnl', 'pnl_percent', 'price', 'price_type', 'product', 'quantity', 'results', 'status', 'strategy', 'success', 'symbol', 'timestamp', 'today_realized_pnl', 'total_pnl', 'total_pnl_today', 'total_unrealized_pnl', 'trade_value', 'tradeid', 'unrealized_pnl']

@@ -58,12 +58,20 @@ class Settings(Base):
     security_404_ban_duration = Column(Integer, default=24)  # Ban duration in hours
     security_api_threshold = Column(Integer, default=10)  # Invalid API attempts before ban
     security_api_ban_duration = Column(Integer, default=48)  # Ban duration in hours
+    security_api_threshold = Column(Integer, default=10)  # Invalid API attempts before ban
+    security_api_ban_duration = Column(Integer, default=48)  # Ban duration in hours
     security_repeat_offender_limit = Column(Integer, default=3)  # Bans before permanent ban
+    
+    # Trading Configuration
+    trading_lots = Column(Integer, default=1)  # Global Multiplier for Lot Size (Default: 1)
 
 def init_db():
     """Initialize the settings database"""
     from database.db_init_helper import init_db_with_logging
     init_db_with_logging(Base, engine, "Settings DB", logger)
+    
+    # Ensure Schema Migration
+    check_and_migrate_settings_db()
 
     # Create default settings only if no settings exist (with race condition protection)
     try:
@@ -240,6 +248,39 @@ def set_security_settings(threshold_404=None, ban_duration_404=None,
         del _settings_cache['security_settings']
 
 
+    # Invalidate cache after update
+    if 'security_settings' in _settings_cache:
+        del _settings_cache['security_settings']
+
+def get_trading_lots() -> int:
+    """Get global trading lots multiplier (cached)"""
+    cache_key = 'trading_lots'
+    if cache_key in _settings_cache:
+        return _settings_cache[cache_key]
+        
+    settings = Settings.query.first()
+    if not settings:
+        return 1
+    
+    val = settings.trading_lots or 1
+    _settings_cache[cache_key] = val
+    return val
+
+def set_trading_lots(lots: int):
+    """Set global trading lots multiplier"""
+    settings = Settings.query.first()
+    if not settings:
+        settings = Settings(analyze_mode=False, trading_lots=lots)
+        db_session.add(settings)
+    else:
+        settings.trading_lots = lots
+    
+    db_session.commit()
+    
+    if 'trading_lots' in _settings_cache:
+        del _settings_cache['trading_lots']
+    logger.info(f"Trading Lots updated to: {lots}")
+
 def clear_settings_cache():
     """
     Clear all settings caches.
@@ -247,3 +288,20 @@ def clear_settings_cache():
     """
     _settings_cache.clear()
     logger.info("Settings cache cleared")
+
+# Auto-migration helper (to be called from init_db or app start)
+def check_and_migrate_settings_db():
+    """Ensure new columns exist in existing DB (SQLite Support)"""
+    try:
+        from sqlalchemy import text
+        # Simple check: Try to select the column
+        try:
+            db_session.execute(text("SELECT trading_lots FROM settings LIMIT 1"))
+        except Exception:
+            db_session.rollback()
+            logger.info("Settings DB: Adding missing 'trading_lots' column")
+            db_session.execute(text("ALTER TABLE settings ADD COLUMN trading_lots INTEGER DEFAULT 1"))
+            db_session.commit()
+            
+    except Exception as e:
+        logger.error(f"Migration failed: {e}")

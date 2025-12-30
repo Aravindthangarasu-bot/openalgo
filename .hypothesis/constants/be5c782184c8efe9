@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/sandbox/order_manager.py
+# hypothesis_version: 6.148.8
+
+[0.0, 0.3, 200, 400, 404, 500, '%Y-%m-%d %H:%M:%S', '%y%m%d', '0', '03:00', ':', 'Asia/Kolkata', 'BCD', 'BFO', 'BSE', 'BUY', 'CDS', 'CE', 'CNC', 'FUT', 'Invalid price', 'Invalid quantity', 'LIMIT', 'MARKET', 'MCX', 'MIS', 'NCDEX', 'NFO', 'NRML', 'NSE', 'PE', 'SELL', 'SESSION_EXPIRY_TIME', 'SL', 'SL-M', 'Validation passed', 'action', 'analyze', 'average_price', 'cancelled', 'complete', 'data', 'error', 'exchange', 'filled_quantity', 'ltp', 'margin_blocked', 'message', 'mode', 'open', 'order_status', 'orderid', 'orders', 'pending_quantity', 'price', 'price_type', 'pricetype', 'product', 'quantity', 'rejected', 'rejection_reason', 'signal_data', 'statistics', 'status', 'strategy', 'success', 'symbol', 'timestamp', 'total_buy_orders', 'total_open_orders', 'total_sell_orders', 'trigger_price']

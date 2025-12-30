@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/utils/constants.py
+# hypothesis_version: 6.148.8
+
+['0', 'BCD', 'BFO', 'BSE', 'BSE_INDEX', 'BUY', 'CDS', 'CNC', 'LIMIT', 'MARKET', 'MCX', 'MIS', 'NCDEX', 'NFO', 'NRML', 'NSE', 'NSE_INDEX', 'SELL', 'SL', 'SL-M', 'action', 'apikey', 'badge-accent', 'badge-error', 'badge-info', 'badge-neutral', 'badge-primary', 'badge-secondary', 'badge-success', 'badge-warning', 'disclosed_quantity', 'exchange', 'orderid', 'position_size', 'price', 'pricetype', 'product', 'quantity', 'strategy', 'symbol', 'trigger_price']

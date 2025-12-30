@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/option_greeks.py
+# hypothesis_version: 6.148.8
+
+[400, 401, 500, '30 per minute', 'GREEKS_RATE_LIMIT', 'Option Greeks API', 'Validation failed', 'apikey', 'error', 'errors', 'exchange', 'expiry_time', 'forward_price', 'interest_rate', 'message', 'optiongreeks', 'status', 'symbol', 'underlying_exchange', 'underlying_symbol']

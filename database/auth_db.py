@@ -251,7 +251,7 @@ def get_auth_token_dbquery(name):
         else:
             # Only log warning for actual usernames, not None/empty
             if name:
-                logger.warning(f"No valid auth token found for name '{name}'.")
+                logger.debug(f"No valid auth token found for name '{name}'.")
             return None
     except Exception as e:
         logger.error(f"Error while querying the database for auth token: {e}")
@@ -292,7 +292,7 @@ def get_feed_token_dbquery(name):
         else:
             # Only log warning for actual usernames, not None/empty
             if name:
-                logger.warning(f"No valid feed token found for name '{name}'.")
+                logger.debug(f"No valid feed token found for name '{name}'.")
             return None
     except Exception as e:
         logger.error(f"Error while querying the database for feed token: {e}")
@@ -310,7 +310,7 @@ def get_user_id(name):
             return auth_obj.user_id  # This should return "1272808" for DefinEdge
         else:
             if name:
-                logger.warning(f"No valid user_id found for name '{name}'.")
+                logger.debug(f"No valid user_id found for name '{name}'.")
             return None
     except Exception as e:
         logger.error(f"Error while querying the database for user_id: {e}")
@@ -540,6 +540,28 @@ def get_auth_token_broker(provided_api_key, include_feed_token=False):
             return (None, None, None) if include_feed_token else (None, None)
     else:
         return (None, None, None) if include_feed_token else (None, None)
+
+def invalidate_broker_token_cache(provided_api_key):
+    """
+    Invalidate auth token cache for a specific API key.
+    Useful when a token is reported as invalid by the broker API.
+    """
+    import hashlib
+    # We must clear both variants (with and without feed token) to be safe
+    keys_to_clear = [
+        f"{hashlib.sha256(provided_api_key.encode()).hexdigest()}_{True}",
+        f"{hashlib.sha256(provided_api_key.encode()).hexdigest()}_{False}"
+    ]
+    
+    cleared = False
+    for key in keys_to_clear:
+        if key in auth_cache:
+            del auth_cache[key]
+            cleared = True
+    
+    if cleared:
+        logger.info(f"Invalidated broker token cache for API key")
+    return cleared
 
 def get_order_mode(user_id):
     """

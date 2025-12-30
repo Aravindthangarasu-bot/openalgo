@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/synthetic_future_service.py
+# hypothesis_version: 6.148.8
+
+[200, 500, 'ATM', 'CE', 'PE', 'atm_strike', 'data', 'error', 'exchange', 'expiry', 'ltp', 'message', 'status', 'success', 'symbol', 'underlying', 'underlying_ltp']

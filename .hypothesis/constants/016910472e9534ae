@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/firstock/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+[200, 400, 401, 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Content-Type', 'Password is required', 'TOTP', 'User ID is required', 'apiKey', 'application/json', 'connection', 'data', 'error', 'field', 'jKey', 'message', 'password', 'status', 'success', 'susertoken', 'timeout', 'userId', 'utf-8', 'vendorCode']

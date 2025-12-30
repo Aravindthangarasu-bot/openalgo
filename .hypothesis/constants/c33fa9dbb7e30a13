@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/cache_restoration.py
+# hypothesis_version: 6.148.8
+
+[1000, 'auth_cache', 'broker', 'broker_cache', 'count', 'error', 'feed_token_cache', 'loaded', 'memory_mb', 'success', 'symbol_cache', 'symbols_loaded', 'time_ms', 'tokens_loaded', 'total_time_ms', 'users']

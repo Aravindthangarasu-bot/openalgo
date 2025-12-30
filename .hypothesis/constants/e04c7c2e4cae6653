@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/websocket_client.py
+# hypothesis_version: 6.148.8
+
+[0.1, 8765, ':', 'Quote', 'action', 'api_key', 'auth', 'authenticate', 'count', 'error', 'exchange', 'localhost', 'market_data', 'message', 'mode', 'status', 'subscribe', 'subscriptions', 'success', 'symbol', 'symbols', 'type', 'unsubscribe', 'unsubscribe_all']

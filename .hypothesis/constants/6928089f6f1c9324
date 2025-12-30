@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/paytm/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+[200, '; ', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Content-Type', 'access_token', 'api_key', 'api_secret_key', 'application/json', 'errors', 'message', 'public_access_token', 'request_token']

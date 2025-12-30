@@ -9,6 +9,8 @@ from services.orderbook_service import get_orderbook
 from services.tradebook_service import get_tradebook
 from services.positionbook_service import get_positionbook
 from services.holdings_service import get_holdings
+from services.position_monitor_service import position_monitor
+from services.quotes_service import get_quotes, get_multiquotes
 from utils.logging import get_logger
 from limiter import limiter
 import csv
@@ -30,6 +32,371 @@ def ratelimit_handler(e):
         'status': 'error',
         'message': 'Rate limit exceeded. Please try again later.'
     }), 429
+
+import time
+
+# Simple in-memory cache: {(user_id, endpoint): {'data': response_data, 'timestamp': time.time()}}
+API_CACHE = {}
+CACHE_TTL = 1  # 1 second cache
+
+@orders_bp.route('/api/orders')
+@check_session_validity
+@limiter.limit(API_RATE_LIMIT)
+def get_orders_api():
+    """API endpoint to fetch orders (JSON) with Caching"""
+    login_username = session['user']
+    
+    # Check Cache
+    cache_key = (login_username, 'orders')
+    cached = API_CACHE.get(cache_key)
+    if cached and (time.time() - cached['timestamp'] < CACHE_TTL):
+        return jsonify(cached['data'])
+
+    auth_token = get_auth_token(login_username)
+
+    if auth_token is None:
+        return jsonify({'status': 'error', 'message': 'Authentication failed'}), 401
+
+    broker = session.get('broker')
+    if not broker:
+        return jsonify({'status': 'error', 'message': 'Broker not set'}), 400
+
+    if get_analyze_mode():
+        api_key = get_api_key_for_tradingview(login_username)
+        if api_key:
+            success, response, status_code = get_orderbook(api_key=api_key)
+        else:
+            return jsonify({'status': 'error', 'message': 'API key required'}), 400
+    else:
+        success, response, status_code = get_orderbook(auth_token=auth_token, broker=broker)
+
+    if not success:
+        return jsonify({'status': 'error', 'message': response.get('message', 'Failed to fetch orders')}), status_code
+
+    data = response.get('data', {})
+    orders = data.get('orders', [])
+    orders = enrich_orders_with_ltp(orders, login_username, auth_token, broker)
+    data['orders'] = orders
+    
+    # Update Cache
+    API_CACHE[cache_key] = {'data': data, 'timestamp': time.time()}
+    
+    return jsonify(data)
+
+@orders_bp.route('/api/trades')
+@check_session_validity
+@limiter.limit(API_RATE_LIMIT)
+def get_trades_api():
+    """API endpoint to fetch trades (JSON) with Caching"""
+    login_username = session['user']
+    
+    # Check Cache
+    cache_key = (login_username, 'trades')
+    cached = API_CACHE.get(cache_key)
+    if cached and (time.time() - cached['timestamp'] < CACHE_TTL):
+        return jsonify(cached['data'])
+        
+    auth_token = get_auth_token(login_username)
+
+    if auth_token is None:
+        return jsonify({'status': 'error', 'message': 'Authentication failed'}), 401
+
+    broker = session.get('broker')
+    if not broker:
+        return jsonify({'status': 'error', 'message': 'Broker not set'}), 400
+
+    if get_analyze_mode():
+        api_key = get_api_key_for_tradingview(login_username)
+        if api_key:
+            success, response, status_code = get_tradebook(api_key=api_key)
+        else:
+            return jsonify({'status': 'error', 'message': 'API key required'}), 400
+    else:
+        success, response, status_code = get_tradebook(auth_token=auth_token, broker=broker)
+
+    if not success:
+        return jsonify({'status': 'error', 'message': response.get('message', 'Failed to fetch trades')}), status_code
+
+    trades = response.get('data', [])
+    # trades = enrich_trades_with_ltp(trades, login_username, auth_token, broker) # Removed
+    
+    response_data = {'trades': trades}
+    
+    # Update Cache
+    API_CACHE[cache_key] = {'data': response_data, 'timestamp': time.time()}
+
+    return jsonify(response_data)
+
+@orders_bp.route('/api/positions')
+@check_session_validity
+@limiter.limit(API_RATE_LIMIT)
+def get_positions_api():
+    """API endpoint to fetch positions (JSON) with Caching"""
+    login_username = session['user']
+    
+    # Check Cache
+    cache_key = (login_username, 'positions')
+    cached = API_CACHE.get(cache_key)
+    if cached and (time.time() - cached['timestamp'] < CACHE_TTL):
+        return jsonify(cached['data'])
+        
+    auth_token = get_auth_token(login_username)
+
+    if auth_token is None:
+        return jsonify({'status': 'error', 'message': 'Authentication failed'}), 401
+
+    broker = session.get('broker')
+    if not broker:
+        return jsonify({'status': 'error', 'message': 'Broker not set'}), 400
+
+    if get_analyze_mode():
+        api_key = get_api_key_for_tradingview(login_username)
+        if api_key:
+            success, response, status_code = get_positionbook(api_key=api_key)
+        else:
+            return jsonify({'status': 'error', 'message': 'API key required'}), 400
+    else:
+        success, response, status_code = get_positionbook(auth_token=auth_token, broker=broker)
+
+    if not success:
+        return jsonify({'status': 'error', 'message': response.get('message', 'Failed to fetch positions')}), status_code
+
+    positions = response.get('data', [])
+    
+    # Enrich positions with SL/Target from monitor
+    positions = enrich_positions_with_monitor(positions)
+    
+    # Enrich positions with real-time LTP data
+    positions = enrich_positions_with_ltp(positions, login_username, auth_token, broker)
+    
+    response_data = {'data': positions}
+    
+    # Update Cache
+    API_CACHE[cache_key] = {'data': response_data, 'timestamp': time.time()}
+
+    return jsonify(response_data)
+
+
+
+
+def enrich_positions_with_monitor(positions):
+    """Enrich positions with SL/Target data from PositionMonitor"""
+    try:
+        if not positions:
+            return positions
+            
+        active_monitored = position_monitor.get_active_positions()
+        # Create a lookup map: (symbol, product, exchange) -> position_data
+        monitor_map = {}
+        for pid, pdata in active_monitored.items():
+            sym = pdata.get('symbol')
+            prod = pdata.get('product', 'MIS')
+            exc = pdata.get('exchange')
+            
+            # Key 1: Strict match
+            monitor_map[(sym, prod, exc)] = pdata
+            
+            # Key 2: Relaxed match (ignore product) - Store if not already present
+            if (sym, exc) not in monitor_map:
+                monitor_map[(sym, exc)] = pdata
+        
+        logger.info(f"Monitor Map Keys: {list(monitor_map.keys())}")
+            
+        for pos in positions:
+            sym = pos.get('symbol')
+            prod = pos.get('product')
+            exc = pos.get('exchange')
+            
+            key_strict = (sym, prod, exc)
+            key_relaxed = (sym, exc)
+            
+            m_pos = None
+            if key_strict in monitor_map:
+                m_pos = monitor_map[key_strict]
+                logger.info(f"Position Match (Strict): {key_strict}")
+            elif key_relaxed in monitor_map:
+                m_pos = monitor_map[key_relaxed]
+                logger.info(f"Position Match (Relaxed): {key_relaxed}")
+            else:
+                 logger.debug(f"Position No Match: {key_strict}")
+
+                
+            if m_pos:
+                pos['current_sl'] = m_pos.get('current_sl')
+                pos['final_target'] = m_pos.get('final_target')
+                pos['targets'] = m_pos.get('targets', [])
+                logger.info(f"Enriched {sym}: SL={pos['current_sl']}, TGT={pos['final_target']} (Keys: Strict={key_strict in monitor_map}, Relaxed={key_relaxed in monitor_map})")
+            else:
+                pos['current_sl'] = '-'
+                pos['final_target'] = '-'
+                pos['targets'] = []
+                
+    except Exception as e:
+        logger.error(f"Error enriching positions with monitor data: {e}")
+    
+    return positions
+
+
+def enrich_positions_with_ltp(positions, login_username, auth_token, broker):
+    """Enrich positions with real-time LTP data"""
+    try:
+        if not positions:
+            return positions
+            
+        # Collect unique symbols
+        unique_symbols = {} # (symbol, exchange) -> None
+        for position in positions:
+            s = position.get('symbol')
+            e = position.get('exchange')
+            if s and e:
+                unique_symbols[(s, e)] = None
+        
+        symbols_to_fetch = [{'symbol': s, 'exchange': e} for s, e in unique_symbols.keys()]
+        
+        if symbols_to_fetch:
+            from services.quotes_service import get_multiquotes
+            from database.settings_db import get_analyze_mode
+            from database.auth_db import get_api_key_for_tradingview
+            
+            if get_analyze_mode():
+                api_key = get_api_key_for_tradingview(login_username)
+                success, q_resp, _ = get_multiquotes(symbols=symbols_to_fetch, api_key=api_key)
+            else:
+                success, q_resp, _ = get_multiquotes(symbols=symbols_to_fetch, auth_token=auth_token, broker=broker)
+                
+            if success and 'results' in q_resp:
+                logger.info(f"Positions MTM: Multiquotes fetched {len(q_resp['results'])}/{len(symbols_to_fetch)} symbols")
+                ltp_map = {} 
+                for item in q_resp['results']:
+                    val = None
+                    if 'data' in item:
+                        if 'ltp' in item['data']:
+                            val = item['data']['ltp']
+                        elif 'lp' in item['data']:
+                            val = item['data']['lp']
+                    elif 'ltp' in item:
+                        val = item['ltp']
+                    elif 'lp' in item:
+                        val = item['lp']
+                    
+                    if val is not None:
+                        k_sym = str(item.get('symbol', ''))
+                        k_exc = str(item.get('exchange', ''))
+                        ltp_map[(k_sym, k_exc)] = val
+                        ltp_map[(k_sym.upper(), k_exc.upper())] = val
+
+                for position in positions:
+                    s = str(position.get('symbol'))
+                    e = str(position.get('exchange'))
+                    
+                    # Try matching with different case combinations
+                    found_val = None
+                    if (s, e) in ltp_map: 
+                        found_val = ltp_map[(s, e)]
+                    elif (s.upper(), e.upper()) in ltp_map: 
+                        found_val = ltp_map[(s.upper(), e.upper())]
+                    
+                    if found_val is not None:
+                        position['ltp'] = found_val
+                    else:
+                        position['ltp'] = '-'
+            else:
+                # Set defaults on failure
+                for position in positions:
+                    position['ltp'] = '-'
+        else:
+            for position in positions:
+                position['ltp'] = '-'
+
+    except Exception as e:
+        logger.error(f"Error enriching positions with LTP: {e}", exc_info=True)
+        
+    return positions
+
+def enrich_orders_with_ltp(orders, login_username, auth_token, broker):
+    """Enrich orders with LTP data"""
+    try:
+        if not orders:
+            return orders
+            
+        # Collect unique symbols
+        unique_symbols = {} # (symbol, exchange) -> None
+        for order in orders:
+            s = order.get('symbol')
+            e = order.get('exchange')
+            if s and e:
+                unique_symbols[(s, e)] = None
+        
+        symbols_to_fetch = [{'symbol': s, 'exchange': e} for s, e in unique_symbols.keys()]
+        
+        if symbols_to_fetch:
+            if get_analyze_mode():
+                api_key = get_api_key_for_tradingview(login_username)
+                success, q_resp, _ = get_multiquotes(symbols=symbols_to_fetch, api_key=api_key)
+            else:
+                success, q_resp, _ = get_multiquotes(symbols=symbols_to_fetch, auth_token=auth_token, broker=broker)
+                
+            if success and 'results' in q_resp:
+                logger.info(f"LTP Enrichment: Got results for {len(q_resp['results'])} symbols")
+                ltp_map = {} 
+                for item in q_resp['results']:
+                    # Log the item structure for debugging
+                    logger.info(f"LTP Item: {item}")
+                    
+                    val = None
+                    if 'data' in item:
+                        if 'ltp' in item['data']:
+                            val = item['data']['ltp']
+                        elif 'lp' in item['data']:
+                            val = item['data']['lp']
+                    elif 'ltp' in item:
+                        val = item['ltp']
+                    elif 'lp' in item:
+                        val = item['lp']
+                    
+                    if val is not None:
+                        # Ensure keys match order data format (str)
+                        k_sym = str(item.get('symbol', ''))
+                        k_exc = str(item.get('exchange', ''))
+                        ltp_map[(k_sym, k_exc)] = val
+                        # Also try alternate key formats if needed
+                        ltp_map[(k_sym, k_exc.upper())] = val
+                        ltp_map[(k_sym.upper(), k_exc)] = val
+                        ltp_map[(k_sym.upper(), k_exc.upper())] = val
+
+                logger.info(f"LTP Map keys: {list(ltp_map.keys())}")
+
+                for order in orders:
+                    s = str(order.get('symbol'))
+                    e = str(order.get('exchange'))
+                    key = (s, e)
+                    
+                    # Try exhaustive matching
+                    found_val = None
+                    if (s, e) in ltp_map: found_val = ltp_map[(s, e)]
+                    elif (s, e.upper()) in ltp_map: found_val = ltp_map[(s, e.upper())]
+                    elif (s.upper(), e) in ltp_map: found_val = ltp_map[(s.upper(), e)]
+                    elif (s.upper(), e.upper()) in ltp_map: found_val = ltp_map[(s.upper(), e.upper())]
+                    
+                    if found_val is not None:
+                        order['ltp'] = found_val
+                    else:
+                        order['ltp'] = '-'
+                        logger.warning(f"LTP Missing for order: {s} ({e}) - Available keys: {list(ltp_map.keys())[:5]}...")
+            else:
+                logger.warning(f"Failed to fetch multiquotes for orderbook ltp enrichment: {q_resp}")
+                # Set defaults
+                for order in orders:
+                     order['ltp'] = '-'
+        else:
+             logger.info("No symbols to fetch for LTP enrichment")
+             for order in orders:
+                 order['ltp'] = '-'
+
+    except Exception as e:
+        logger.error(f"Error enriching orderbook with LTP: {e}", exc_info=True)
+        
+    return orders
 
 def dynamic_import(broker, module_name, function_names):
     module_functions = {}
@@ -160,6 +527,7 @@ def orderbook():
 
     data = response.get('data', {})
     order_data = data.get('orders', [])
+    order_data = enrich_orders_with_ltp(order_data, login_username, auth_token, broker)
     order_stats = data.get('statistics', {})
 
     return render_template('orderbook.html', order_data=order_data, order_stats=order_stats)
@@ -200,6 +568,7 @@ def tradebook():
         return redirect(url_for('auth.logout'))
 
     tradebook_data = response.get('data', [])
+    # tradebook_data = enrich_trades_with_ltp(tradebook_data, login_username, auth_token, broker) # Removed
 
     return render_template('tradebook.html', tradebook_data=tradebook_data)
 
@@ -239,6 +608,7 @@ def positions():
         return redirect(url_for('auth.logout'))
 
     positions_data = response.get('data', [])
+    positions_data = enrich_positions_with_monitor(positions_data)
 
     return render_template('positions.html', positions_data=positions_data)
 
@@ -911,3 +1281,87 @@ def approve_all_pending_orders():
         'executed_count': executed_count,
         'failed_executions': failed_executions
     }), 200
+
+@orders_bp.route('/api/update_position', methods=['POST'])
+@check_session_validity
+def update_position_api():
+    """API endpoint to update position SL/Target"""
+    try:
+        data = request.json
+        symbol = data.get('symbol')
+        exchange = data.get('exchange')
+        product = data.get('product')
+        new_sl = data.get('sl')
+        new_target = data.get('target')
+
+        if not all([symbol, exchange, product]):
+            return jsonify({'status': 'error', 'message': 'Missing symbol, exchange or product'}), 400
+
+        # Find the order_id for this position
+        active_monitored = position_monitor.get_active_positions()
+        target_order_id = None
+        
+        # DEBUG: Log what we're searching for
+        logger.info(f"🔍 Searching for position: symbol={symbol}, exchange={exchange}, product={product}")
+        logger.info(f"📊 Monitored positions count: {len(active_monitored)}")
+        
+        for pid, pdata in active_monitored.items():
+            logger.info(f"   Checking {pid}: symbol={pdata.get('symbol')}, exchange={pdata.get('exchange')}, product={pdata.get('product')}")
+            if (pdata.get('symbol') == symbol and 
+                pdata.get('exchange') == exchange and 
+                pdata.get('product') == product):
+                target_order_id = pid
+                logger.info(f"✅ MATCH FOUND: {pid}")
+                break
+        
+        if not target_order_id:
+            logger.error(f"❌ Position not found in monitor. Searched for: {symbol}/{exchange}/{product}")
+            logger.error(f"Available positions: {[(p.get('symbol'), p.get('exchange'), p.get('product')) for p in active_monitored.values()]}")
+            return jsonify({'status': 'error', 'message': 'Position not found in monitor'}), 404
+
+        updates = []
+        
+        # Update SL
+        if new_sl is not None:
+            try:
+                sl_val = float(new_sl)
+                if position_monitor.update_sl(target_order_id, sl_val):
+                    updates.append(f"SL updated to {sl_val}")
+            except ValueError:
+                return jsonify({'status': 'error', 'message': 'Invalid SL value'}), 400
+
+        # Update Target(s)
+        if new_target is not None:
+             # Backward compatibility for single target
+             try:
+                tgt_val = float(new_target)
+                if position_monitor.update_target(target_order_id, tgt_val):
+                    updates.append(f"Target updated to {tgt_val}")
+             except ValueError:
+                return jsonify({'status': 'error', 'message': 'Invalid Target value'}), 400
+        
+        # New: Update Targets List (T1, T2, T3)
+        new_targets = data.get('targets')
+        if new_targets is not None and isinstance(new_targets, list):
+            try:
+                # Filter valid numbers
+                valid_targets = [float(t) for t in new_targets if t is not None and t != '']
+                if position_monitor.update_targets(target_order_id, valid_targets):
+                     updates.append(f"Targets updated to {valid_targets}")
+                     
+                     # Also update final_target (max of targets)
+                     if valid_targets:
+                         final = max(valid_targets)
+                         position_monitor.update_target(target_order_id, final)
+            except Exception as e:
+                logger.error(f"Error updating targets list: {e}")
+                return jsonify({'status': 'error', 'message': 'Invalid Targets list'}), 400
+
+        if not updates:
+             return jsonify({'status': 'error', 'message': 'No valid updates provided'}), 400
+
+        return jsonify({'status': 'success', 'message': ', '.join(updates)})
+
+    except Exception as e:
+        logger.error(f"Error updating position: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500

@@ -64,6 +64,7 @@ class SandboxOrders(Base):
     filled_quantity = Column(Integer, default=0)  # Always 0 or quantity (no partial fills)
     pending_quantity = Column(Integer, nullable=False)  # Remaining quantity
     rejection_reason = Column(Text, nullable=True)
+    signal_data = Column(Text, nullable=True)  # JSON string of original signal
     margin_blocked = Column(DECIMAL(10, 2), nullable=True, default=0.00)  # Margin blocked at order placement
     order_timestamp = Column(DateTime, nullable=False, default=func.now())
     update_timestamp = Column(DateTime, nullable=False, default=func.now(), onupdate=func.now())
@@ -112,6 +113,7 @@ class SandboxPositions(Base):
     product = Column(String(20), nullable=False)  # CNC, NRML, MIS
     quantity = Column(Integer, nullable=False)  # Net quantity (can be negative for short)
     average_price = Column(DECIMAL(10, 2), nullable=False)  # Average entry price
+    signal_data = Column(Text, nullable=True)  # JSON string of original signal
 
     # MTM tracking
     ltp = Column(DECIMAL(10, 2), nullable=True)  # Last traded price

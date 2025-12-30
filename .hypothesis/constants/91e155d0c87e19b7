@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/schemas.py
+# hypothesis_version: 6.148.8
+
+[0.0, '0', 'API key is required.', 'BFO', 'BSE', 'BUY', 'CDS', 'CE', 'CNC', 'LIMIT', 'MARKET', 'MCX', 'MIS', 'NFO', 'NRML', 'NSE', 'PE', 'SELL', 'SL', 'SL-M', 'buy', 'ce', 'pe', 'sell']

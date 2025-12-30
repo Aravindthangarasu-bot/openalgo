@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/holdings_service.py
+# hypothesis_version: 6.148.8
+
+[200, 400, 403, 404, 500, 'analyze', 'apikey', 'data', 'error', 'get_holdings', 'holdings', 'map_portfolio_data', 'message', 'mode', 'pnl', 'pnlpercent', 'statistics', 'status', 'success']

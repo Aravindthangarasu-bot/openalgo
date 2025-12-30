@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/motilal/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+['00:00:00:00:00:00', '1.0.0', '10.0', '120.0', '127.0.0.1', '2FA', 'Accept', 'ApiKey', 'AuthToken', 'BROKER_API_SECRET', 'Chrome', 'ClientLocalIp', 'ClientPublicIp', 'Content-Type', 'Generic', 'MOSL/V.1.1.0', 'MacAddress', 'OpenAlgo', 'PC', 'SUCCESS', 'SourceId', 'User-Agent', 'WEB', 'Windows', 'application/json', 'browsername', 'browserversion', 'devicemodel', 'manufacturer', 'message', 'osname', 'osversion', 'password', 'productname', 'productversion', 'status', 'totp', 'userid', 'vendorinfo']

@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/search.py
+# hypothesis_version: 6.148.8
+
+['/', '/api/expiries', '/api/search', '/api/underlyings', '/search', '/token', 'BFO', 'CDS', 'MCX', 'NFO', 'brexchange', 'brsymbol', 'error', 'exchange', 'expiries', 'expiry', 'freeze_qty', 'instrumenttype', 'lotsize', 'name', 'q', 'results', 'search.html', 'search_bp', 'status', 'strike', 'strike_max', 'strike_min', 'success', 'symbol', 'tick_size', 'token', 'token.html', 'underlying', 'underlyings']

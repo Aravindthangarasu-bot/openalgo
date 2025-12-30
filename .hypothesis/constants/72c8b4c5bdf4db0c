@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/zerodha/streaming/zerodha_adapter.py
+# hypothesis_version: 6.148.8
+
+[0.5, 10.0, 15.0, 1000, ':', '::::', 'Already connected', 'BROKER_API_KEY', 'BSE_INDEX', 'Connection timeout', 'DEPTH', 'Invalid access token', 'LTP', 'NSE', 'NSE_INDEX', 'QUOTE', 'average_price', 'average_traded_price', 'buy', 'close', 'close_price', 'count', 'depth', 'error', 'exchange', 'exchange_timestamp', 'full', 'high', 'high_price', 'instrument_token', 'last_price', 'last_quantity', 'last_traded_price', 'last_traded_quantity', 'low', 'low_price', 'ltp', 'ltt', 'mapped_exchange', 'message', 'mode', 'mode_int', 'ohlc', 'oi', 'open', 'open_interest', 'open_price', 'orders', 'price', 'price_change', 'price_change_percent', 'quantity', 'quote', 'sell', 'status', 'subscriptions', 'success', 'symbol', 'timestamp', 'token', 'total_buy_quantity', 'total_sell_quantity', 'volume', 'volume_traded', 'zerodha', 'zerodha_websocket']

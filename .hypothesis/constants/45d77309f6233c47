@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/chart_prefs_db.py
+# hypothesis_version: 6.148.8
+
+[100, 'Chart Prefs DB', 'DATABASE_URL', 'chart_preferences', 'check_same_thread', 'sqlite']

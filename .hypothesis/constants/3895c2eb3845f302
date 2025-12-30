@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/token_db.py
+# hypothesis_version: 6.148.8
+
+[1024, 3600, 'SymbolData', 'clear_cache', 'get_br_symbol', 'get_brexchange', 'get_cache_stats', 'get_oa_symbol', 'get_symbol', 'get_symbol_count', 'get_symbol_dbquery', 'get_symbol_info', 'get_symbols_bulk', 'get_token', 'get_token_dbquery', 'get_tokens_bulk', 'search_symbols', 'token_cache']

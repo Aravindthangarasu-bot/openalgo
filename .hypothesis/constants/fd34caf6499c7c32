@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/mstock/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+['1', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Content-Type', 'Login failed.', 'OTP is required.', 'X-Mirae-Version', 'X-PrivateKey', 'application/json', 'clientcode', 'data', 'feedToken', 'jwtToken', 'message', 'otp', 'password', 'refreshToken', 'state', 'status', 'totp', 'true']

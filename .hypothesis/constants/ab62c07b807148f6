@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/upstox/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+[200, '; ', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'REDIRECT_URL', 'Unknown error', 'access_token', 'authorization_code', 'client_id', 'client_secret', 'code', 'errors', 'grant_type', 'message', 'redirect_uri']

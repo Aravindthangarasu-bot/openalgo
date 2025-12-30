@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/indmoney/streaming/indWebSocket.py
+# hypothesis_version: 6.148.8
+
+['%Y-%m-%d', '%d-%m-%y %H:%M:%S', 'Authorization', 'Connection closed', 'Reconnect Error', 'Unknown error', 'action', 'cert_reqs', 'indmoney_ws.log', 'instruments', 'logs', 'ltp', 'mode', 'on_error', 'ping', 'pong', 'quote', 'subscribe', 'unsubscribe']

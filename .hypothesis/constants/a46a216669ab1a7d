@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/websocket_example.py
+# hypothesis_version: 6.148.8
+
+[123, 200, 401, 404, '/market', '/websocket/dashboard', '/websocket/test', 'GET', 'NSE', 'NSE:RELIANCE', 'NSE:TCS', 'Not authenticated', 'POST', 'Quote', 'RELIANCE', 'TCS', 'WEBSOCKET_URL', 'api_key', 'authenticated', 'broker', 'connect', 'connected', 'data', 'depth_data', 'disconnect', 'error', 'exchange', 'get_depth', 'get_ltp', 'get_quote', 'is_secure', 'ltp', 'ltp_data', 'message', 'mode', 'original_url', 'quote_data', 'status', 'subscribe', 'subscription_error', 'subscription_success', 'subscriptions', 'success', 'symbol', 'symbols', 'unsubscribe', 'unsubscription_error', 'user', 'websocket', 'websocket_url', 'ws://', 'ws://localhost:8765', 'wss://', 'zerodha']

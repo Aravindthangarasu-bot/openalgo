@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/samco/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+['Accept', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Content-Type', 'Success', 'application/json', 'password', 'sessionToken', 'status', 'statusMessage', 'userId', 'yob']

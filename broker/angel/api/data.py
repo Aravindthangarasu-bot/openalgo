@@ -26,8 +26,8 @@ def get_api_response(endpoint, auth, method="GET", payload=''):
         'Accept': 'application/json',
         'X-UserType': 'USER',
         'X-SourceID': 'WEB',
-        'X-ClientLocalIP': 'CLIENT_LOCAL_IP',
-        'X-ClientPublicIP': 'CLIENT_PUBLIC_IP',
+        'X-ClientLocalIP': '127.0.0.1',
+        'X-ClientPublicIP': '127.0.0.1',
         'X-MACAddress': 'MAC_ADDRESS',
         'X-PrivateKey': api_key
     }
@@ -285,7 +285,15 @@ class BrokerData:
             exchange = quote.get('exchange')
             token = quote.get('symbolToken')
             if exchange and token:
-                quotes_by_token[f"{exchange}:{token}"] = quote
+                key = f"{exchange}:{token}"
+                quotes_by_token[key] = quote
+                
+        # DEBUG LOGGING FOR MCX KEYS
+        keys_list = list(quotes_by_token.keys())
+        mcx_keys = [k for k in keys_list if 'MCX' in k or 'mcx' in k]
+        if mcx_keys:
+             logger.info(f"DEBUG: Found MCX keys in broker response: {mcx_keys}")
+             logger.info(f"DEBUG: Sample value for first MCX key: {quotes_by_token[mcx_keys[0]]}")
 
         # Build results from token_map
         for key, original in token_map.items():

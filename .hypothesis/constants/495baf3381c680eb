@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/zebu/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+[200, '1.0.8', '1234567890abcdef', 'API', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Content-Type', 'Ok', 'apkversion', 'appkey', 'emsg', 'factor2', 'imei', 'jData=', 'pwd', 'source', 'stat', 'susertoken', 'uid', 'utf-8', 'vc']

@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/price_monitor_service.py
+# hypothesis_version: 6.148.8
+
+[0.5, 'BUY', 'DAY', 'LIMIT', 'MIS', 'N/A', 'SELL', 'SL', 'action', 'active', 'aravind', 'cancelled', 'complete', 'current_sl', 'entry_price', 'exchange', 'failed', 'final_target', 'hard_sl_hit', 'is_exit', 'lp', 'order_type', 'orderid', 'original_sl', 'pending_open', 'price', 'pricetype', 'product', 'quantity', 'regular', 'rejected', 'signal_data', 'sl_order_id', 'status', 'stop_loss', 'symbol', 'target_reached', 'targets', 'trailing_enabled', 'transaction_type', 'trigger_price', 'username', 'validity', 'variety']

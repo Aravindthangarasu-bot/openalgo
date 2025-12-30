@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/indmoney/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+['BROKER_API_KEY', 'BROKER_API_SECRET', 'REDIRECT_URL']

@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/latency_db.py
+# hypothesis_version: 6.148.8
+
+[100, 150, 200, 500, 'BASKET', 'CANCEL', 'CANCEL_ALL', 'CLOSE', 'FAILED', 'LATENCY_DATABASE_URL', 'Latency DB', 'MODIFY', 'OPTIONS', 'OPTIONS_MULTI', 'PLACE', 'SMART', 'SPLIT', 'avg_overhead', 'avg_rtt', 'avg_total', 'broker_response', 'broker_stats', 'check_same_thread', 'failed', 'failed_orders', 'order_latency', 'overhead', 'p50_rtt', 'p50_total', 'p90_rtt', 'p90_total', 'p95_rtt', 'p95_total', 'p99_rtt', 'p99_total', 'rtt', 'sla_100ms', 'sla_150ms', 'sla_200ms', 'sqlite', 'sqlite:///', 'success_rate', 'total', 'total_orders', 'under_100', 'under_150', 'under_200', 'validation']

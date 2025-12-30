@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/fyers/streaming/fyers_tbt_websocket.py
+# hypothesis_version: 6.148.8
+
+[0.1, 100, 200, '1', 'Authorization', 'HasField', 'Unknown error', 'authorization', 'buy', 'channel', 'code', 'data', 'depth', 'error', 'feed_time', 'fyers_tbt_websocket', 'levels', 'message', 'mode', 'msg', 'nord', 'orders', 'pauseChannels', 'ping', 'pong', 'price', 'qty', 'quantity', 'resumeChannels', 'sell', 'send_time', 'snapshot', 'socket_url', 'subs', 'symbols', 'tbq', 'total_buy_qty', 'total_sell_qty', 'tsq', 'type']

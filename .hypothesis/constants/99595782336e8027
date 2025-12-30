@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/fyers/streaming/fyers_adapter.py
+# hypothesis_version: 6.148.8
+
+[0.1, '-EQ', '=', 'Depth', 'DepthUpdate', 'FUT', 'HSM Binary', 'N/A', 'NFO', 'NIFTY', 'NSE', 'Quote', 'SymbolUpdate', 'active_subscriptions', 'authenticated', 'buy', 'connected', 'data_type', 'depth', 'dp', 'exchange', 'fyers_adapter', 'hsm_mappings', 'hsm_token', 'if', 'ltp', 'original_symbol', 'price', 'protocol', 'sell', 'sf', 'snapshot', 'subscribed_at', 'subscriptions', 'symbol', 'timestamp', 'total_subscriptions', 'type', 'update_type', 'user_id', 'websocket_url']

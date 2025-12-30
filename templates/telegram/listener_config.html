@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}Telegram Signal Listener{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 class="text-2xl font-bold">Telegram Signal Listener</h1>
+            <p class="text-base-content/60">Configure your Userbot to listen for trading signals.</p>
+        </div>
+        <div class="badge {% if is_connected %}badge-success{% else %}badge-warning{% endif %} gap-2 p-3">
+            <div
+                class="w-2 h-2 rounded-full {% if is_connected %}bg-white{% else %}bg-white/50{% endif %} animate-pulse">
+            </div>
+            {{ 'Connected' if is_connected else 'Disconnected' }}
+        </div>
+    </div>
+
+    <!-- Configuration Card -->
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title text-lg mb-4">
+                <i data-lucide="settings" class="w-5 h-5"></i>
+                API Configuration
+            </h2>
+
+            <div class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">API ID</span>
+                        </label>
+                        <input type="text" id="api_id" value="{{ api_id }}" placeholder="From my.telegram.org"
+                            class="input input-bordered w-full" />
+                    </div>
+
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">API Hash</span>
+                        </label>
+                        <input type="password" id="api_hash" value="{{ api_hash }}" placeholder="From my.telegram.org"
+                            class="input input-bordered w-full" />
+                    </div>
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Target Channel (Username or ID)</span>
+                    </label>
+                    <input type="text" id="target_channel" value="{{ target_channel }}"
+                        placeholder="@ChannelName or -100..." class="input input-bordered w-full" />
+                    <label class="label">
+                        <span class="label-text-alt text-base-content/60">The primary channel to listen to for
+                            signals.</span>
+                    </label>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="saveConfig()" class="btn btn-primary">
+                        <i data-lucide="save" class="w-4 h-4 mr-2"></i>
+                        Save Configuration
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title text-lg mb-4">
+                <i data-lucide="log-in" class="w-5 h-5"></i>
+                Authentication
+            </h2>
+
+            {% if not is_connected %}
+            <div class="steps steps-vertical lg:steps-horizontal w-full mb-6">
+                <li class="step step-primary" id="step1-indicator">Enter Phone</li>
+                <li class="step" id="step2-indicator">Verify OTP</li>
+                <li class="step" id="step3-indicator">Connected</li>
+            </div>
+
+            <!-- Step 1: Phone -->
+            <div id="step1" class="space-y-4">
+                <div class="form-control max-w-md">
+                    <label class="label">
+                        <span class="label-text">Phone Number (with country code)</span>
+                    </label>
+                    <input type="text" id="phone_number" placeholder="+919876543210"
+                        class="input input-bordered w-full" />
+                </div>
+                <button onclick="requestOtp()" class="btn btn-primary">
+                    Request OTP
+                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </button>
+            </div>
+
+            <!-- Step 2: OTP (Hidden initially) -->
+            <div id="step2" class="space-y-4 hidden">
+                <div class="alert alert-info">
+                    <i data-lucide="info" class="w-5 h-5"></i>
+                    <span>OTP sent to your Telegram app (not SMS).</span>
+                </div>
+                <div class="form-control max-w-md">
+                    <label class="label">
+                        <span class="label-text">Enter OTP</span>
+                    </label>
+                    <input type="text" id="otp_code" placeholder="12345"
+                        class="input input-bordered w-full tracking-widest" />
+                </div>
+                <button onclick="verifyOtp()" class="btn btn-success">
+                    Verify & Login
+                    <i data-lucide="check" class="w-4 h-4 ml-2"></i>
+                </button>
+            </div>
+            {% else %}
+            <div class="alert alert-success">
+                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                <span>You are logged in and the listener is active!</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    async function saveConfig() {
+        const api_id = document.getElementById('api_id').value;
+        const api_hash = document.getElementById('api_hash').value;
+        const target_channel = document.getElementById('target_channel').value;
+
+        try {
+            const response = await fetchWithCSRF('/telegram-signal/config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ api_id, api_hash, target_channel })
+            });
+            const data = await response.json();
+            if (data.status === 'success') {
+                showToast('Configuration saved', 'success');
+            } else {
+                showToast(data.message, 'error');
+            }
+        } catch (e) {
+            showToast('Error saving config', 'error');
+        }
+    }
+
+    async function requestOtp() {
+        const phone = document.getElementById('phone_number').value;
+        if (!phone) return showToast('Please enter phone number', 'error');
+
+        try {
+            const response = await fetchWithCSRF('/telegram-signal/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone })
+            });
+            const data = await response.json();
+            if (data.status === 'success') {
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                document.getElementById('step1-indicator').classList.add('step-primary');
+                document.getElementById('step2-indicator').classList.add('step-primary');
+                showToast('OTP Sent to Telegram App', 'success');
+            } else {
+                showToast(data.message, 'error');
+            }
+        } catch (e) {
+            showToast('Error requesting OTP', 'error');
+        }
+    }
+
+    async function verifyOtp() {
+        const otp = document.getElementById('otp_code').value;
+        if (!otp) return showToast('Please enter OTP', 'error');
+
+        try {
+            const response = await fetchWithCSRF('/telegram-signal/verify-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ otp })
+            });
+            const data = await response.json();
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                showToast(data.message, 'error');
+            }
+        } catch (e) {
+            showToast('Error verifying OTP', 'error');
+        }
+    }
+</script>
+{% endblock %}

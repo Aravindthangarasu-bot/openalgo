@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/latency.py
+# hypothesis_version: 6.148.8
+
+[100, 404, 500, 1000, '%d-%m-%Y %I:%M:%S %p', '+00:00', '/', '/api/logs', '/api/stats', '/export', '/latency', '10/minute', '60/minute', 'Asia/Kolkata', 'Broker', 'Broker not found', 'Content-Disposition', 'Date & Time (IST)', 'Error (if any)', 'GET', 'N/A', 'Order ID', 'Order Type', 'Status', 'Symbol', 'Total Latency (ms)', 'UTC', 'Z', 'avg_rtt', 'bins', 'broker', 'broker_histograms', 'broker_stats', 'counts', 'error', 'histogram', 'id', 'latency_bp', 'limit', 'max_rtt', 'min_rtt', 'order_id', 'order_type', 'overhead_ms', 'response_latency_ms', 'rtt_ms', 'status', 'symbol', 'text/csv', 'timestamp', 'total_latency_ms']

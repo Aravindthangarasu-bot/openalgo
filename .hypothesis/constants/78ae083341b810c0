@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/instruments.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/', '10 per second', 'API_RATE_LIMIT', 'An error occurred', '_json', 'all', 'apikey', 'csv', 'error', 'exchange', 'format', 'instruments', 'instruments_error', 'json', 'message', 'request_id', 'status', 'text/plain']

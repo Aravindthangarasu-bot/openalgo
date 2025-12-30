@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/sandbox/fund_manager.py
+# hypothesis_version: 6.148.8
+
+[0.0, '%A', '%Y-%m-%d %H:%M:%S', '0', '0.00', '00:00', '1', '10', '10000000.00', '5', ':', 'Asia/Kolkata', 'BCD', 'BFO', 'BSE', 'BUY', 'CDS', 'CE', 'CNC', 'FUT', 'MCX', 'MIS', 'NCDEX', 'NFO', 'NSE', 'Never', 'PE', 'Symbol not found', 'availablecash', 'collateral', 'discrepancies_found', 'equity_cnc_leverage', 'equity_mis_leverage', 'error', 'futures_leverage', 'grossexposure', 'last_reset', 'm2mrealized', 'm2munrealized', 'never', 'option_buy_leverage', 'option_sell_leverage', 'reset_count', 'reset_day', 'reset_time', 'starting_capital', 'today_realized_pnl', 'total_realized_pnl', 'total_released', 'totalpnl', 'users_checked', 'utiliseddebits']

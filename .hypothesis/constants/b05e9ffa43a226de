@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/utils/api_analyzer.py
+# hypothesis_version: 6.148.8
+
+[99999, '%"orderid": "%"', '%rate limit%', '%y%m%d', ', ', '0', 'LIMIT', 'Request valid', 'SL', 'SL-M', 'Unknown', 'action', 'by_type', 'cancelallorder', 'cancelorder', 'closeposition', 'disclosed_quantity', 'error', 'exchange', 'invalid symbol', 'invalid_exchange', 'invalid_symbol', 'issues', 'message', 'missing_quantity', 'modifyorder', 'orderid', 'other', 'placeorder', 'placesmartorder', 'position_size', 'price', 'pricetype', 'product', 'quantity', 'rate limit', 'rate_limit', 'sources', 'status', 'strategy', 'success', 'symbol', 'symbols', 'total', 'total_requests', 'trigger_price', 'warnings']

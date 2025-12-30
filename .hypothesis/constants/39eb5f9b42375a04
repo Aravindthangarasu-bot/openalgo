@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/dhan/streaming/dhan_mapping.py
+# hypothesis_version: 6.148.8
+
+[100, 5000, 'BCD', 'BFO', 'BSE', 'BSE_CURRENCY', 'BSE_EQ', 'BSE_FNO', 'BSE_INDEX', 'CDS', 'IDX_I', 'MCX', 'MCX_COMM', 'NFO', 'NSE', 'NSE_CURRENCY', 'NSE_EQ', 'NSE_FNO', 'NSE_INDEX']

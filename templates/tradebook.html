@@ -30,7 +30,9 @@
         </div>
         <a href="{{ url_for('orders_bp.export_tradebook') }}" class="btn btn-primary">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                <path fill-rule="evenodd"
+                    d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
             </svg>
             Export to CSV
         </a>
@@ -43,7 +45,7 @@
             <div class="stat-value">{{ tradebook_data|length }}</div>
             <div class="stat-desc">All executed trades</div>
         </div>
-        
+
         <div class="stat">
             <div class="stat-title">Buy Trades</div>
             <div class="stat-value text-success">
@@ -51,14 +53,16 @@
             </div>
             <div class="stat-desc">
                 <div class="badge badge-success gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 10l7-7m0 0l7 7m-7-7v18" />
                     </svg>
                     Long positions
                 </div>
             </div>
         </div>
-        
+
         <div class="stat">
             <div class="stat-title">Sell Trades</div>
             <div class="stat-value text-error">
@@ -66,8 +70,10 @@
             </div>
             <div class="stat-desc">
                 <div class="badge badge-error gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
                     Short positions
                 </div>
@@ -82,8 +88,10 @@
                 <tr>
                     <th class="cursor-pointer hover:bg-base-300">
                         Trading Symbol
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block ml-1" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                         </svg>
                     </th>
                     <th>Exchange</th>
@@ -102,10 +110,10 @@
                     <td class="font-medium">{{ trade.symbol }}</td>
                     <td>
                         {% set exchange_colors = {
-                            'NSE': 'badge-accent',
-                            'BSE': 'badge-neutral',
-                            'NFO': 'badge-secondary',
-                            'MCX': 'badge-primary'
+                        'NSE': 'badge-accent',
+                        'BSE': 'badge-neutral',
+                        'NFO': 'badge-secondary',
+                        'MCX': 'badge-primary'
                         } %}
                         <div class="badge {{ exchange_colors.get(trade.exchange, 'badge-ghost') }}">
                             {{ trade.exchange }}
@@ -113,23 +121,28 @@
                     </td>
                     <td>
                         {% set product_type_colors = {
-                            'CNC': 'badge-secondary',
-                            'MIS': 'badge-accent',
-                            'NRML': 'badge-neutral'
+                        'CNC': 'badge-secondary',
+                        'MIS': 'badge-accent',
+                        'NRML': 'badge-neutral'
                         } %}
                         <div class="badge {{ product_type_colors.get(trade.product, 'badge-ghost') }}">
                             {{ trade.product }}
                         </div>
                     </td>
                     <td>
-                        <div class="badge {% if trade.action == 'BUY' %}badge-success{% else %}badge-error{% endif %} gap-2">
+                        <div
+                            class="badge {% if trade.action == 'BUY' %}badge-success{% else %}badge-error{% endif %} gap-2">
                             {% if trade.action == 'BUY' %}
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 10l7-7m0 0l7 7m-7-7v18" />
                             </svg>
                             {% else %}
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                             </svg>
                             {% endif %}
                             {{ trade.action }}
@@ -157,52 +170,194 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Add sorting functionality to table headers
-    document.querySelectorAll('th.cursor-pointer').forEach(headerCell => {
-        headerCell.addEventListener('click', () => {
-            const table = headerCell.closest('table');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            const index = Array.from(headerCell.parentElement.children).indexOf(headerCell);
-            
-            // Get current sort direction
-            const currentDirection = headerCell.getAttribute('data-sort') || 'asc';
-            const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
-            
-            // Update sort direction
-            headerCell.setAttribute('data-sort', newDirection);
-            
-            // Sort rows
-            rows.sort((a, b) => {
-                const aValue = a.children[index].textContent.trim();
-                const bValue = b.children[index].textContent.trim();
-                
-                // Check if values are numbers
-                const aNum = parseFloat(aValue);
-                const bNum = parseFloat(bValue);
-                
-                if (!isNaN(aNum) && !isNaN(bNum)) {
-                    return newDirection === 'asc' ? aNum - bNum : bNum - aNum;
-                }
-                
-                // Handle date sorting for timestamp column
-                if (index === 8) {  // Timestamp column index
-                    const aDate = new Date(aValue);
-                    const bDate = new Date(bValue);
-                    return newDirection === 'asc' ? aDate - bDate : bDate - aDate;
-                }
-                
-                return newDirection === 'asc' 
-                    ? aValue.localeCompare(bValue)
-                    : bValue.localeCompare(aValue);
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add sorting functionality to table headers
+        document.querySelectorAll('th.cursor-pointer').forEach(headerCell => {
+            headerCell.addEventListener('click', () => {
+                const table = headerCell.closest('table');
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const index = Array.from(headerCell.parentElement.children).indexOf(headerCell);
+
+                // Get current sort direction
+                const currentDirection = headerCell.getAttribute('data-sort') || 'asc';
+                const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+
+                // Update sort direction
+                headerCell.setAttribute('data-sort', newDirection);
+
+                // Sort rows
+                rows.sort((a, b) => {
+                    const aValue = a.children[index].textContent.trim();
+                    const bValue = b.children[index].textContent.trim();
+
+                    // Check if values are numbers
+                    const aNum = parseFloat(aValue);
+                    const bNum = parseFloat(bValue);
+
+                    if (!isNaN(aNum) && !isNaN(bNum)) {
+                        return newDirection === 'asc' ? aNum - bNum : bNum - aNum;
+                    }
+
+                    // Handle date sorting for timestamp column
+                    if (index === 8) {  // Timestamp column index
+                        const aDate = new Date(aValue);
+                        const bDate = new Date(bValue);
+                        return newDirection === 'asc' ? aDate - bDate : bDate - aDate;
+                    }
+
+                    return newDirection === 'asc'
+                        ? aValue.localeCompare(bValue)
+                        : bValue.localeCompare(aValue);
+                });
+
+                // Clear and repopulate tbody
+                tbody.innerHTML = '';
+                rows.forEach(row => tbody.appendChild(row));
             });
-            
-            // Clear and repopulate tbody
-            tbody.innerHTML = '';
-            rows.forEach(row => tbody.appendChild(row));
         });
+
+        // Data-Level Auto-Refresh (Start this FIRST to ensure it runs)
+        try {
+            console.log('🔄 Init manual refresh (0.1s)...');
+            setInterval(refreshTradebookTable, 100);
+            refreshTradebookTable(); // Initial call
+        } catch (e) {
+            console.error('Failed to start manual refresh:', e);
+        }
     });
-});
+
+    async function refreshTradebookTable() {
+        try {
+            const response = await fetch('/api/trades?t=' + new Date().getTime());
+            if (!response.ok) return;
+            const data = await response.json();
+
+            // Update Stats (if API returns them, otherwise calculate or skip)
+            // Assuming API returns { trades: [...], statistics: {...} } or similar
+            // If API only returns list of trades, we calculate stats client-side
+
+            // Based on typical blueprints, /api/trades might just return list or dict
+            // Let's assume it returns { trades: [...] } or just [...]
+            // We'll inspect data structure safely
+
+            let trades = [];
+            if (Array.isArray(data)) {
+                trades = data;
+            } else if (data.trades) {
+                trades = data.trades;
+                if (data.statistics) updateTradeStats(data.statistics);
+            }
+
+            renderTradeTable(trades);
+
+            // If stats weren't provided by API, calculate them from trades list
+            if (!data.statistics && Array.isArray(trades)) {
+                updateTradeStatsClientSide(trades);
+            }
+
+        } catch (e) {
+            console.debug('Tradebook refresh error:', e);
+        }
+    }
+
+    function updateTradeStatsClientSide(trades) {
+        const total = trades.length;
+        const buy = trades.filter(t => t.action === 'BUY').length;
+        const sell = trades.filter(t => t.action === 'SELL').length;
+
+        // Selectors for stats
+        // Total Trades
+        const totalEl = document.querySelector('.stat-value');
+        if (totalEl) totalEl.textContent = total;
+
+        // Becuase classes are reused, we target specific indices assuming structure
+        const statValues = document.querySelectorAll('.stat-value');
+        if (statValues.length >= 3) {
+            statValues[0].textContent = total;
+            statValues[1].textContent = buy; // Buy Trades (text-success)
+            statValues[2].textContent = sell; // Sell Trades (text-error)
+        }
+    }
+
+    function updateTradeStats(stats) {
+        // If API provides pre-calculated stats
+        const statValues = document.querySelectorAll('.stat-value');
+        if (statValues.length >= 3) {
+            statValues[0].textContent = stats.total_trades || 0;
+            statValues[1].textContent = stats.total_buy_trades || 0;
+            statValues[2].textContent = stats.total_sell_trades || 0;
+        }
+    }
+
+    async function refreshTradebookTable() {
+        try {
+            // Add cache busting
+            const response = await fetch('/api/trades?t=' + new Date().getTime());
+            if (response.ok) {
+                const data = await response.json();
+                if (data.trades) {
+                    renderTradeTable(data.trades);
+                }
+            }
+        } catch (e) {
+            console.debug('Tradebook refresh error:', e);
+        } finally {
+            // Recursive call
+            setTimeout(refreshTradebookTable, 500);
+        }
+    }
+
+    // Start Auto-Refresh
+    document.addEventListener('DOMContentLoaded', function () {
+        refreshTradebookTable();
+    });
+
+    function renderTradeTable(trades) {
+        const tbody = document.querySelector('tbody');
+
+        const getBadge = (text, typeMap, defaultClass = 'badge-ghost') => {
+            const lower = (text || '').toLowerCase();
+            let cls = defaultClass;
+            for (const key in typeMap) {
+                if (key.toLowerCase() === lower) {
+                    cls = typeMap[key];
+                    break;
+                }
+            }
+            return `<div class="badge ${cls}">${text}</div>`;
+        };
+
+        const exchangeColors = { 'NSE': 'badge-accent', 'BSE': 'badge-neutral', 'NFO': 'badge-secondary', 'MCX': 'badge-primary' };
+        const productColors = { 'CNC': 'badge-secondary', 'MIS': 'badge-accent', 'NRML': 'badge-neutral' };
+
+        const html = trades.map(trade => {
+            const actionBadge = trade.action === 'BUY' ?
+                `<div class="badge badge-success gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+                BUY
+             </div>` :
+                `<div class="badge badge-error gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+                SELL
+             </div>`;
+
+            return `
+        <tr class="hover:bg-base-200">
+            <td class="font-medium">${trade.symbol}</td>
+            <td>${getBadge(trade.exchange, exchangeColors)}</td>
+            <td>${getBadge(trade.product, productColors)}</td>
+            <td>${actionBadge}</td>
+            <td class="numeric-cell">${trade.quantity}</td>
+            <td class="numeric-cell">${trade.average_price}</td>
+            <td class="numeric-cell">${trade.trade_value}</td>
+            <td class="font-mono text-sm">${trade.orderid}</td>
+            <td class="trade-time">${trade.timestamp}</td>
+        </tr>`;
+        }).join('');
+
+        // Always update content
+        tbody.innerHTML = html;
+    }
 </script>
 {% endblock %}

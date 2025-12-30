@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/margin_service.py
+# hypothesis_version: 6.148.8
+
+[200, 400, 403, 404, 500, 501, 'action', 'apikey', 'calculate_margin_api', 'error', 'exchange', 'margin', 'message', 'positions', 'price', 'pricetype', 'product', 'quantity', 'status', 'status_code', 'symbol']

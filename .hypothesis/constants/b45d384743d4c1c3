@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/fivepaisa/streaming/fivepaisa_mapping.py
+# hypothesis_version: 6.148.8
+
+['B', 'BFO', 'BSE', 'BSE_INDEX', 'C', 'CDS', 'D', 'M', 'MCX', 'MarketDepthService', 'MarketFeedV3', 'N', 'NFO', 'NSE', 'NSE_INDEX', 'U', 'market_depth', 'market_feed', 'oi']

@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/kotak/streaming/kotak_adapter.py
+# hypothesis_version: 6.148.8
+
+[0.0, 21474836.48, 1000, 2147483648, '../../../', '0', ':::', 'DEPTH', 'INVALID_MODE', 'LTP', 'NOT_INITIALIZED', 'QUOTE', 'SUBSCRIPTION_ERROR', 'SUBSCRIPTION_FAILED', 'UNKNOWN', 'UNSUBSCRIPTION_ERROR', 'access_token', 'ask', 'asks', 'auth_token', 'bid', 'bids', 'buy', 'buyBook', 'close', 'depth', 'depth_level', 'dps', 'dpu', 'e', 'exchange', 'high', 'hs_server_id', 'kotak', 'low', 'ltp', 'ltt', 'mode', 'mws', 'mwu', 'open', 'orders', 'prev_close', 'price', 'qty', 'quantity', 'sell', 'sellBook', 'sid', 'symbol', 'timestamp', 'tk', 'totalbuyqty', 'totalsellqty', 'ts', 'volume']

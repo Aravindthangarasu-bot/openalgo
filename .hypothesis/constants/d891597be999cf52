@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/place_smart_order.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/', '0.5', '2 per second', 'SMART_ORDER_DELAY', 'apikey', 'error', 'message', 'place_smart_order', 'placesmartorder', 'status']

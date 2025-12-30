@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/symbol.py
+# hypothesis_version: 6.148.8
+
+[100, 500, '%CE', '%FUT', '%PE', '%d-%b-%Y', '%d-%b-%y', 'CE', 'DATABASE_URL', 'FUT', 'Master Contract DB', 'PE', 'brexchange', 'brsymbol', 'check_same_thread', 'exchange', 'expiry', 'freeze_qty', 'idx_symbol_exchange', 'idx_symbol_name', 'instrumenttype', 'lotsize', 'name', 'sqlite', 'strike', 'symbol', 'symtoken', 'symtoken_id_seq', 'tick_size', 'token']

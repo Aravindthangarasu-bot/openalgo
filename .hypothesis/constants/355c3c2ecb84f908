@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/dhan/streaming/dhan_websocket.py
+# hypothesis_version: 6.148.8
+
+[100, 154, 320, 805, 1000, '2', '20_DEPTH', '<B', '<H', '<I', '<d', '<f', 'ASK', 'BID', 'DEPTH_20_ASK', 'DEPTH_20_BID', 'DISCONNECT', 'Darwin', 'FULL', 'InstrumentCount', 'InstrumentList', 'Linux', 'OI', 'PREV_CLOSE', 'Parsing FULL packet', 'Parsing OI packet', 'Parsing QUOTE packet', 'QUOTE', 'Received ping', 'Received pong', 'RequestCode', 'SUBSCRIBE_20_DEPTH', 'SUBSCRIBE_FULL', 'SUBSCRIBE_QUOTE', 'SUBSCRIBE_TICKER', 'TICKER', 'Unknown reason', 'atp', 'authType', 'buy', 'clientId', 'close', 'depth', 'depth_20', 'exchange_segment', 'full', 'high', 'instrument', 'levels', 'low', 'ltp', 'ltq', 'ltt', 'mode', 'oi', 'oi_high', 'oi_low', 'open', 'orders', 'prev_close', 'prev_oi', 'price', 'quantity', 'quote', 'security_id', 'sell', 'send', 'side', 'ticker', 'token', 'total_buy_quantity', 'total_sell_quantity', 'type', 'version', 'volume']

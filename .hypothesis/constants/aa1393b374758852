@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/basket_order.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/', '10 per second', 'API_RATE_LIMIT', 'Basket Order API', 'apikey', 'basket_order', 'basketorder', 'error', 'message', 'status']

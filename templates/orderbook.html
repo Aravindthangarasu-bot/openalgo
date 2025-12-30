@@ -1,28 +1,6 @@
 {% extends "base.html" %}
 
-{% block head %}
-<style>
-    .stat-card {
-        @apply bg-base-100 rounded-lg shadow-lg p-6 transition-all duration-300;
-    }
-    
-    .stat-card:hover {
-        @apply shadow-xl transform -translate-y-1;
-    }
 
-    .table-container {
-        @apply overflow-x-auto bg-base-100 rounded-lg shadow-lg;
-    }
-
-    .table-header {
-        @apply sticky top-0 bg-base-200 z-10;
-    }
-
-    .numeric-cell {
-        @apply font-mono text-right;
-    }
-</style>
-{% endblock %}
 
 {% block content %}
 <div class="w-full">
@@ -35,13 +13,17 @@
         <div class="flex gap-2">
             <button onclick="openCancelAllModal()" class="btn btn-error">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
                 </svg>
                 Cancel All Orders
             </button>
             <a href="{{ url_for('orders_bp.export_orderbook') }}" class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd"
+                        d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
                 </svg>
                 Export to CSV
             </a>
@@ -51,7 +33,8 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
         <!-- Buy Orders -->
-        <div class="stat-card">
+        <div
+            class="bg-base-100 rounded-lg shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 transform">
             <div class="stat">
                 <div class="stat-title">Buy Orders</div>
                 <div class="stat-value text-success">{{ order_stats.total_buy_orders }}</div>
@@ -62,7 +45,8 @@
         </div>
 
         <!-- Sell Orders -->
-        <div class="stat-card">
+        <div
+            class="bg-base-100 rounded-lg shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 transform">
             <div class="stat">
                 <div class="stat-title">Sell Orders</div>
                 <div class="stat-value text-error">{{ order_stats.total_sell_orders }}</div>
@@ -73,7 +57,8 @@
         </div>
 
         <!-- Completed Orders -->
-        <div class="stat-card">
+        <div
+            class="bg-base-100 rounded-lg shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 transform">
             <div class="stat">
                 <div class="stat-title">Completed Orders</div>
                 <div class="stat-value text-success">{{ order_stats.total_completed_orders }}</div>
@@ -84,7 +69,8 @@
         </div>
 
         <!-- Open Orders -->
-        <div class="stat-card">
+        <div
+            class="bg-base-100 rounded-lg shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 transform">
             <div class="stat">
                 <div class="stat-title">Open Orders</div>
                 <div class="stat-value text-warning">{{ order_stats.total_open_orders }}</div>
@@ -95,7 +81,8 @@
         </div>
 
         <!-- Rejected Orders -->
-        <div class="stat-card">
+        <div
+            class="bg-base-100 rounded-lg shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 transform">
             <div class="stat">
                 <div class="stat-title">Rejected Orders</div>
                 <div class="stat-value text-error">{{ order_stats.total_rejected_orders }}</div>
@@ -107,20 +94,23 @@
     </div>
 
     <!-- Orders Table -->
-    <div id="orderbook-table-container" class="table-container">
+    <div id="orderbook-table-container" class="overflow-x-auto bg-base-100 rounded-lg shadow-lg">
         <table class="table w-full">
-            <thead class="table-header">
+            <thead class="sticky top-0 bg-base-200 z-10">
                 <tr>
                     <th class="cursor-pointer hover:bg-base-300">
                         Trading Symbol
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block ml-1" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                         </svg>
                     </th>
                     <th>Exchange</th>
                     <th>Transaction Type</th>
                     <th>Quantity</th>
                     <th>Price</th>
+                    <th>LTP</th>
                     <th>Trigger Price</th>
                     <th>Order Type</th>
                     <th>Product Type</th>
@@ -131,48 +121,54 @@
             </thead>
             <tbody>
                 {% for order in order_data %}
-                <tr class="hover:bg-base-200">
+                <tr id="order-{{ order.orderid }}" class="hover:bg-base-200">
                     <td class="font-medium">{{ order.symbol }}</td>
                     <td>
                         {% set exchange_colors = {
-                            'NSE': 'badge-accent',
-                            'BSE': 'badge-neutral',
-                            'NFO': 'badge-secondary',
-                            'MCX': 'badge-primary'
+                        'NSE': 'badge-accent',
+                        'BSE': 'badge-neutral',
+                        'NFO': 'badge-secondary',
+                        'MCX': 'badge-primary'
                         } %}
                         <div class="badge {{ exchange_colors.get(order.exchange, 'badge-ghost') }}">
                             {{ order.exchange }}
                         </div>
                     </td>
                     <td>
-                        <div class="badge {% if order.action == 'BUY' %}badge-success{% else %}badge-error{% endif %} gap-2">
+                        <div
+                            class="badge {% if order.action == 'BUY' %}badge-success{% else %}badge-error{% endif %} gap-2">
                             {% if order.action == 'BUY' %}
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 10l7-7m0 0l7 7m-7-7v18" />
                             </svg>
                             {% else %}
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                             </svg>
                             {% endif %}
                             {{ order.action }}
                         </div>
                     </td>
-                    <td class="numeric-cell">{{ order.quantity }}</td>
-                    <td class="numeric-cell">
+                    <td class="font-mono text-right">{{ order.quantity }}</td>
+                    <td class="font-mono text-right">
                         {% if order.pricetype|upper == 'MARKET' %}
-                            0.00
+                        0.00
                         {% else %}
-                            {{ order.price }}
+                        {{ order.price }}
                         {% endif %}
                     </td>
-                    <td class="numeric-cell">{{ order.trigger_price }}</td>
+                    <td class="font-mono text-right">{{ order.ltp if order.ltp is defined else '-' }}</td>
+                    <td class="font-mono text-right">{{ order.trigger_price }}</td>
                     <td>
                         {% set order_type_colors = {
-                            'MARKET': 'badge-primary',
-                            'LIMIT': 'badge-info',
-                            'SL': 'badge-warning',
-                            'SL-M': 'badge-warning'
+                        'MARKET': 'badge-primary',
+                        'LIMIT': 'badge-info',
+                        'SL': 'badge-warning',
+                        'SL-M': 'badge-warning'
                         } %}
                         <div class="badge {{ order_type_colors.get(order.pricetype, 'badge-ghost') }}">
                             {{ order.pricetype }}
@@ -180,9 +176,9 @@
                     </td>
                     <td>
                         {% set product_type_colors = {
-                            'CNC': 'badge-secondary',
-                            'MIS': 'badge-accent',
-                            'NRML': 'badge-neutral'
+                        'CNC': 'badge-secondary',
+                        'MIS': 'badge-accent',
+                        'NRML': 'badge-neutral'
                         } %}
                         <div class="badge {{ product_type_colors.get(order.product, 'badge-ghost') }}">
                             {{ order.product }}
@@ -191,12 +187,12 @@
                     <td class="font-mono text-sm">{{ order.orderid }}</td>
                     <td>
                         {% set status_colors = {
-                            'complete': 'badge-success',
-                            'rejected': 'badge-error',
-                            'cancelled': 'badge-error',
-                            'open': 'badge-warning',
-                            'pending': 'badge-warning',
-                            'trigger pending': 'badge-info'
+                        'complete': 'badge-success',
+                        'rejected': 'badge-error',
+                        'cancelled': 'badge-error',
+                        'open': 'badge-warning',
+                        'pending': 'badge-warning',
+                        'trigger pending': 'badge-info'
                         } %}
                         <div class="badge {{ status_colors.get(order.order_status|lower, 'badge-ghost') }}">
                             {{ order.order_status }}
@@ -211,133 +207,283 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Add sorting functionality to table headers
-    document.querySelectorAll('th.cursor-pointer').forEach(headerCell => {
-        headerCell.addEventListener('click', () => {
-            const table = headerCell.closest('table');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            const index = Array.from(headerCell.parentElement.children).indexOf(headerCell);
-            
-            // Get current sort direction
-            const currentDirection = headerCell.getAttribute('data-sort') || 'asc';
-            const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
-            
-            // Update sort direction
-            headerCell.setAttribute('data-sort', newDirection);
-            
-            // Sort rows
-            rows.sort((a, b) => {
-                const aValue = a.children[index].textContent.trim();
-                const bValue = b.children[index].textContent.trim();
-                
-                // Check if values are numbers
-                const aNum = parseFloat(aValue);
-                const bNum = parseFloat(bValue);
-                
-                if (!isNaN(aNum) && !isNaN(bNum)) {
-                    return newDirection === 'asc' ? aNum - bNum : bNum - aNum;
-                }
-                
-                return newDirection === 'asc' 
-                    ? aValue.localeCompare(bValue)
-                    : bValue.localeCompare(aValue);
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add sorting functionality to table headers
+        document.querySelectorAll('th.cursor-pointer').forEach(headerCell => {
+            headerCell.addEventListener('click', () => {
+                const table = headerCell.closest('table');
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const index = Array.from(headerCell.parentElement.children).indexOf(headerCell);
+
+                // Get current sort direction
+                const currentDirection = headerCell.getAttribute('data-sort') || 'asc';
+                const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+
+                // Update sort direction
+                headerCell.setAttribute('data-sort', newDirection);
+
+                // Sort rows
+                rows.sort((a, b) => {
+                    const aValue = a.children[index].textContent.trim();
+                    const bValue = b.children[index].textContent.trim();
+
+                    // Check if values are numbers
+                    const aNum = parseFloat(aValue);
+                    const bNum = parseFloat(bValue);
+
+                    if (!isNaN(aNum) && !isNaN(bNum)) {
+                        return newDirection === 'asc' ? aNum - bNum : bNum - aNum;
+                    }
+
+                    return newDirection === 'asc'
+                        ? aValue.localeCompare(bValue)
+                        : bValue.localeCompare(aValue);
+                });
+
+                // Clear and repopulate tbody
+                tbody.innerHTML = '';
+                rows.forEach(row => tbody.appendChild(row));
             });
-            
-            // Clear and repopulate tbody
-            tbody.innerHTML = '';
-            rows.forEach(row => tbody.appendChild(row));
         });
     });
-});
 
-// Cancel all orders functions
-let isCanceling = false; // Flag to prevent multiple calls
-let reloadTimer = null; // Store the reload timer
+    // Cancel all orders functions
+    let isCanceling = false; // Flag to prevent multiple calls
+    let reloadTimer = null; // Store the reload timer
 
-// Add a global flag to prevent any refresh attempts
-window.CANCEL_ALL_IN_PROGRESS = false;
+    // Add a global flag to prevent any refresh attempts
+    window.CANCEL_ALL_IN_PROGRESS = false;
 
-// Override the refreshCurrentPageContent to check our flag
-const _originalRefresh = window.refreshCurrentPageContent;
-window.refreshCurrentPageContent = function() {
-    if (window.CANCEL_ALL_IN_PROGRESS) {
-        console.log('Refresh blocked - cancel all in progress');
-        return;
-    }
-    if (_originalRefresh) {
-        _originalRefresh();
-    }
-};
-
-function cancelAllOrders() {
-    // Prevent multiple simultaneous calls
-    if (isCanceling) {
-        return;
-    }
-    
-    isCanceling = true;
-    window.CANCEL_ALL_IN_PROGRESS = true;
-    
-    // Disable the confirm button
-    const confirmBtn = document.getElementById('cancel-all-confirm-btn');
-    if (confirmBtn) {
-        confirmBtn.disabled = true;
-        confirmBtn.textContent = 'Canceling...';
-    }
-    
-    // Close the modal
-    document.getElementById('cancel-all-modal').checked = false;
-
-    // Call the cancel_all_orders endpoint
-    fetch('/cancel_all_orders', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCSRFToken()
-        },
-        body: JSON.stringify({})
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Show toast notification
-        if (data.status === 'success') {
-            showToast(data.message, 'success');
-        } else if (data.status === 'info') {
-            showToast(data.message, 'info');
-        } else {
-            showToast(data.message, 'error');
-            isCanceling = false;
-            window.CANCEL_ALL_IN_PROGRESS = false;
-            // Re-enable socket events on error
-            setTimeout(() => location.reload(), 2000);
+    // Override the refreshCurrentPageContent to check our flag
+    const _originalRefresh = window.refreshCurrentPageContent;
+    window.refreshCurrentPageContent = function () {
+        if (window.CANCEL_ALL_IN_PROGRESS) {
+            console.log('Refresh blocked - cancel all in progress');
             return;
         }
-        
-        // Set a single reload timer for 10 seconds
-        reloadTimer = setTimeout(() => {
-            // Create a form and submit it to force a clean GET request
-            const form = document.createElement('form');
-            form.method = 'GET';
-            form.action = '/orderbook';
-            document.body.appendChild(form);
-            form.submit();
-        }, 10000); // 10 seconds delay to ensure rate limit is respected
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showToast('An error occurred while canceling orders.', 'error');
-        isCanceling = false;
-        window.CANCEL_ALL_IN_PROGRESS = false;
-        // Reload on error
-        setTimeout(() => location.reload(), 2000);
-    });
-}
+        if (_originalRefresh) {
+            _originalRefresh();
+        }
+    };
 
-function openCancelAllModal() {
-    document.getElementById('cancel-all-modal').checked = true;
-}
+    function cancelAllOrders() {
+        // Prevent multiple simultaneous calls
+        if (isCanceling) {
+            return;
+        }
+
+        isCanceling = true;
+        window.CANCEL_ALL_IN_PROGRESS = true;
+
+        // Disable the confirm button
+        const confirmBtn = document.getElementById('cancel-all-confirm-btn');
+        if (confirmBtn) {
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = 'Canceling...';
+        }
+
+        // Close the modal
+        document.getElementById('cancel-all-modal').checked = false;
+
+        // Call the cancel_all_orders endpoint
+        fetch('/cancel_all_orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify({})
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Show toast notification
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                } else if (data.status === 'info') {
+                    showToast(data.message, 'info');
+                } else {
+                    showToast(data.message, 'error');
+                    isCanceling = false;
+                    window.CANCEL_ALL_IN_PROGRESS = false;
+                    // Re-enable socket events on error
+                    setTimeout(() => location.reload(), 2000);
+                    return;
+                }
+
+                // Set a single reload timer for 10 seconds
+                reloadTimer = setTimeout(() => {
+                    // Create a form and submit it to force a clean GET request
+                    const form = document.createElement('form');
+                    form.method = 'GET';
+                    form.action = '/orderbook';
+                    document.body.appendChild(form);
+                    form.submit();
+                }, 10000); // 10 seconds delay to ensure rate limit is respected
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('An error occurred while canceling orders.', 'error');
+                isCanceling = false;
+                window.CANCEL_ALL_IN_PROGRESS = false;
+                // Reload on error
+                setTimeout(() => location.reload(), 2000);
+            });
+    }
+
+
+    // Data-Level Auto-Refresh (2 seconds)
+    // Data-Level Auto-Refresh (Start this FIRST to ensure it runs)
+    // Data-Level Auto-Refresh (Recursive Fetch)
+    document.addEventListener('DOMContentLoaded', () => {
+        // Start the recursive loop
+        refreshOrderbookTable();
+    });
+
+    async function refreshOrderbookTable() {
+        // Stop if cancelling to avoid race conditions
+        if (window.CANCEL_ALL_IN_PROGRESS) return;
+
+        try {
+            const response = await fetch('/api/orders?t=' + new Date().getTime());
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json();
+
+            // Update Stats
+            if (data.statistics) {
+                updateOrderStats(data.statistics);
+            }
+
+            // Update Table
+            if (data.orders) {
+                updateOrderTable(data.orders);
+            }
+        } catch (e) {
+            console.debug('Orderbook refresh error:', e);
+        } finally {
+            // Schedule next refresh only after current one completes (Recursive Fetching)
+            setTimeout(refreshOrderbookTable, 500);
+        }
+    }
+
+    function updateOrderStats(stats) {
+        const map = {
+            'total_buy_orders': '.stat-value.text-success', // First one usually
+            'total_sell_orders': '.stat-value.text-error',
+            'total_completed_orders': '.stat-value.text-success', // Need specific targeting
+            'total_open_orders': '.stat-value.text-warning',
+            'total_rejected_orders': '.stat-value.text-error' // Last one
+        };
+
+        // We need more specific selectors because classes are reused
+        // Let's assume order of stats cards is fixed: Buy, Sell, Completed, Open, Rejected
+        const statValues = document.querySelectorAll('.stat-value');
+        if (statValues.length >= 5) {
+            statValues[0].textContent = stats.total_buy_orders || 0;
+            statValues[1].textContent = stats.total_sell_orders || 0;
+            statValues[2].textContent = stats.total_completed_orders || 0;
+            statValues[3].textContent = stats.total_open_orders || 0;
+            statValues[4].textContent = stats.total_rejected_orders || 0;
+        }
+    }
+
+    function updateOrderTable(orders) {
+        const tbody = document.querySelector('tbody');
+
+        // Helper to generate badge HTML
+        const getBadge = (text, typeMap, defaultClass = 'badge-ghost') => {
+            const lower = (text || '').toLowerCase();
+            let cls = defaultClass;
+            for (const key in typeMap) {
+                if (key.toLowerCase() === lower) {
+                    cls = typeMap[key];
+                    break;
+                }
+            }
+            return `<div class="badge ${cls}">${text}</div>`;
+        };
+
+        const exchangeColors = { 'NSE': 'badge-accent', 'BSE': 'badge-neutral', 'NFO': 'badge-secondary', 'MCX': 'badge-primary' };
+        const orderTypeColors = { 'MARKET': 'badge-primary', 'LIMIT': 'badge-info', 'SL': 'badge-warning', 'SL-M': 'badge-warning' };
+        const productColors = { 'CNC': 'badge-secondary', 'MIS': 'badge-accent', 'NRML': 'badge-neutral' };
+        const statusColors = { 'complete': 'badge-success', 'rejected': 'badge-error', 'cancelled': 'badge-error', 'open': 'badge-warning', 'pending': 'badge-warning', 'trigger pending': 'badge-info' };
+
+        // 1. Map existing rows for diffing
+        const existingRows = new Map();
+        tbody.querySelectorAll('tr').forEach(row => {
+            if (row.id) existingRows.set(row.id, row);
+        });
+
+        const activeOrderIds = new Set();
+
+        orders.forEach(order => {
+            const rowId = `order-${order.orderid}`;
+            activeOrderIds.add(rowId);
+            let row = existingRows.get(rowId);
+
+            const actionBadge = order.action === 'BUY' ?
+                `<div class="badge badge-success gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>BUY</div>` :
+                `<div class="badge badge-error gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>SELL</div>`;
+
+            const price = (order.pricetype || '').toUpperCase() === 'MARKET' ? '0.00' : order.price;
+            const ltp = order.ltp !== undefined ? order.ltp : '-';
+            const statusBadge = getBadge(order.order_status, statusColors);
+
+            if (row) {
+                // Update ONLY if changed (prevents flashing)
+                // Cell indices: 5 (LTP), 10 (Status) are the dynamic ones usually
+                // Refined LTP update to prevent flashing
+                const newLtpStr = String(ltp);
+                const currentLtp = row.cells[5].textContent.trim();
+
+                // Only update if:
+                // 1. New LTP is NOT a placeholder ('-')
+                // 2. OR Current LTP IS a placeholder (so we populate it for the first time or if it was truly empty)
+                // This prevents overwriting a valid number with '-'
+                if (newLtpStr !== '-' || currentLtp === '-' || currentLtp === '') {
+                    if (currentLtp !== newLtpStr) {
+                        row.cells[5].textContent = newLtpStr;
+                        // Optional: Add visual flash effect here if desired
+                    }
+                }
+
+                // For status, it's HTML badge, so check innerHTML or text
+                // Simple parsing check
+                if (!row.cells[10].innerHTML.includes(order.order_status)) {
+                    row.cells[10].innerHTML = statusBadge;
+                }
+            } else {
+                // Create new row
+                const tr = document.createElement('tr');
+                tr.id = rowId;
+                tr.className = "hover:bg-base-200";
+                tr.innerHTML = `
+                    <td class="font-medium">${order.symbol}</td>
+                    <td>${getBadge(order.exchange, exchangeColors)}</td>
+                    <td>${actionBadge}</td>
+                    <td class="numeric-cell">${order.quantity}</td>
+                    <td class="numeric-cell">${price}</td>
+                    <td class="numeric-cell font-mono">${ltp}</td>
+                    <td class="numeric-cell">${order.trigger_price || 0}</td>
+                    <td>${getBadge(order.pricetype, orderTypeColors)}</td>
+                    <td>${getBadge(order.product, productColors)}</td>
+                    <td class="font-mono text-sm">${order.orderid}</td>
+                    <td>${statusBadge}</td>
+                    <td class="text-sm">${order.timestamp}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        });
+
+        // Cleanup removed orders associated with this view
+        existingRows.forEach((row, id) => {
+            if (!activeOrderIds.has(id)) row.remove();
+        });
+    }
+
+    function openCancelAllModal() {
+        document.getElementById('cancel-all-modal').checked = true;
+    }
 </script>
 
 <!-- DaisyUI Modal for Cancel All confirmation -->
@@ -345,10 +491,12 @@ function openCancelAllModal() {
 <div class="modal" role="dialog">
     <div class="modal-box">
         <h3 class="font-bold text-lg text-error">⚠️ Cancel All Orders</h3>
-        <p class="py-4">Are you sure you want to cancel all open orders? This action will cancel all your pending orders immediately.</p>
+        <p class="py-4">Are you sure you want to cancel all open orders? This action will cancel all your pending orders
+            immediately.</p>
         <div class="modal-action">
             <label for="cancel-all-modal" class="btn">Cancel</label>
-            <button id="cancel-all-confirm-btn" onclick="cancelAllOrders()" class="btn btn-error">Yes, Cancel All</button>
+            <button id="cancel-all-confirm-btn" onclick="cancelAllOrders()" class="btn btn-error">Yes, Cancel
+                All</button>
         </div>
     </div>
     <label class="modal-backdrop" for="cancel-all-modal"></label>

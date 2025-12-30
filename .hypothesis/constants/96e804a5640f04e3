@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/market_timings.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/', '10 per second', 'API_RATE_LIMIT', 'Market Timings API', 'date', 'error', 'market/timings', 'message', 'status']

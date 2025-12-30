@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/websocket_proxy/connection_manager.py
+# hypothesis_version: 6.148.8
+
+[100, 1000, '5555', 'Already connected', 'Already initialized', 'Connected', 'MAX_CAPACITY_REACHED', 'NOT_SUBSCRIBED', 'Not initialized', 'SUBSCRIPTION_ERROR', 'UNSUBSCRIPTION_ERROR', 'ZMQ_PORT', '_uses_shared_zmq', 'active', 'active_connections', 'broker', 'capacity_percent', 'code', 'connection', 'connections', 'error', 'exchange', 'index', 'max_capacity', 'max_connections', 'message', 'mode', 'shared_publisher', 'shared_zmq_publisher', 'status', 'success', 'symbol', 'symbols', 'total_connections', 'total_subscriptions', 'unsubscribe_all', 'user_id', 'utf-8']

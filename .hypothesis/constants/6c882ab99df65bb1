@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/dhan/streaming/dhan_adapter.py
+# hypothesis_version: 6.148.8
+
+[1000, '../../../', '20_DEPTH', ':20', ':::', 'BROKER_API_KEY', 'DEPTH', 'ExchangeSegment', 'FULL', 'INVALID_MODE', 'LTP', 'NFO', 'NOT_SUBSCRIBED', 'NSE', 'OI', 'PREV_CLOSE', 'QUOTE', 'SUBSCRIPTION_ERROR', 'SUBSCRIPTION_LIMIT', 'SYMBOL_NOT_FOUND', 'SecurityId', 'TICKER', 'UNKNOWN', 'actual_symbol', 'atp', 'auth_token', 'average_price', 'brexchange', 'buy', 'close', 'depth', 'depth_20', 'depth_level', 'dhan', 'dhan_exchange', 'dhan_websocket', 'exchange', 'exchange_segment', 'full', 'high', 'instrument', 'is_20_depth', 'last_quantity', 'levels', 'low', 'ltp', 'ltq', 'ltt', 'mode', 'oi', 'oi_high', 'oi_low', 'open', 'prev_close', 'prev_oi', 'quote', 'running', 'security_id', 'sell', 'side', 'symbol', 'ticker', 'timestamp', 'token', 'total_buy_quantity', 'total_sell_quantity', 'type', 'volume']

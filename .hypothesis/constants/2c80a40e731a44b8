@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/token_db_enhanced.py
+# hypothesis_version: 6.148.8
+
+[0.0, 100, 500, 1024, '%d-%b-%Y', '%d-%b-%y', '03:00', ':', 'Asia/Kolkata', 'CE', 'Cache cleared', 'FUT', 'PE', 'SESSION_EXPIRY_TIME', 'active_broker', 'brexchange', 'brsymbol', 'bulk_queries', 'cache_loaded', 'cache_loads', 'cache_valid', 'db_queries', 'exchange', 'expiry', 'freeze_qty', 'hit_rate', 'hits', 'instrumenttype', 'last_loaded', 'lotsize', 'memory_usage_mb', 'misses', 'name', 'next_reset', 'session_start', 'stats', 'strike', 'symbol', 'tick_size', 'token', 'total_symbols']

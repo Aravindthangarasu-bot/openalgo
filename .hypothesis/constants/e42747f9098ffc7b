@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/settings.py
+# hypothesis_version: 6.148.8
+
+[500, '/analyze-mode', '/settings', 'Analyze', 'Live', 'POST', 'analyze_mode', 'error', 'message', 'settings_bp', 'success']

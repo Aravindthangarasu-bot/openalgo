@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/symbol_service.py
+# hypothesis_version: 6.148.8
+
+[200, 400, 403, 404, 500, 'brexchange', 'brsymbol', 'data', 'error', 'exchange', 'expiry', 'freeze_qty', 'id', 'instrumenttype', 'lotsize', 'message', 'name', 'status', 'strike', 'success', 'symbol', 'tick_size', 'token']

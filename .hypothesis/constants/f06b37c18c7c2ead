@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/dashboard.py
+# hypothesis_version: 6.148.8
+
+[401, 404, 500, '%b %Y', '%d-%b-%Y', '/', '/dashboard', 'AXISBANK', 'BANKEX', 'BANKNIFTY', 'BSE_INDEX', 'CRUDEOIL', 'FINNIFTY', 'FUTCOM', 'GOLD', 'HDFCBANK', 'ICICIBANK', 'INFY', 'ITC', 'KOTAKBANK', 'LT', 'MCX', 'MCX_FO', 'NATURALGAS', 'NIFTY', 'NSE', 'NSE_INDEX', 'No auth token', 'RELIANCE', 'SBIN', 'SENSEX', 'TCS', 'broker', 'channels', 'commodity', 'dashboard.html', 'dashboard_bp', 'dashboard_prices', 'data', 'display_name', 'error', 'exchange', 'expiries', 'expiry', 'expiry_date', 'indices', 'is_active', 'is_nearest', 'is_running', 'lp', 'ltp', 'mcx', 'pc', 'percentChange', 'results', 'stocks', 'symbol', 'target_channel', 'timestamp', 'user']

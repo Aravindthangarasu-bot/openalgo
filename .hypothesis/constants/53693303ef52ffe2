@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/admin.py
+# hypothesis_version: 6.148.8
+
+[429, 1000, '%A', '%H:%M', '%Y-%m-%d', '.csv', '/', '/admin', '/freeze', '/freeze/add', '/freeze/upload', '/holidays', '/holidays/add', '/timings', '/timings/check', '10/minute', '50 per second', 'API_RATE_LIMIT', 'Entry not found', 'Holiday not found', 'NFO', 'No file selected', 'POST', 'Please select a date', 'TRADING_HOLIDAY', 'admin/freeze.html', 'admin/holidays.html', 'admin/index.html', 'admin/timings.html', 'admin_bp', 'admin_bp.freeze_qty', 'admin_bp.holidays', 'admin_bp.index', 'admin_bp.timings', 'closed_exchanges', 'csv_file', 'date', 'day_name', 'description', 'end_time', 'error', 'exchange', 'freeze_qty', 'holiday_type', 'id', 'start_time', 'success', 'symbol', 'year']

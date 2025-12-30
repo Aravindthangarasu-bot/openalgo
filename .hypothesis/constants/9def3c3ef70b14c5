@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/pnl_symbols.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/symbols', '10 per second', 'API_RATE_LIMIT', 'P&L Analysis API', 'apikey', 'error', 'message', 'pnl', 'status']

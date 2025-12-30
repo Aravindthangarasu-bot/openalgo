@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/paytm/streaming/paytm_websocket.py
+# hypothesis_version: 6.148.8
+
+[101, 105, 109, 113, 114, 115, 119, 123, 127, 131, 135, 139, 143, 147, 151, 155, 159, 163, 167, 171, 175, '52_week_high', '52_week_low', '<', 'ADD', 'B', 'BSE', 'EQUITY', 'ETF', 'FULL', 'FUTURE', 'I', 'INDEX', 'LTP', 'NSE', 'OPTION', 'QUOTE', 'REMOVE', 'Unknown error', 'actionType', 'average_traded_price', 'buy', 'cert_reqs', 'change_absolute', 'change_percent', 'close', 'depth', 'error', 'f', 'h', 'high', 'i', 'is_index', 'last_price', 'last_trade_time', 'last_traded_quantity', 'last_traded_time', 'last_update_time', 'low', 'message', 'mode', 'oi', 'oi_change', 'on_error', 'open', 'orders', 'packet_code', 'price', 'quantity', 'security_id', 'sell', 'subscription_mode', 'total_buy_quantity', 'total_sell_quantity', 'tradable', 'volume_traded']

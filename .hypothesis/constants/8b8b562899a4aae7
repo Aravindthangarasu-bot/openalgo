@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/utils/config.py
+# hypothesis_version: 6.148.8
+
+['25 per hour', '5 per minute', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'HOST_SERVER', 'LOGIN_RATE_LIMIT_MIN']

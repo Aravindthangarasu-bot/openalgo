@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/order_router_service.py
+# hypothesis_version: 6.148.8
+
+[200, 403, 500, 'Invalid API key', 'api_type', 'apikey', 'cancelallorder', 'cancelorder', 'closeallpositions', 'closeposition', 'error', 'funds', 'holdings', 'message', 'mode', 'modifyorder', 'openposition', 'orderbook', 'orderstatus', 'pending_order_id', 'positions', 'semi_auto', 'status', 'success', 'tradebook', 'user_id']

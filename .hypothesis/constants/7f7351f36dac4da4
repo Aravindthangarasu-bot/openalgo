@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/data_schemas.py
+# hypothesis_version: 6.148.8
+
+[100, 2020, 2050, '%Y-%m-%d', '10m', '10s', '15m', '15s', '1h', '1m', '1s', '20m', '2h', '2m', '30m', '30s', '3h', '3m', '45s', '4h', '5m', '5s', 'ATM', 'BCD', 'BFO', 'BSE', 'BSE_INDEX', 'CDS', 'CE', 'D', 'M', 'MCX', 'NFO', 'NSE', 'NSE_INDEX', 'PE', 'W', '^\\d{10,13}$', '^\\d{4}-\\d{2}-\\d{2}$', 'asc', 'ce', 'csv', 'desc', 'from', 'futures', 'json', 'options', 'pe']

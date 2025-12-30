@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/orderbook_service.py
+# hypothesis_version: 6.148.8
+
+[0.0, 200, 400, 403, 404, 500, 'MARKET', 'analyze', 'apikey', 'completed', 'data', 'error', 'filled_quantity', 'filledqty', 'get_order_book', 'map_order_data', 'message', 'mode', 'open', 'orders', 'pending_quantity', 'pendingqty', 'price', 'pricetype', 'qty', 'quantity', 'rejected', 'statistics', 'status', 'success', 'total_', 'traded_quantity', 'tradedqty', 'transform_order_data', 'unfilled_quantity', 'unfilledqty']

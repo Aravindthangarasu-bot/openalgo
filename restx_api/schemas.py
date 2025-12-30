@@ -13,6 +13,8 @@ class OrderSchema(Schema):
     trigger_price = fields.Float(missing=0.0, validate=validate.Range(min=0, error="Trigger price must be a non-negative number."))
     disclosed_quantity = fields.Int(missing=0, validate=validate.Range(min=0, error="Disclosed quantity must be a non-negative integer."))
     underlying_ltp = fields.Float(missing=None, allow_none=True)  # Optional: passed from options order for execution reference
+    targets = fields.List(fields.Raw(), missing=[]) # Optional: passed from signal for tracking
+    signal_data = fields.Dict(missing={}) # Optional: full signal payload
 
 class SmartOrderSchema(Schema):
     apikey = fields.Str(required=True)

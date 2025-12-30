@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/apilog_db.py
+# hypothesis_version: 6.148.8
+
+[100, 'API Log DB', 'Asia/Kolkata', 'DATABASE_URL', 'check_same_thread', 'order_logs', 'sqlite']

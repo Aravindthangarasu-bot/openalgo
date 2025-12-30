@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/analyzer_service.py
+# hypothesis_version: 6.148.8
+
+[200, 400, 403, 500, 'analyze', 'analyze_mode', 'analyzer_status', 'analyzer_toggle', 'apikey', 'data', 'error', 'live', 'message', 'mode', 'semi_auto', 'status', 'success', 'total_logs']

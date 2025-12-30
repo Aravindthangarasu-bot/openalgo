@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/mstock/streaming/mstock_adapter.py
+# hypothesis_version: 6.148.8
+
+[0.2, 0.5, 5.0, 1000, '../../../', 'DEPTH', 'INVALID_DEPTH', 'INVALID_MODE', 'LTP', 'NOT_SUBSCRIBED', 'QUOTE', 'SYMBOL_NOT_FOUND', 'asks', 'auth_token', 'average_price', 'avg_price', 'bids', 'brexchange', 'buy', 'close', 'correlation_id', 'depth', 'depth_level', 'error', 'error_code', 'exchange', 'exchange_type', 'high', 'last_trade_quantity', 'last_traded_qty', 'low', 'lower_circuit', 'ltp', 'message', 'mode', 'mstock', 'mstock_websocket', 'oi', 'open', 'orders', 'prev_close', 'price', 'quantity', 'sell', 'status', 'subscription_mode', 'success', 'symbol', 'timestamp', 'token', 'total_buy_qty', 'total_buy_quantity', 'total_sell_qty', 'total_sell_quantity', 'upper_circuit', 'volume']

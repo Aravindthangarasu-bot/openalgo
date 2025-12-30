@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/place_order_service.py
+# hypothesis_version: 6.148.8
+
+[200, 400, 403, 404, 500, 'Unknown', 'action', 'analyze', 'analyzer_update', 'api_type', 'apikey', 'error', 'exchange', 'live', 'message', 'mode', 'order_event', 'orderid', 'placeorder', 'price_type', 'product_type', 'request', 'response', 'status', 'success', 'symbol']

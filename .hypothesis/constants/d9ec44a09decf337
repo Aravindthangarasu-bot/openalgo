@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/flattrade/streaming/flattrade_mapping.py
+# hypothesis_version: 6.148.8
+
+[5000, 'BFO', 'BSE', 'BSE_INDEX', 'CDS', 'MCX', 'NFO', 'NSE', 'NSE_INDEX', 'max_subscriptions', 'supported_modes']

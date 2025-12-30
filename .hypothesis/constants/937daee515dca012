@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/flattrade/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+[200, ':::', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Ok', 'api_key', 'api_secret', 'emsg', 'request_code', 'stat', 'token', 'utf-8']

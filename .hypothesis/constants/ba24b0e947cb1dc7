@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/pocketful/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+[200, 'Authorization', 'Cache-Control', 'Content-Type', 'REDIRECT_URL', 'access_token', 'authorization_code', 'client_id', 'code', 'data', 'grant_type', 'message', 'no-cache', 'orders holdings', 'redirect_uri', 'response_type', 'scope', 'state', 'status', 'success']

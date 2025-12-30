@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/definedge/streaming/definedge_websocket.py
+# hypothesis_version: 6.148.8
+
+[0.1, '#', '0', ':::', 'BSE', 'CDS', 'Heartbeat sent', 'MCX', 'NFO', 'NSE', 'OK', 'Ok', 'TRTP', 'actid', 'ap', 'ap (avg price)', 'auth_token', 'c', 'c (close)', 'cert_reqs', 'ck', 'd', 'depth', 'df', 'dk', 'e', 'emsg', 'feed_token', 'h', 'h (high)', 'k', 'l', 'l (low)', 'lp', 'lp (ltp)', 'o', 'o (open)', 'order', 'pc', 'pc (% change)', 's', 'source', 'sslopt', 'susertoken', 't', 'tf', 'tick', 'tk', 'u', 'ud', 'udk', 'uid', 'uk', 'v', 'v (volume)']

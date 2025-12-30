@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/apikey.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/', '/apikey', '/apikey/mode', 'GET', 'POST', 'User ID is required', 'api_key', 'api_key_bp', 'apikey.html', 'auto', 'error', 'key_id', 'message', 'mode', 'semi_auto', 'user', 'user_id']

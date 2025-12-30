@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/flattrade/streaming/flattrade_websocket.py
+# hypothesis_version: 6.148.8
+
+[0.1, 120, 'API', 'Connection timeout', 'OK', 'Sent heartbeat', 'actid', 'c', 'ck', 'connected', 'd', 'depth subscription', 'depth unsubscription', 'flattrade_websocket', 'h', 'k', 'last_message_time', 'running', 's', 'source', 'susertoken', 't', 'u', 'ud', 'uid', 'user_id', 'ws_thread_alive', 'ws_url']

@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/platforms.py
+# hypothesis_version: 6.148.8
+
+['/', '/platforms', 'GET', 'platforms.html', 'platforms_bp']

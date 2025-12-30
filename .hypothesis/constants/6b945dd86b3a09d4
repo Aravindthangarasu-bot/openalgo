@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/telegram_listener_service.py
+# hypothesis_version: 6.148.8
+
+[0.0, 0.8, ',', 'TELEGRAM_API_HASH', 'TELEGRAM_API_ID', 'TELEGRAM_CHANNELS', 'Unknown', 'channel', 'message', 'new_signal', 'parsed', 'raw', 'status', 'timestamp', 'title', 'username']

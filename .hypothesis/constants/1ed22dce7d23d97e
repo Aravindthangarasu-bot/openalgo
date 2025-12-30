@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/sandbox/squareoff_manager.py
+# hypothesis_version: 6.148.8
+
+['%H:%M', '15:15', '16:45', '17:00', '23:30', ':', 'Asia/Kolkata', 'BCD', 'BFO', 'BSE', 'CDS', 'MCX', 'MIS', 'NCDEX', 'NFO', 'NSE', '__main__', 'current_time', 'is_past_square_off', 'mcx_square_off_time', 'open', 'square_off_time']

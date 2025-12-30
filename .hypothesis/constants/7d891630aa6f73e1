@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/paytm/streaming/paytm_mapping.py
+# hypothesis_version: 6.148.8
+
+['BFO', 'BSE', 'BSE_INDEX', 'CDS', 'EQ', 'EQUITY', 'ETF', 'FUTIDX', 'FUTSTK', 'FUTURE', 'INDEX', 'MCX', 'NFO', 'NSE', 'NSE_INDEX', 'OPTIDX', 'OPTION', 'OPTSTK']

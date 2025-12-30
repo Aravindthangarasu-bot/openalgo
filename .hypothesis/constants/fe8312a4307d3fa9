@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/traffic_db.py
+# hypothesis_version: 6.148.8
+
+[100, 200, 400, 500, '127.0.0.1', '404_ban_duration', '404_threshold', '::1', 'LOGS_DATABASE_URL', 'Traffic Logs DB', '[]', 'api_ban_duration', 'api_threshold', 'attempt_count', 'avg_duration', 'check_same_thread', 'client_ip', 'error_404_tracker', 'error_count', 'error_requests', 'first_attempt_at', 'first_error_at', 'idx_404_error_count', 'idx_traffic_user_id', 'ip_bans', 'localhost', 'sqlite', 'sqlite:///', 'sqlite:///db/logs.db', 'status_code', 'system', 'timestamp', 'total_requests', 'traffic_logs', 'user_id']

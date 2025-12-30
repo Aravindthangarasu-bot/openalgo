@@ -6,18 +6,188 @@
     <div class="flex flex-col lg:flex-row lg:items-start gap-4">
         <div class="flex-1">
             <h1 class="text-2xl md:text-3xl font-bold text-base-content">Trading Dashboard</h1>
-            <p class="text-base-content/60 mt-1 md:mt-2 text-sm md:text-base">Overview of your trading account and market positions</p>
+            <p class="text-base-content/60 mt-1 md:mt-2 text-sm md:text-base">Overview of your trading account and
+                market positions</p>
         </div>
         <!-- Master Contract Status Indicator -->
-        <div class="flex items-center gap-2 md:gap-3 bg-base-200 rounded-lg px-3 md:px-4 py-2 md:py-3 w-fit lg:ml-auto lg:self-start">
+        <div
+            class="flex items-center gap-2 md:gap-3 bg-base-200 rounded-lg px-3 md:px-4 py-2 md:py-3 w-fit lg:ml-auto lg:self-start">
             <span class="text-xs md:text-sm font-medium whitespace-nowrap">Master Contract:</span>
             <div class="flex items-center gap-2">
-                <div id="master-contract-led" class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-gray-400 animate-pulse"></div>
+                <div id="master-contract-led" class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-gray-400 animate-pulse">
+                </div>
                 <span id="master-contract-status-text" class="text-xs md:text-sm">Checking...</span>
             </div>
         </div>
+
+        <!-- Lots Configuration REMOVED from Header -->
     </div>
 </div>
+
+<!-- Market Indices Strip -->
+<!-- Market Indices Strip -->
+{% if indices_data or mcx_data or stocks_data %}
+<div class="mb-6 md:mb-8">
+    <!-- Indices Toggle -->
+    <div class="flex justify-center mb-4">
+        <div class="join">
+            <input class="join-item btn btn-sm btn-active" type="radio" name="indices_options" aria-label="Indices"
+                checked onclick="toggleIndices('nse')" />
+            <input class="join-item btn btn-sm" type="radio" name="indices_options" aria-label="Stocks"
+                onclick="toggleIndices('stocks')" />
+            <input class="join-item btn btn-sm" type="radio" name="indices_options" aria-label="MCX"
+                onclick="toggleIndices('mcx')" />
+        </div>
+    </div>
+
+    <!-- NSE/BSE Indices Container -->
+    <!-- NSE/BSE Indices Container -->
+    <div id="indices-nse" class="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 transition-all duration-300">
+        {% for index in indices_data %}
+        {% if index.data %}
+        <div class="card bg-base-100 shadow-sm border border-base-200">
+            <div class="card-body p-3 md:p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-bold text-sm text-base-content/70">{{ index.symbol }}</h3>
+                        <div class="text-lg font-bold mt-1">
+                            {{ index.data.ltp | indian_number }}
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        {% set change = index.data.ltp | float - index.data.prev_close | float %}
+                        {% if index.data.prev_close | float > 0 %}
+                        {% set pchange = (change / index.data.prev_close | float) * 100 %}
+                        {% else %}
+                        {% set pchange = 0.0 %}
+                        {% endif %}
+                        <div
+                            class="text-xs font-medium {% if change > 0 %}text-success{% elif change < 0 %}text-error{% else %}text-base-content/60{% endif %}">
+                            {{ change | round(2) }}
+                        </div>
+                        <div
+                            class="text-xs font-bold {% if change > 0 %}text-success{% elif change < 0 %}text-error{% else %}text-base-content/60{% endif %}">
+                            ({{ pchange | round(2) }}%)
+                        </div>
+                    </div>
+                </div>
+                <div class="text-[10px] text-base-content/40 mt-2 flex justify-between">
+                    <span>L: {{ index.data.low | indian_number }}</span>
+                    <span>H: {{ index.data.high | indian_number }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Stocks Container (Hidden by default) -->
+    <div id="indices-stocks" class="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 hidden transition-all duration-300">
+        {% for stock in stocks_data %}
+        {% if stock.data %}
+        <div class="card bg-base-100 shadow-sm border border-base-200">
+            <div class="card-body p-3 md:p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3
+                            class="font-bold text-sm text-base-content/70 whitespace-nowrap overflow-hidden text-ellipsis">
+                            {{ stock.symbol }}</h3>
+                        <div class="text-lg font-bold mt-1">
+                            {{ stock.data.ltp | indian_number }}
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        {% set change = stock.data.ltp | float - stock.data.prev_close | float %}
+                        {% if stock.data.prev_close | float > 0 %}
+                        {% set pchange = (change / stock.data.prev_close | float) * 100 %}
+                        {% else %}
+                        {% set pchange = 0.0 %}
+                        {% endif %}
+                        <div
+                            class="text-xs font-medium {% if change > 0 %}text-success{% elif change < 0 %}text-error{% else %}text-base-content/60{% endif %}">
+                            {{ change | round(2) }}
+                        </div>
+                        <div
+                            class="text-xs font-bold {% if change > 0 %}text-success{% elif change < 0 %}text-error{% else %}text-base-content/60{% endif %}">
+                            ({{ pchange | round(2) }}%)
+                        </div>
+                    </div>
+                </div>
+                <div class="text-[10px] text-base-content/40 mt-2 flex justify-between">
+                    <span>L: {{ stock.data.low | indian_number }}</span>
+                    <span>H: {{ stock.data.high | indian_number }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- MCX Container (Hidden by default) -->
+    <div id="indices-mcx" class="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 hidden transition-all duration-300">
+        {% for index in mcx_data %}
+        {% if index.data %}
+        <div class="card bg-base-100 shadow-sm border border-base-200 mcx-card cursor-pointer hover:shadow-md transition-shadow"
+            data-commodity="{{ index.display_name or index.symbol }}"
+            onclick="showExpirySelector('{{ index.display_name or index.symbol }}', '{{ index.symbol }}')">
+            <div class="card-body p-3 md:p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <!-- Use display_name (e.g., "Crudeoil") if available -->
+                        <h3
+                            class="font-bold text-xs text-secondary mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                            {{ index.symbol }}</h3>
+                        <div class="text-lg font-bold mt-1 text-xl">
+                            {{ index.data.ltp | indian_number }}
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        {% set change = index.data.ltp | float - index.data.prev_close | float %}
+                        {% if index.data.prev_close | float > 0 %}
+                        {% set pchange = (change / index.data.prev_close | float) * 100 %}
+                        {% else %}
+                        {% set pchange = 0.0 %}
+                        {% endif %}
+                        <div
+                            class="text-sm {% if change > 0 %}text-success{% elif change < 0 %}text-error{% else %}text-base-content/60{% endif %}">
+                            {{ change | round(2) }}
+                        </div>
+                        <div
+                            class="text-sm font-medium {% if change > 0 %}text-success{% elif change < 0 %}text-error{% else %}text-base-content/60{% endif %}">
+                            ({{ pchange | round(2) }}%)
+                        </div>
+                    </div>
+                </div>
+                <!-- Show commodity name and expiry selector hint -->
+                <div class="text-[10px] text-secondary/40 mt-2 flex justify-between items-center font-mono">
+                    <span>{{ index.display_name or index.symbol }}</span>
+                    <span class="text-primary text-xs">▼ Select Expiry</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function toggleIndices(type) {
+        const nse = document.getElementById('indices-nse');
+        const stocks = document.getElementById('indices-stocks');
+        const mcx = document.getElementById('indices-mcx');
+
+        // Hide all first
+        nse.classList.add('hidden');
+        stocks.classList.add('hidden');
+        mcx.classList.add('hidden');
+
+        // Show selected
+        if (type === 'nse') nse.classList.remove('hidden');
+        else if (type === 'stocks') stocks.classList.remove('hidden');
+        else if (type === 'mcx') mcx.classList.remove('hidden');
+    }
+</script>
+{% endif %}
 
 <!-- Stats Grid -->
 <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 mb-8 md:mb-16">
@@ -51,11 +221,13 @@
     <div class="stat-card">
         <div class="stat">
             <div class="stat-title">Unrealized P&L</div>
-            <div class="stat-value {% if margin_data.get('m2munrealized', '0.00')|float > 0 %}text-success{% elif margin_data.get('m2munrealized', '0.00')|float < 0 %}text-error{% else %}text-neutral{% endif %}">
+            <div
+                class="stat-value {% if margin_data.get('m2munrealized', '0.00')|float > 0 %}text-success{% elif margin_data.get('m2munrealized', '0.00')|float < 0 %}text-error{% else %}text-neutral{% endif %}">
                 {{ margin_data.get('m2munrealized', '0.00')|indian_number }}
             </div>
             <div class="stat-desc mt-2">
-                <div class="badge {% if margin_data.get('m2munrealized', '0.00')|float > 0 %}badge-success{% elif margin_data.get('m2munrealized', '0.00')|float < 0 %}badge-error{% else %}badge-neutral{% endif %}">
+                <div
+                    class="badge {% if margin_data.get('m2munrealized', '0.00')|float > 0 %}badge-success{% elif margin_data.get('m2munrealized', '0.00')|float < 0 %}badge-error{% else %}badge-neutral{% endif %}">
                     Mark to Market
                 </div>
             </div>
@@ -66,11 +238,13 @@
     <div class="stat-card">
         <div class="stat">
             <div class="stat-title">Realized P&L</div>
-            <div class="stat-value {% if margin_data.get('m2mrealized', '0.00')|float > 0 %}text-success{% elif margin_data.get('m2mrealized', '0.00')|float < 0 %}text-error{% else %}text-neutral{% endif %}">
+            <div
+                class="stat-value {% if margin_data.get('m2mrealized', '0.00')|float > 0 %}text-success{% elif margin_data.get('m2mrealized', '0.00')|float < 0 %}text-error{% else %}text-neutral{% endif %}">
                 {{ margin_data.get('m2mrealized', '0.00')|indian_number }}
             </div>
             <div class="stat-desc mt-2">
-                <div class="badge {% if margin_data.get('m2mrealized', '0.00')|float > 0 %}badge-success{% elif margin_data.get('m2mrealized', '0.00')|float < 0 %}badge-error{% else %}badge-neutral{% endif %}">
+                <div
+                    class="badge {% if margin_data.get('m2mrealized', '0.00')|float > 0 %}badge-success{% elif margin_data.get('m2mrealized', '0.00')|float < 0 %}badge-error{% else %}badge-neutral{% endif %}">
                     Booked P&L
                 </div>
             </div>
@@ -91,239 +265,522 @@
     </div>
 </div>
 
-<!-- Quick Access Tools -->
-<div class="mb-6 md:mb-8">
-    <h2 class="text-xl md:text-2xl font-semibold text-base-content mb-4 md:mb-6">Quick Access</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+<!-- Signal Logs Grid (5 Windows) -->
+<div class="mb-4">
+    <h2 class="text-xl font-bold mb-4">Signal Terminals</h2>
 
-        <!-- OpenAlgo Symbols -->
-        <a href="{{ url_for('search_bp.token') }}" class="card bg-gradient-to-br from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 transition-all duration-300 border border-primary/20 hover:border-primary/40 hover:shadow-lg">
-            <div class="card-body p-4 md:p-5">
-                <div class="flex items-start gap-3 md:gap-4">
-                    <div class="p-2.5 md:p-3 bg-primary/20 rounded-lg flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="font-semibold text-base-content mb-1 text-base md:text-lg">OpenAlgo Symbols</h3>
-                        <p class="text-sm text-base-content/60">Universal symbology across brokers</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- Live Logs -->
-        <a href="{{ url_for('log_bp.view_logs') }}" class="card bg-gradient-to-br from-secondary/10 to-secondary/5 hover:from-secondary/20 hover:to-secondary/10 transition-all duration-300 border border-secondary/20 hover:border-secondary/40 hover:shadow-lg">
-            <div class="card-body p-4 md:p-5">
-                <div class="flex items-start gap-3 md:gap-4">
-                    <div class="p-2.5 md:p-3 bg-secondary/20 rounded-lg flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="font-semibold text-base-content mb-1 text-base md:text-lg">Live Logs</h3>
-                        <p class="text-sm text-base-content/60">Real-time trading activity logs</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- Documentation -->
-        <a href="https://docs.openalgo.in" target="_blank" rel="noopener noreferrer" class="card bg-gradient-to-br from-accent/10 to-accent/5 hover:from-accent/20 hover:to-accent/10 transition-all duration-300 border border-accent/20 hover:border-accent/40 hover:shadow-lg">
-            <div class="card-body p-4 md:p-5">
-                <div class="flex items-start gap-3 md:gap-4">
-                    <div class="p-2.5 md:p-3 bg-accent/20 rounded-lg flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="font-semibold text-base-content mb-1 text-base md:text-lg">Documentation</h3>
-                        <p class="text-sm text-base-content/60">Tutorials, API docs & features</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- P&L Tracker -->
-        <a href="{{ url_for('pnltracker_bp.pnltracker') }}" class="card bg-gradient-to-br from-success/10 to-success/5 hover:from-success/20 hover:to-success/10 transition-all duration-300 border border-success/20 hover:border-success/40 hover:shadow-lg">
-            <div class="card-body p-4 md:p-5">
-                <div class="flex items-start gap-3 md:gap-4">
-                    <div class="p-2.5 md:p-3 bg-success/20 rounded-lg flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="font-semibold text-base-content mb-1 text-base md:text-lg">P&L Tracker</h3>
-                        <p class="text-sm text-base-content/60">Live intraday MTM tracker</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- Telegram -->
-        <a href="{{ url_for('telegram_bp.index') }}" class="card bg-gradient-to-br from-info/10 to-info/5 hover:from-info/20 hover:to-info/10 transition-all duration-300 border border-info/20 hover:border-info/40 hover:shadow-lg">
-            <div class="card-body p-4 md:p-5">
-                <div class="flex items-start gap-3 md:gap-4">
-                    <div class="p-2.5 md:p-3 bg-info/20 rounded-lg flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-info" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                        </svg>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="font-semibold text-base-content mb-1 text-base md:text-lg">Telegram Alerts</h3>
-                        <p class="text-sm text-base-content/60">Configure telegram notifications</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <!-- Latency Monitor -->
-        <a href="{{ url_for('latency_bp.latency_dashboard') }}" class="card bg-gradient-to-br from-warning/10 to-warning/5 hover:from-warning/20 hover:to-warning/10 transition-all duration-300 border border-warning/20 hover:border-warning/40 hover:shadow-lg">
-            <div class="card-body p-4 md:p-5">
-                <div class="flex items-start gap-3 md:gap-4">
-                    <div class="p-2.5 md:p-3 bg-warning/20 rounded-lg flex-shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="font-semibold text-base-content mb-1 text-base md:text-lg">Latency Monitor</h3>
-                        <p class="text-sm text-base-content/60">Monitor order & API latency</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-
+    <!-- Channels Config Warning -->
+    {% if not telegram_status.is_running %}
+    <div class="alert alert-warning mb-4">
+        <span>Listener is not running. Please configure channels in .env and restart.</span>
+        <a href="{{ url_for('telegram_signal_bp.config') }}" class="btn btn-sm">Configure</a>
     </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Render Configured Channels (Up to 5) -->
+        {% set channels = telegram_status.channels or [] %}
+        {% for i in range(5) %}
+        {% set channel_name = channels[i] if i < channels|length else 'Empty Slot' %} {% set is_active=i <
+            channels|length %} <div class="card bg-base-100 shadow-xl border border-base-200">
+            <div class="card-header p-3 border-b border-base-200 flex justify-between items-center bg-base-200/50">
+                <span class="font-bold text-sm" id="title-window-{{ i+1 }}">
+                    {{ channel_name }}
+                </span>
+                <span class="badge badge-xs {{ 'badge-success' if is_active else 'badge-neutral' }}"
+                    id="status-window-{{ i+1 }}">
+                    {{ 'Active' if is_active else 'Idle' }}
+                </span>
+            </div>
+            <div class="card-body p-0 h-64 overflow-y-auto bg-base-300 font-mono text-xs" id="log-window-{{ i+1 }}">
+                <div class="p-2 text-base-content/40">
+                    {{ 'Waiting for signals...' if is_active else 'Slot available for configuration' }}
+                </div>
+            </div>
+    </div>
+    {% endfor %}
+
+    <!-- Broker Connection (Kept) -->
+    <div class="card bg-base-100 shadow-xl border border-base-200">
+        <div class="card-body">
+            <h2 class="card-title flex justify-between">
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    Broker
+                </div>
+                <div class="badge {{ 'badge-success' if session.broker else 'badge-neutral' }}">
+                    {{ 'CONNECTED' if session.broker else 'NOT CONNECTED' }}
+                </div>
+            </h2>
+            <div class="py-4">
+                {% if session.broker %}
+                <div class="text-lg font-bold">{{ session.broker|title }}</div>
+                {% else %}
+                <div class="text-sm">Please log in to your broker.</div>
+                {% endif %}
+            </div>
+
+            <!-- Lots Configuration (Moved Here) -->
+            <div class="mt-4 pt-4 border-t border-base-200">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-medium">Trading Lots Multiplier:</span>
+                    <input type="number" id="trading-lots-input" class="input input-sm input-bordered w-20 text-center"
+                        min="1" max="100" value="1" onchange="updateTradingLots(this.value)">
+                </div>
+                <div class="text-xs text-base-content/40 mt-1 text-right">Applies to all auto-orders</div>
+            </div>
+
+            <div class="card-actions justify-end mt-4">
+                {% if not session.broker %}
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm">Connect</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 <script>
-// Master Contract Status LED Controller
-class MasterContractStatus {
-    constructor() {
-        this.led = document.getElementById('master-contract-led');
-        this.statusText = document.getElementById('master-contract-status-text');
-        this.checkInterval = null;
-        this.init();
-    }
 
-    init() {
-        // Check status immediately
-        this.checkStatus();
-        
-        // Set up periodic checking every 5 seconds
-        this.checkInterval = setInterval(() => this.checkStatus(), 5000);
-        
-        // Listen for WebSocket events
+    // Define socket variable in script scope
+    let socket;
+
+    // Signal Terminal Logic
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize Socket (io is available now)
+        socket = io({
+            transports: ['websocket', 'polling'],
+            reconnection: true,
+            reconnectionAttempts: 10
+        });
+
+        socket.on('connect', () => console.log('✅ Socket Connected!'));
+
+        // Map configured channels to windows (Order Matters!)
+        // In real app, we might want to fetch this list from backend
+        // For now, first 5 unique channels seen will claim the windows.
+        const channelMap = new Map();
+        let nextWindowIdx = 1;
+        const MAX_WINDOWS = 5;
+
+        // Function to assign window to a channel
+        function getWindowId(channelName) {
+            if (!channelMap.has(channelName)) {
+                if (nextWindowIdx <= MAX_WINDOWS) {
+                    channelMap.set(channelName, nextWindowIdx);
+                    // Update Title
+                    document.getElementById(`title-window-${nextWindowIdx}`).textContent = channelName;
+                    // Clear initial "Waiting..." text
+                    document.getElementById(`log-window-${nextWindowIdx}`).innerHTML = '';
+                    nextWindowIdx++;
+                } else {
+                    console.warn(`No windows left for channel: ${channelName}`);
+                    return null;
+                }
+            }
+            return channelMap.get(channelName);
+        }
+
+        // Initialize map from rendered titles
+        for (let i = 1; i <= MAX_WINDOWS; i++) {
+            const titleEl = document.getElementById(`title-window-${i}`);
+            if (titleEl) {
+                const channelName = titleEl.textContent.trim();
+                // Map configured channels to their window ID
+                if (channelName && channelName !== 'Empty Slot') {
+                    channelMap.set(channelName, i);
+                    console.log(`Mapped '${channelName}' to Window ${i}`);
+                }
+            }
+        }
+
+        // Helper to append log
+        function appendLog(windowId, data) {
+            const { message, parsed, status, timestamp } = data;
+            const logContainer = document.getElementById(`log-window-${windowId}`);
+            if (!logContainer) return;
+
+            // Check if "Waiting for signals..." is present and remove it
+            const initialText = logContainer.querySelector('.text-base-content\\/40');
+            if (initialText) initialText.remove();
+
+            // Deduplication Key: Use timestamp or a hash of message if no timestamp
+            const tsKey = timestamp || message.substring(0, 20); // Fallback
+
+            // Check if already exists in this container
+            if (logContainer.querySelector(`[data-ts="${tsKey}"]`)) {
+                return; // Duplicate found, skip
+            }
+
+            // Time formatting (Fix: Parse ISO string)
+            const time = timestamp ? new Date(timestamp).toLocaleTimeString() : new Date().toLocaleTimeString();
+
+            const logEntry = document.createElement('div');
+            logEntry.className = 'p-2 border-b border-base-content/10 hover:bg-base-content/5 transition-colors';
+            logEntry.setAttribute('data-ts', tsKey); // Set ID for deduplication
+
+            let content = `<div class="flex justify-between items-center mb-1">
+                <span class="text-[10px] opacity-50 font-mono">${time}</span>
+                ${status === 'parsed' ? '<span class="badge badge-xs badge-success">SIG</span>' : ''}
+             </div>`;
+
+            content += `<div class="whitespace-pre-wrap break-words text-xs mb-1 font-mono">${message}</div>`;
+
+            if (status === 'parsed' && parsed) {
+                // Build signal display parts
+                let signalParts = [];
+
+                if (parsed.action) {
+                    signalParts.push(`<span class="text-primary font-bold">${parsed.action}</span>`);
+                }
+
+                if (parsed.symbol) {
+                    signalParts.push(`<span class="font-bold">${parsed.symbol}</span>`);
+                }
+
+                if (parsed.strike) {
+                    signalParts.push(`<span class="text-warning">${parsed.strike}</span>`);
+                }
+
+                if (parsed.option_type) {
+                    signalParts.push(`<span class="text-info">${parsed.option_type}</span>`);
+                }
+
+                if (parsed.price) {
+                    signalParts.push(`<span>@ ${parsed.price}</span>`);
+                }
+
+                if (parsed.sl) {
+                    signalParts.push(`<span class="text-error">SL ${parsed.sl}</span>`);
+                }
+
+                if (parsed.tgt) {
+                    signalParts.push(`<span class="text-success">TGT ${parsed.tgt}</span>`);
+                }
+
+                // Only show parsed section if we have at least some data
+                if (signalParts.length > 0) {
+                    content += `<div class="mt-1 text-[10px] bg-base-200 p-1 rounded font-mono border border-base-content/10 flex gap-2 flex-wrap">
+                        ${signalParts.join(' ')}
+                    </div>`;
+                }
+            }
+
+            logEntry.innerHTML = content;
+            // Prepend (Newest at top)
+            if (logContainer.firstChild) {
+                logContainer.insertBefore(logEntry, logContainer.firstChild);
+            } else {
+                logContainer.appendChild(logEntry);
+            }
+        }
+
+        // Fetch History
+        async function fetchHistory() {
+            try {
+                const response = await fetch('/telegram-signal/history');
+                const historyMap = await response.json();
+
+                Object.keys(historyMap).forEach(channel => {
+                    const windowId = channelMap.get(channel);
+                    if (windowId) {
+                        const signals = historyMap[channel];
+                        // Reverse iteration for correct Prepend order
+                        for (let i = signals.length - 1; i >= 0; i--) {
+                            appendLog(windowId, signals[i]);
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error("Failed to fetch history", e);
+            }
+        }
+
+        fetchHistory();
+        // Auto-Refresh Polling (Every 1 Second)
+        setInterval(fetchHistory, 1000);
+
+        // Socket Listener
         if (typeof socket !== 'undefined') {
-            socket.on('master_contract_download', (data) => {
-                this.handleWebSocketUpdate(data);
+            socket.on('new_signal', (data) => {
+                const { channel } = data;
+                let windowId = channelMap.get(channel);
+
+                if (windowId) {
+                    appendLog(windowId, data);
+
+                    // Animate Status
+                    const statusBadge = document.getElementById(`status-window-${windowId}`);
+                    if (statusBadge) {
+                        statusBadge.className = 'badge badge-xs badge-success animate-pulse';
+                        statusBadge.textContent = 'Data';
+                        setTimeout(() => {
+                            statusBadge.className = 'badge badge-xs badge-success';
+                            statusBadge.textContent = 'Active';
+                        }, 500);
+                    }
+                } else {
+                    console.warn(`Signal received from unmapped channel: ${channel}`);
+                }
             });
         }
+    });
+
+    // Master Contract Status LED Controller (Kept)
+    class MasterContractStatus {
+        constructor() {
+            this.led = document.getElementById('master-contract-led');
+            this.statusText = document.getElementById('master-contract-status-text');
+            this.checkInterval = null;
+            this.init();
+        }
+
+        init() {
+            this.checkStatus();
+            this.checkInterval = setInterval(() => this.checkStatus(), 5000);
+            if (typeof socket !== 'undefined') {
+                socket.on('master_contract_download', (data) => {
+                    this.handleWebSocketUpdate(data);
+                });
+            }
+        }
+
+        async checkStatus() {
+            if (window.sessionExpired) return;
+            try {
+                const response = await fetch('/api/master-contract/status', {
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.status === 401) {
+                    if (typeof window.handleSessionExpiry === 'function') window.handleSessionExpiry();
+                    return;
+                }
+                const data = await response.json();
+                this.updateDisplay(data);
+            } catch (error) {
+                this.updateDisplay({ status: 'error', message: 'Failed to check status' });
+            }
+        }
+
+        handleWebSocketUpdate(data) {
+            this.checkStatus();
+        }
+
+        updateDisplay(data) {
+            const { status, total_symbols } = data;
+            this.led.classList.remove('animate-pulse', 'animate-spin');
+            switch (status) {
+                case 'success':
+                    this.led.className = 'w-3 h-3 rounded-full bg-green-500';
+                    this.statusText.textContent = total_symbols ? `Ready (${total_symbols} symbols)` : 'Ready';
+                    this.statusText.className = 'text-sm text-green-600';
+                    if (this.checkInterval) { clearInterval(this.checkInterval); this.checkInterval = null; }
+                    break;
+                case 'downloading':
+                    this.led.className = 'w-3 h-3 rounded-full bg-yellow-500 animate-pulse';
+                    this.statusText.textContent = 'Downloading...';
+                    this.statusText.className = 'text-sm text-yellow-600';
+                    break;
+                default:
+                    this.led.className = 'w-3 h-3 rounded-full bg-gray-400';
+                    this.statusText.textContent = 'Unknown';
+            }
+        }
     }
 
-    async checkStatus() {
-        // Skip if session is expired
-        if (window.sessionExpired) {
-            this.destroy();
-            return;
-        }
+    // ===== MCX Expiry Selector Feature =====
+    const mcxExpirySelections = JSON.parse(localStorage.getItem('mcxExpirySelections')) || {};
+
+    async function showExpirySelector(commodityName, currentSymbol) {
+        event.stopPropagation();
+        console.log('[EXPIRY] Opening selector for:', commodityName);
 
         try {
-            const response = await fetch('/api/master-contract/status', {
-                headers: { 'Accept': 'application/json' }
-            });
-
-            // Handle session expiry (401)
-            if (response.status === 401) {
-                this.destroy();
-                if (typeof window.handleSessionExpiry === 'function') {
-                    window.handleSessionExpiry();
-                } else {
-                    window.location.href = '/auth/login';
-                }
+            const response = await fetch(`/api/mcx/expiries/${commodityName}`);
+            if (!response.ok) {
+                alert('Failed to load expiries');
                 return;
             }
 
             const data = await response.json();
-            this.updateDisplay(data);
+            const activeExpiries = data.expiries.filter(e => e.is_active);
+
+            if (activeExpiries.length === 0) {
+                alert('No active expiries available');
+                return;
+            }
+
+            let html = `
+                <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onclick="closeExpirySelector()">
+                    <div class="bg-base-100 rounded-lg p-6 max-w-md w-full m-4" onclick="event.stopPropagation()">
+                        <h3 class="text-lg font-bold mb-4">${commodityName} - Select Expiry</h3>
+                        <div class="space-y-2 max-h-96 overflow-y-auto">
+            `;
+
+            activeExpiries.forEach(expiry => {
+                const isSelected = mcxExpirySelections[commodityName] === expiry.symbol;
+                html += `
+                    <div class="flex items-center p-3 rounded border ${isSelected ? 'border-primary bg-primary/10' : 'border-base-300'} cursor-pointer hover:bg-base-200"
+                         onclick="selectExpiry('${commodityName}', '${expiry.symbol}', '${expiry.display_name}')">
+                        <div class="flex-1">
+                            <div class="font-medium">${expiry.display_name}</div>
+                            <div class="text-xs text-base-content/60">${expiry.expiry_date} ${expiry.is_nearest ? '(Nearest)' : ''}</div>
+                        </div>
+                        ${isSelected ? '<div class="text-primary">✓</div>' : ''}
+                    </div>
+                `;
+            });
+
+            html += `
+                        </div>
+                        <div class="mt-4 flex justify-end">
+                            <button class="btn btn-sm" onclick="closeExpirySelector()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const modal = document.createElement('div');
+            modal.id = 'expiry-selector-modal';
+            modal.innerHTML = html;
+            document.body.appendChild(modal);
+
         } catch (error) {
-            // Silently handle errors
-            this.updateDisplay({ status: 'error', message: 'Failed to check status' });
+            console.error('[EXPIRY] Error:', error);
+            alert('Error loading expiries');
         }
     }
 
-    handleWebSocketUpdate(data) {
-        // WebSocket update received, fetch fresh status
-        this.checkStatus();
+    function selectExpiry(commodityName, symbol, displayName) {
+        mcxExpirySelections[commodityName] = symbol;
+        localStorage.setItem('mcxExpirySelections', JSON.stringify(mcxExpirySelections));
+        closeExpirySelector();
+        console.log(`✓ ${commodityName} switched to ${displayName}`);
+        if (typeof refreshPrices === 'function') refreshPrices();
     }
 
-    updateDisplay(data) {
-        const { status, message, total_symbols } = data;
-        
-        // Remove all animation classes first
-        this.led.classList.remove('animate-pulse', 'animate-spin');
-        
-        switch (status) {
-            case 'success':
-                this.led.className = 'w-3 h-3 rounded-full bg-green-500';
-                this.statusText.textContent = total_symbols ? `Ready (${total_symbols} symbols)` : 'Ready';
-                this.statusText.className = 'text-sm text-green-600';
-                // Clear interval once successful
-                if (this.checkInterval) {
-                    clearInterval(this.checkInterval);
-                    this.checkInterval = null;
+    function closeExpirySelector() {
+        const modal = document.getElementById('expiry-selector-modal');
+        if (modal) modal.remove();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!window.masterContractStatus) {
+            window.masterContractStatus = new MasterContractStatus();
+        }
+    });
+    async function refreshDashboardPrices() {
+        try {
+            const response = await fetch('/api/dashboard/prices');
+            if (response.ok) {
+                const data = await response.json();
+
+                // Update Indices
+                const indicesCards = document.querySelectorAll('#indices-nse .card');
+                if (data.indices && indicesCards.length > 0) {
+                    data.indices.forEach(function (item, i) {
+                        if (indicesCards[i]) {
+                            const priceElem = indicesCards[i].querySelector('.text-lg.font-bold');
+                            const pctChangeElem = indicesCards[i].querySelector('.text-sm.font-medium');
+
+                            if (priceElem) {
+                                priceElem.textContent = parseFloat(item.lp).toFixed(2);
+                            }
+
+                            if (pctChangeElem) {
+                                const pc = parseFloat(item.pc);
+                                pctChangeElem.textContent = '(' + (pc >= 0 ? '+' : '') + pc.toFixed(2) + '%)';
+                                pctChangeElem.className = 'text-sm font-medium ' + (pc >= 0 ? 'text-success' : 'text-error');
+                            }
+                        }
+                    });
                 }
-                break;
-                
-            case 'downloading':
-                this.led.className = 'w-3 h-3 rounded-full bg-yellow-500 animate-pulse';
-                this.statusText.textContent = 'Downloading...';
-                this.statusText.className = 'text-sm text-yellow-600';
-                break;
-                
-            case 'error':
-                this.led.className = 'w-3 h-3 rounded-full bg-red-500';
-                this.statusText.textContent = 'Error';
-                this.statusText.className = 'text-sm text-red-600';
-                // Show detailed error in tooltip
-                this.statusText.title = message || 'Download failed';
-                break;
-                
-            case 'pending':
-                this.led.className = 'w-3 h-3 rounded-full bg-gray-400 animate-pulse';
-                this.statusText.textContent = 'Pending';
-                this.statusText.className = 'text-sm text-gray-600';
-                break;
-                
-            default:
-                this.led.className = 'w-3 h-3 rounded-full bg-gray-400';
-                this.statusText.textContent = 'Unknown';
-                this.statusText.className = 'text-sm text-gray-600';
+
+                // Update Stocks
+                const stocksCards = document.querySelectorAll('#indices-stocks .card');
+                if (data.stocks && stocksCards.length > 0) {
+                    data.stocks.forEach(function (item, i) {
+                        if (stocksCards[i]) {
+                            const priceElem = stocksCards[i].querySelector('.text-lg.font-bold');
+                            const pctChangeElem = stocksCards[i].querySelector('.text-sm.font-medium');
+
+                            if (priceElem) {
+                                priceElem.textContent = parseFloat(item.lp).toFixed(2);
+                            }
+
+                            if (pctChangeElem) {
+                                const pc = parseFloat(item.pc);
+                                pctChangeElem.textContent = '(' + (pc >= 0 ? '+' : '') + pc.toFixed(2) + '%)';
+                                pctChangeElem.className = 'text-sm font-medium ' + (pc >= 0 ? 'text-success' : 'text-error');
+                            }
+                        }
+                    });
+                }
+
+                // Update MCX
+                const mcxCards = document.querySelectorAll('#indices-mcx .card');
+                if (data.mcx && mcxCards.length > 0) {
+                    data.mcx.forEach(function (item, i) {
+                        if (mcxCards[i]) {
+                            const priceElem = mcxCards[i].querySelector('.text-lg.font-bold');
+                            const pctChangeElem = mcxCards[i].querySelector('.text-sm.font-medium');
+
+                            if (priceElem) {
+                                priceElem.textContent = parseFloat(item.lp).toFixed(2);
+                            }
+
+                            if (pctChangeElem) {
+                                const pc = parseFloat(item.pc);
+                                pctChangeElem.textContent = '(' + (pc >= 0 ? '+' : '') + pc.toFixed(2) + '%)';
+                                pctChangeElem.className = 'text-sm font-medium ' + (pc >= 0 ? 'text-success' : 'text-error');
+                            }
+                        }
+                    });
+                }
+            }
+        } catch (error) {
+            console.debug('Price refresh error:', error);
+        } finally {
+            // Schedule next refresh only after current one completes (Recursive Fetching)
+            setTimeout(refreshDashboardPrices, 500);
         }
     }
 
-    destroy() {
-        if (this.checkInterval) {
-            clearInterval(this.checkInterval);
+    async function updateTradingLots(newValue) {
+        try {
+            const response = await fetch('/api/settings/lots', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ lots: newValue })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Trading lots updated:', data);
+                // Optional: Show a toast/notification
+            } else {
+                console.error('Failed to update lots:', data.error);
+                alert('Error updating lots: ' + data.error);
+                // Revert input value if possible (requires reference)
+            }
+        } catch (error) {
+            console.error('Error in request:', error);
+            alert('Failed to connect to server');
         }
     }
-}
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.masterContractStatus = new MasterContractStatus();
-});
+    // Data-Level Auto-Refresh (Recursive Fetch)
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('Starting dashboard auto-refresh...');
+        refreshDashboardPrices();
+    });
 
-// Cleanup on page unload
-window.addEventListener('beforeunload', () => {
-    if (window.masterContractStatus) {
-        window.masterContractStatus.destroy();
-    }
-});
 </script>
 {% endblock %}

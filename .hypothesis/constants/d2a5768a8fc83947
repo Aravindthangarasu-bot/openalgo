@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/websocket_proxy/app_integration.py
+# hypothesis_version: 6.148.8
+
+[3.0, '1', '127.0.0.1', '8765', 'FLASK_DEBUG', 'SIGINT', 'SIGTERM', 'WEBSOCKET_HOST', 'WEBSOCKET_PORT', 'WERKZEUG_RUN_MAIN', 'Windows', 'context', 'server', 'socket', 'true']

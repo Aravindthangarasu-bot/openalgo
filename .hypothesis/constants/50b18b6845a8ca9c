@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/upstox/streaming/MarketDataFeedV3_pb2.py
+# hypothesis_version: 6.148.8
+
+[b'8\x01', 129, 131, 218, 220, 298, 300, 363, 365, 451, 453, 558, 561, 959, 962, 1121, 1124, 1313, 1316, 1596, 1599, 1942, 1945, 2059, 2171, 2174, 2439, 2535, 2537, 2593, 2595, 2664, 2666, 2789, 'MarketDataFeedV3_pb2']

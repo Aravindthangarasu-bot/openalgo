@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/settings_db.py
+# hypothesis_version: 6.148.8
+
+[100, 255, 3600, '404_ban_duration', '404_threshold', 'API_KEY_PEPPER', 'DATABASE_URL', 'Settings DB', 'analyze_mode', 'api_ban_duration', 'api_threshold', 'check_same_thread', 'default-pepper-key', 'security_settings', 'settings', 'smtp_from_email', 'smtp_helo_hostname', 'smtp_password', 'smtp_port', 'smtp_server', 'smtp_use_tls', 'smtp_username', 'sqlite']

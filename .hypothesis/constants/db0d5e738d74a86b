@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/analyzer_db.py
+# hypothesis_version: 6.148.8
+
+[100, 'Analyzer DB', 'Asia/Kolkata', 'DATABASE_URL', 'analyzer_logs', 'api_type', 'check_same_thread', 'created_at', 'id', 'placeorder', 'request_data', 'response_data', 'sqlite']

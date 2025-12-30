@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/tradejini/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+[200, 'Authorization', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Bearer', 'Content-Type', 'REDIRECT_URI', 'access_token', 'authorization_code', 'client_id', 'client_secret', 'code', 'general', 'grant_type', 'message', 'password', 'random_state', 'redirect_uri', 'response_type', 'scope', 'state', 'token_type', 'totp', 'twoFa', 'twoFaTyp']

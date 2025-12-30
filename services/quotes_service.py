@@ -1,7 +1,7 @@
 import importlib
 import traceback
 from typing import Tuple, Dict, Any, Optional, Union, List
-from database.auth_db import get_auth_token_broker
+from database.auth_db import get_auth_token_broker, invalidate_broker_token_cache
 from database.token_db import get_token
 from utils.constants import VALID_EXCHANGES
 from utils.logging import get_logger
@@ -194,7 +194,21 @@ def get_quotes(
                 'status': 'error',
                 'message': 'Invalid openalgo apikey'
             }, 403
-        return get_quotes_with_auth(AUTH_TOKEN, FEED_TOKEN, broker_name, symbol, exchange)
+        if AUTH_TOKEN is None:
+            return False, {
+                'status': 'error',
+                'message': 'Invalid openalgo apikey'
+            }, 403
+            
+        success, response, status_code = get_quotes_with_auth(AUTH_TOKEN, FEED_TOKEN, broker_name, symbol, exchange)
+        
+        # Check for invalid token error and invalidate cache
+        error_msg = response.get('message', '')
+        if not success and ('Invalid Token' in error_msg or 'Authentication failed' in error_msg):
+            logger.warning(f"Invalid Token detected (quotes): '{error_msg}', clearing cache for API key")
+            invalidate_broker_token_cache(api_key)
+            
+        return success, response, status_code
     
     # Case 2: Direct internal call with auth_token and broker
     elif auth_token and broker:
@@ -358,7 +372,21 @@ def get_multiquotes(
                 'status': 'error',
                 'message': 'Invalid openalgo apikey'
             }, 403
-        return get_multiquotes_with_auth(AUTH_TOKEN, FEED_TOKEN, broker_name, symbols)
+        if AUTH_TOKEN is None:
+            return False, {
+                'status': 'error',
+                'message': 'Invalid openalgo apikey'
+            }, 403
+            
+        success, response, status_code = get_multiquotes_with_auth(AUTH_TOKEN, FEED_TOKEN, broker_name, symbols)
+        
+        # Check for invalid token error and invalidate cache
+        error_msg = response.get('message', '')
+        if not success and ('Invalid Token' in error_msg or 'Authentication failed' in error_msg):
+            logger.warning(f"Invalid Token detected (multiquotes): '{error_msg}', clearing cache for API key")
+            invalidate_broker_token_cache(api_key)
+            
+        return success, response, status_code
 
     # Case 2: Direct internal call with auth_token and broker
     elif auth_token and broker:

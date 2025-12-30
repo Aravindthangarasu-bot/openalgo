@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/master_contract_status_db.py
+# hypothesis_version: 6.148.8
+
+[100, '0', 'DATABASE_URL', 'No status available', 'broker', 'check_same_thread', 'error', 'is_ready', 'last_updated', 'message', 'pending', 'sqlite', 'sqlite:///', 'status', 'success', 'timeout', 'total_symbols', 'unknown']

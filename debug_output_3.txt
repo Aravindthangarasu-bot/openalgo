@@ -1,0 +1,298 @@
+[2025-12-30 11:19:28,104] INFO in position_monitor_service: Position Monitor Service initialized
+[2025-12-30 11:19:28,151] INFO in position_monitor_service:    ⚠️ No Active SL Order found for NIFTY30DEC2525800CE. Open Orders: []
+[2025-12-30 11:19:28,151] INFO in position_monitor_service: ♻️ Restored 1 active positions from Sandbox DB.
+[2025-12-30 11:19:28,764] INFO in aes: libssl detected, it will be used for encryption
+[2025-12-30 11:19:30,246] INFO in app: Telegram Signal Listener started in background
+[2025-12-30 11:19:30,247] INFO in mtprotosender: Connecting to 91.108.56.156:443/TcpFull...
+[2025-12-30 11:19:30,254] INFO in price_monitor_service: Price Monitor Service initialized
+[2025-12-30 11:19:30,255] INFO in app: Price Monitor Service started - Trailing SL active
+[2025-12-30 11:19:30,256] INFO in price_monitor_service: 🔄 Price monitoring started - Polling every 0.5 seconds
+[2025-12-30 11:19:30,257] INFO in price_monitor_service: 🔄 Loop Tick: 1 positions active
+[2025-12-30 11:19:30,301] INFO in mtprotosender: Connection to 91.108.56.156:443/TcpFull complete!
+[2025-12-30 11:19:30,573] INFO in httpx_client: Running in integrated mode - HTTP/2 enabled for optimal performance
+[2025-12-30 11:19:30,575] INFO in httpx_client: Created HTTP client with automatic protocol negotiation (HTTP/2 preferred, HTTP/1.1 fallback)
+[2025-12-30 11:19:30,952] INFO in price_monitor_service: 🧐 CHECKING: ID=SANDBOX_14 Sym=NIFTY30DEC2525800CE LTP=129.2 SL=120.73500000000001 TGT=0.0 Act=BUY
+[2025-12-30 11:19:30,953] INFO in telegram_listener_service: Connected as: iAravind
+[2025-12-30 11:19:30,954] INFO in telegram_listener_service: Resolving names for channels: [-1001660412826, -1001731153231, -1001956175266, -1003525495843]
+[2025-12-30 11:19:31,118] INFO in telegram_listener_service: Resolved channel -1001660412826 to 'Premium 🏆'
+[2025-12-30 11:19:31,302] INFO in telegram_listener_service: Resolved channel -1001731153231 to 'AMAZING PREMIUM'
+[2025-12-30 11:19:31,421] INFO in telegram_listener_service: Resolved channel -1001956175266 to 'KRISHNA BANKNIFTY'
+[2025-12-30 11:19:31,763] INFO in telegram_listener_service: Resolved channel -1003525495843 to 'Test channel 1'
+[2025-12-30 11:19:31,765] INFO in telegram_listener_service: Fetching history since 2025-12-30 00:00:00+00:00...
+[2025-12-30 11:19:31,767] INFO in telegram_listener_service: Fetching history for -1001660412826...
+[2025-12-30 11:19:34,610] INFO in telegram_listener_service: Found 112 messages for -1001660412826
+[2025-12-30 11:19:34,802] INFO in signal_classifier: Loaded 5008 symbols from CSV
+[2025-12-30 11:19:35,101] INFO in signal_classifier: DEBUG EXTRACT: Processing text: "✅ **FOLLOW RULES **✅\n\n**CE**- CALL OPTION \n\n**PE**- PUT OPTION\n\n**CMP**- CURRENT MARKET PRICE\n\n**CTC**- COST TO COST\n\n**SL**\xa0\xa0 - STOP LOSS\n\n**TGT**- TARGET\n\nABOVE- JO PRISE ME BUY KARNE KO KAHA HE USME HI BUY KARNA. DON'T ADVANCE ORDER.\n\n1.SMART ( SAFE )TRADER PROFIT BOOK FIRST TARGET.\n\n2.FIRST TARGET DONE SL CTC.\n\n3.SECOND TARGET DONE SL FIRST TARGET.\n\n4.THIRD TARGET DONE SL SECOND TARGET.\n\n**EXAMPLE :- **\n\n**BUY BANKNIFTY 40900 CE\n\nABOVE :- 265\n\nSL :** **235\n\nTARGET :-385/405/420+**\n\nTHIS TRADE CMP 220 CHAL RAHA HE JAB TAK 265 NA HO TAB TAK BUY (ENTRY) NAHI KARNA HE.\n\nSL HIT HOTE HI SABKO EXIT KAR DENA HE.\n\n**NEW TRADER FISRT TARGET DONE HOTE HI PROFIT BOOK KAR LENA.** **(👈IMPORTANT)**\n\n⚡**RISK MANAGEMENT BY LOT SIZE⚡\n\nCAPITAL\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 LOT SIZE\n10k\xa0\xa0 To\xa0 25k\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 (1 LOT)\n25k\xa0\xa0 To\xa0 50k\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 (2 LOT)\n50k\xa0\xa0 To\xa0 75k\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 (3 LOT)\n75k\xa0\xa0\xa0 To 100k\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 (4 LOT) \n100k\xa0 To 150k\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 (6 LOT)\n\n💫SUCCESS MANTRA💫\n\nDAILY 2K MINS\n\n22 x 2000 = 44000\n\n1 MONTH DAILY 2K =44000\n2 MONTHS DAILY 3K =66000\n3 MONTHS DAILY 4K =88000\n\nAFTER THEN INCREASE U R QUANTITY & CONFIDENCE..👍\n\nFOLLOW THIS RULES AND ALWAYS IF U WANT TO BE PROFITABLE 🙏**\n\n**__PLEASE READ THIS RULES DON'T INGNOR ...__**"
+[2025-12-30 11:19:35,148] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'action': 'BUY', 'symbol': 'BANKNIFTY', 'strike': '40900', 'option_type': 'CE', 'expiry': 'MAR', 'price': '1', 'condition': 'above', 'targets': ['385'], 'tgt': '385.0'}
+[2025-12-30 11:19:35,204] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**EXAMPLE - \n\nBUY BANKNIFTY 43500 CE \n\nABOVE:-100\n\nSL:-70\n\nTARGET:- 120/ 140/ 160+\n\nRULES 👉 \n\nAbove 100 का मतलब है जब तक प्राइज\xa0 101 कॉ क्रॉस ना करे तब तक एंट्री नहीं लेनी है।कुछ\xa0 ट्रेडर 100 के पहले ही एंट्री बना लेते है।\n\n👉अगर हमारा फर्स्ट टारगेट मिल जाता है तो सेफ ट्रेडर अपने स्टॉपलॉस को जिस प्राइस पर BUY किया है वहा पर रखे।\n\n👉ऑप्शन ट्रेडिंग में मूवमेंट ज्यादा होती है।कभी कभी जैसे 120 का टारगेट होता है तो प्राइस 118 **/119** या टारगेट प्राइस के नजदीक हो तो भी प्रॉफिट बुक करे।\n\n👉बहुत ट्रेडर स्टॉपलॉस प्राइस पर ट्रेड को EXIT नही करते।जैसे स्टॉपलॉस हिट होता है तुरंत ट्रेड में लॉस बुक करके निकल जाए।\n\n👉ट्रेडिंग में मूवमेंट फास्ट होती है इस लिए BUY / SELL करने में ज्यादा स्पीड की जरूरत होती है।\n\nजब आपको Add watchlist कहा जाए तब वोह स्ट्राइक\xa0 अपने watchlist में जोड़े जिससे आप\xa0 तुरंत BUY कर सके।**'
+[2025-12-30 11:19:35,246] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'action': 'BUY', 'symbol': 'BANKNIFTY', 'strike': '43500', 'option_type': 'CE', 'price': '100', 'condition': 'above', 'sl': '70', 'stop_loss': '70', 'targets': ['120'], 'tgt': '120.0'}
+[2025-12-30 11:19:35,515] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25750 CE\n\nABOVE:- 168\n\nSL:- 155\n\nTARGET:- 178/188/205+**'
+[2025-12-30 11:19:35,566] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'NIFTY', 'strike': '25750', 'option_type': 'CE', 'price': '168', 'condition': 'above', 'sl': '155', 'stop_loss': '155', 'targets': ['178'], 'tgt': '178.0'}
+[2025-12-30 11:19:35,604] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 26000 PE\n\nABOVE:- 120\n\nSL:- 106\n\nTARGET:- 130/140/160+**'
+[2025-12-30 11:19:35,648] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'NIFTY', 'strike': '26000', 'option_type': 'PE', 'price': '120', 'condition': 'above', 'sl': '106', 'stop_loss': '106', 'targets': ['130'], 'tgt': '130.0'}
+[2025-12-30 11:19:35,704] INFO in signal_classifier: DEBUG EXTRACT: Processing text: 'FIRST TARGET DONE ✅ SAFE BOOK PROFIT OTHER TRAIL SL'
+[2025-12-30 11:19:35,749] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**SENSEX 84400 CE\n\nABOVE:- 370\n\nSL:- 340\n\nTARGET:- 390/410/450+**'
+[2025-12-30 11:19:35,785] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'SENSEX', 'strike': '84400', 'option_type': 'CE', 'price': '370', 'condition': 'above', 'sl': '340', 'stop_loss': '340', 'targets': ['390'], 'tgt': '390.0'}
+[2025-12-30 11:19:35,838] INFO in signal_classifier: DEBUG EXTRACT: Processing text: 'SECOND TARGET DONE ✅ SAFE BOOK PROFIT OTHER TRAIL SL'
+[2025-12-30 11:19:35,882] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**SENSEX 84500 CE\n\nABOVE:- 370\n\nSL:- 340\n\nTARGET:- 390/410/450+**'
+[2025-12-30 11:19:35,924] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'SENSEX', 'strike': '84500', 'option_type': 'CE', 'price': '370', 'condition': 'above', 'sl': '340', 'stop_loss': '340', 'targets': ['390'], 'tgt': '390.0'}
+[2025-12-30 11:19:35,981] INFO in signal_classifier: DEBUG EXTRACT: Processing text: 'SECOND TARGET DONE ✅ SAFE BOOK PROFIT OTHER TRAIL SL'
+[2025-12-30 11:19:36,007] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**SENSEX 84800 PE\n\nABOVE:- 330\n\nSL:- 300\n\nTARGET:- 350/370/410+**'
+[2025-12-30 11:19:36,050] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'SENSEX', 'strike': '84800', 'option_type': 'PE', 'price': '330', 'condition': 'above', 'sl': '300', 'stop_loss': '300', 'targets': ['350'], 'tgt': '350.0'}
+[2025-12-30 11:19:36,108] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**SENSEX 84600 CE\n\nABOVE:- 360\n\nSL:- 330\n\nTARGET:- 380/400/440+**'
+[2025-12-30 11:19:36,146] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'SENSEX', 'strike': '84600', 'option_type': 'CE', 'price': '360', 'condition': 'above', 'sl': '330', 'stop_loss': '330', 'targets': ['380'], 'tgt': '380.0'}
+[2025-12-30 11:19:36,197] INFO in signal_classifier: DEBUG EXTRACT: Processing text: 'FIRST TARGET DONE ✅ SAFE BOOK PROFIT OTHER TRAIL SL'
+[2025-12-30 11:19:36,237] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**HEROMOTOCO 5650 CE\n\nABOVE:- 48\n\nSL:- 42\n\nTARGET:- 52/57/63+**'
+[2025-12-30 11:19:36,267] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'HEROMOTOCO', 'strike': '5650', 'option_type': 'CE', 'price': '48', 'condition': 'above', 'sl': '42', 'stop_loss': '42', 'targets': ['52'], 'tgt': '52.0'}
+[2025-12-30 11:19:36,324] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**BAJAJAUTO  9200 PE\n\nABOVE:- 68\n\nSL:- 62\n\nTARGET:- 72/76/82+**'
+[2025-12-30 11:19:36,368] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'BAJAJAUTO', 'strike': '9200', 'option_type': 'PE', 'price': '68', 'condition': 'above', 'sl': '62', 'stop_loss': '62', 'targets': ['72'], 'tgt': '72.0'}
+[2025-12-30 11:19:36,425] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**MARUTI 16600 CE\n\nABOVE:- 47\n\nSL:- 41\n\nTARGET:- 50/54/60+**'
+[2025-12-30 11:19:36,468] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'MARUTI', 'strike': '16600', 'option_type': 'CE', 'expiry': 'MAR', 'price': '47', 'condition': 'above', 'sl': '41', 'stop_loss': '41', 'targets': ['50'], 'tgt': '50.0'}
+[2025-12-30 11:19:36,516] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**BANKNIFTY 58800 CE\n\nABOVE:- 260\n\nSL:- 230\n\nTARGET:- 275/295/320+**'
+[2025-12-30 11:19:36,561] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'BANKNIFTY', 'strike': '58800', 'option_type': 'CE', 'price': '260', 'condition': 'above', 'sl': '230', 'stop_loss': '230', 'targets': ['275'], 'tgt': '275.0'}
+[2025-12-30 11:19:36,617] INFO in signal_classifier: DEBUG EXTRACT: Processing text: 'SECOND TARGET DONE ✅ SAFE BOOK PROFIT OTHER TRAIL SL'
+[2025-12-30 11:19:36,662] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**BANKNIFTY 59100 PE\n\nABOVE:- 220\n\nSL:- 200\n\nTARGET:- 235/255/280+**'
+[2025-12-30 11:19:36,705] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Premium 🏆: {'symbol': 'BANKNIFTY', 'strike': '59100', 'option_type': 'PE', 'price': '220', 'condition': 'above', 'sl': '200', 'stop_loss': '200', 'targets': ['235'], 'tgt': '235.0'}
+[2025-12-30 11:19:36,754] INFO in execution_engine: Processing 3 pending orders
+[2025-12-30 11:19:36,757] INFO in data: Requesting quotes for 3 instruments across 2 exchanges
+[2025-12-30 11:19:36,759] INFO in squareoff_thread:   Auto-Reset: Disabled (reset_day = Never)
+
+[94m🔄[0m Configuration version check passed ([92m1.0.5[0m)
+
+╭─── OpenAlgo v1.0.0.41 ─────────────────────────────╮
+│                                                    │
+│        Your Personal Algo Trading Platform         │
+│                                                    │
+│ Endpoints                                          │
+│ Web App    http://127.0.0.1:5001                   │
+│ WebSocket  ws://127.0.0.1:8765                     │
+│ Docs       https://docs.openalgo.in                │
+│                                                    │
+│ Status     Ready                                   │
+│                                                    │
+╰────────────────────────────────────────────────────╯
+
+ * Serving Flask app 'app'
+ * Debug mode: off
+[2025-12-30 11:19:36,989] INFO in execution_engine: Multiquotes fetched 3/3 symbols successfully
+[2025-12-30 11:19:36,992] INFO in execution_engine: Processed 3 orders
+[2025-12-30 11:19:37,237] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:37,309] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:37,309] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:34', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 30500, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 200, 'orders': 2}, {'price': 224.4, 'quantity': 1400, 'orders': 5}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 200, 'orders': 2}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}, {'price': 225.6, 'quantity': 1000, 'orders': 3}]}}
+[2025-12-30 11:19:37,310] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:37,324] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:37,324] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:37,324] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:37,748] INFO in telegram_listener_service: Fetching history for -1001731153231...
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:38,369] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:38,427] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:38,427] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:34', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 30500, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 200, 'orders': 2}, {'price': 224.4, 'quantity': 1400, 'orders': 5}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 200, 'orders': 2}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}, {'price': 225.6, 'quantity': 1000, 'orders': 3}]}}
+[2025-12-30 11:19:38,428] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:38,437] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:38,438] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:38,438] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:38,821] INFO in telegram_listener_service: Found 13 messages for -1001731153231
+[2025-12-30 11:19:38,823] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**New call \n\nJACKPOT\xa0\xa0 DECEMBER Series \n\n\n✅.\xa0 BANKNIFTY\xa0\xa0 59300\xa0Pe\n\nOnly above\xa0 370-390\n\nTarget- --410-420-430-440 450-460-470-480-490-500\n\n🛑🛑🛑🌀🌀🌀🌀🌀🌀🌀🌀🌀💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯💯😊😊😊😊😊🛑🛑\n\n\nPaper trade+\n\nS-L Only premium Group**'
+[2025-12-30 11:19:38,824] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from AMAZING PREMIUM: {'symbol': 'BANKNIFTY', 'strike': '59300', 'option_type': 'CE', 'expiry': 'DEC', 'price': '370', 'condition': 'above', 'targets': ['410'], 'tgt': '410.0'}
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:39,476] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:39,536] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:39,536] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:34', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 30500, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 200, 'orders': 2}, {'price': 224.4, 'quantity': 1400, 'orders': 5}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 200, 'orders': 2}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}, {'price': 225.6, 'quantity': 1000, 'orders': 3}]}}
+[2025-12-30 11:19:39,537] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:39,546] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:39,547] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:39,547] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:39,829] INFO in telegram_listener_service: Fetching history for -1001956175266...
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:40,581] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:40,640] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:40,640] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:34', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 30500, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 200, 'orders': 2}, {'price': 224.4, 'quantity': 1400, 'orders': 5}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 200, 'orders': 2}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}, {'price': 225.6, 'quantity': 1000, 'orders': 3}]}}
+[2025-12-30 11:19:40,640] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:40,647] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:40,647] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:40,647] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:40,916] INFO in telegram_listener_service: Found 22 messages for -1001956175266
+[2025-12-30 11:19:40,923] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**🥳BIGGEST\xa050% DISCOUNT OFFER🥳\n\n🔥🔥... SUPER DHAMAKA OFFER AVAILABLE...🔥🔥\n\n🪅 ABHI TK KA SBSE BDA OFFER 🔍\n\n01 MONTH NOW\xa0 👉\xa0 2,000/-\n\n🚀LIFETIME NOW 👉 2,500/-\n\n💪 BANKNIFTY & NIFTY & SENSEX 🦾\n\nPerfect Entry / Perfect Exit Result 101% \n\nYour one day loss is equal to our\xa0month charges .🧠🦾😎\n\n📖 Learning & Earning📚🤑🤑\n\n😊 Join our smart service today😍 🙏🏻\n\nPayment link 👇👇🤳\n**https://cosmofeed.com/vig/6475c99eb06e8f0020433e5f**\n\nTelegram pin👉 **@Vijay0050'
+[2025-12-30 11:19:40,924] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from KRISHNA BANKNIFTY: {'symbol': 'BANKNIFTY', 'strike': '000', 'price': '101', 'targets': ['50'], 'tgt': '50.0'}
+[2025-12-30 11:19:40,924] INFO in signal_classifier: DEBUG EXTRACT: Processing text: 'NIFTY 26000 PE\n\nABOVE 115\n\nSL 100\n\nTGT 130/150/170+++++'
+[2025-12-30 11:19:40,925] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from KRISHNA BANKNIFTY: {'symbol': 'NIFTY', 'strike': '26000', 'option_type': 'PE', 'price': '115', 'condition': 'above', 'sl': '100', 'stop_loss': '100', 'targets': ['130'], 'tgt': '130.0'}
+[2025-12-30 11:19:40,926] INFO in signal_classifier: DEBUG EXTRACT: Processing text: 'NIFTY 26000 PE\n\nABOVE 85\n\nSL 70\n\nTGT 130/150/170+++++'
+[2025-12-30 11:19:40,926] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from KRISHNA BANKNIFTY: {'symbol': 'NIFTY', 'strike': '26000', 'option_type': 'PE', 'price': '85', 'condition': 'above', 'sl': '70', 'stop_loss': '70', 'targets': ['130'], 'tgt': '130.0'}
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:41,691] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:41,767] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:41,768] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:34', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 30500, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 200, 'orders': 2}, {'price': 224.4, 'quantity': 1400, 'orders': 5}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 200, 'orders': 2}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}, {'price': 225.6, 'quantity': 1000, 'orders': 3}]}}
+[2025-12-30 11:19:41,768] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:41,779] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:41,779] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:41,779] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:41,928] INFO in telegram_listener_service: Fetching history for -1003525495843...
+[2025-12-30 11:19:42,010] INFO in telegram_listener_service: Found 16 messages for -1003525495843
+[2025-12-30 11:19:42,011] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25950 PE\n\nABOVE:- 60\n\nSL:- 30\n\nTARGET:- 80/90/100+**'
+[2025-12-30 11:19:42,012] INFO in execution_engine: Processing 3 pending orders
+[2025-12-30 11:19:42,012] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25950', 'option_type': 'PE', 'price': '60', 'condition': 'above', 'sl': '30', 'stop_loss': '30', 'targets': ['80'], 'tgt': '80.0'}
+[2025-12-30 11:19:42,013] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25950 CE\n\nABOVE:- 50\n\nSL:- 30\n\nTARGET:- 51/52/53+**'
+[2025-12-30 11:19:42,014] INFO in data: Requesting quotes for 3 instruments across 2 exchanges
+[2025-12-30 11:19:42,014] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25950', 'option_type': 'CE', 'price': '50', 'condition': 'above', 'sl': '30', 'stop_loss': '30', 'targets': ['51'], 'tgt': '51.0'}
+[2025-12-30 11:19:42,016] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25950 CE\n\nABOVE:- 50\n\nSL:- 30\n\nTARGET:- 51/52/53+**'
+[2025-12-30 11:19:42,016] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25950', 'option_type': 'CE', 'price': '50', 'condition': 'above', 'sl': '30', 'stop_loss': '30', 'targets': ['51'], 'tgt': '51.0'}
+[2025-12-30 11:19:42,017] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25950 CE\n\nABOVE:- 50\n\nSL:- 30\n\nTARGET:- 51/52/53+**'
+[2025-12-30 11:19:42,017] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25950', 'option_type': 'CE', 'price': '50', 'condition': 'above', 'sl': '30', 'stop_loss': '30', 'targets': ['51'], 'tgt': '51.0'}
+[2025-12-30 11:19:42,018] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25950 CE\n\nABOVE:- 50\n\nSL:- 30\n\nTARGET:- 51/52/53+**'
+[2025-12-30 11:19:42,018] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25950', 'option_type': 'CE', 'price': '50', 'condition': 'above', 'sl': '30', 'stop_loss': '30', 'targets': ['51'], 'tgt': '51.0'}
+[2025-12-30 11:19:42,019] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25950 CE\n\nABOVE:- 45\n\nSL:- 30\n\nTARGET:- 51/52/53+**'
+[2025-12-30 11:19:42,019] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25950', 'option_type': 'CE', 'price': '45', 'condition': 'above', 'sl': '30', 'stop_loss': '30', 'targets': ['51'], 'tgt': '51.0'}
+[2025-12-30 11:19:42,019] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25950 CE\n\nABOVE:- 40\n\nSL:- 39\n\nTARGET:- 51/52/53+**'
+[2025-12-30 11:19:42,020] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25950', 'option_type': 'CE', 'price': '40', 'condition': 'above', 'sl': '39', 'stop_loss': '39', 'targets': ['51'], 'tgt': '51.0'}
+[2025-12-30 11:19:42,020] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25950 CE\n\nABOVE:- 34\n\nSL:- 32\n\nTARGET:- 51/52/53+**'
+[2025-12-30 11:19:42,020] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25950', 'option_type': 'CE', 'price': '34', 'condition': 'above', 'sl': '32', 'stop_loss': '32', 'targets': ['51'], 'tgt': '51.0'}
+[2025-12-30 11:19:42,021] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25900 CE\n\nABOVE:- 66\n\nSL:- 65\n\nTARGET:- 69/70/79+**'
+[2025-12-30 11:19:42,021] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25900', 'option_type': 'CE', 'price': '66', 'condition': 'above', 'sl': '65', 'stop_loss': '65', 'targets': ['69'], 'tgt': '69.0'}
+[2025-12-30 11:19:42,022] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25900 CE\n\nABOVE:- 63\n\nSL:- 62\n\nTARGET:- 69/70/79+**'
+[2025-12-30 11:19:42,022] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25900', 'option_type': 'CE', 'price': '63', 'condition': 'above', 'sl': '62', 'stop_loss': '62', 'targets': ['69'], 'tgt': '69.0'}
+[2025-12-30 11:19:42,022] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25900 CE\n\nABOVE:- 61\n\nSL:- 60\n\nTARGET:- 69/70/79+**'
+[2025-12-30 11:19:42,023] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25900', 'option_type': 'CE', 'price': '61', 'condition': 'above', 'sl': '60', 'stop_loss': '60', 'targets': ['69'], 'tgt': '69.0'}
+[2025-12-30 11:19:42,023] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25850 CE\n\nABOVE:- 92\n\nSL:- 90\n\nTARGET:- 93/94/95+**'
+[2025-12-30 11:19:42,024] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25850', 'option_type': 'CE', 'price': '92', 'condition': 'above', 'sl': '90', 'stop_loss': '90', 'targets': ['93'], 'tgt': '93.0'}
+[2025-12-30 11:19:42,024] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25850 CE\n\nABOVE:- 92\n\nSL:- 90\n\nTARGET:- 93/94/95+**'
+[2025-12-30 11:19:42,024] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25850', 'option_type': 'CE', 'price': '92', 'condition': 'above', 'sl': '90', 'stop_loss': '90', 'targets': ['93'], 'tgt': '93.0'}
+[2025-12-30 11:19:42,025] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25850 CE\n\nABOVE:- 92\n\nSL:- 90\n\nTARGET:- 93/94/95+**'
+[2025-12-30 11:19:42,025] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25850', 'option_type': 'CE', 'price': '92', 'condition': 'above', 'sl': '90', 'stop_loss': '90', 'targets': ['93'], 'tgt': '93.0'}
+[2025-12-30 11:19:42,026] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25850 CE\n\nABOVE:- 87\n\nSL:- 86\n\nTARGET:- 93/94/95+**'
+[2025-12-30 11:19:42,026] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25850', 'option_type': 'CE', 'price': '87', 'condition': 'above', 'sl': '86', 'stop_loss': '86', 'targets': ['93'], 'tgt': '93.0'}
+[2025-12-30 11:19:42,026] INFO in signal_classifier: DEBUG EXTRACT: Processing text: '**NIFTY 25800 CE\n\nABOVE:- 133\n\nSL:- 130\n\nTARGET:- 135/136/137+**'
+[2025-12-30 11:19:42,027] INFO in telegram_listener_service: CLASSIFIER SIGNAL (confidence: 1.00) from Test channel 1: {'symbol': 'NIFTY', 'strike': '25800', 'option_type': 'CE', 'price': '133', 'condition': 'above', 'sl': '130', 'stop_loss': '130', 'targets': ['135'], 'tgt': '135.0'}
+[2025-12-30 11:19:42,231] INFO in execution_engine: Multiquotes fetched 3/3 symbols successfully
+[2025-12-30 11:19:42,234] INFO in execution_engine: Processed 3 orders
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:42,821] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:42,888] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:42,888] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:42', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 28900, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 100, 'orders': 1}, {'price': 224.4, 'quantity': 800, 'orders': 3}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 300, 'orders': 3}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.2, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}]}}
+[2025-12-30 11:19:42,889] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:42,898] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:42,898] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:42,898] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:43,957] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:44,016] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:44,016] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:42', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 28900, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 100, 'orders': 1}, {'price': 224.4, 'quantity': 800, 'orders': 3}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 300, 'orders': 3}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.2, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}]}}
+[2025-12-30 11:19:44,016] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:44,023] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:44,023] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:44,023] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:45,056] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:45,124] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:45,124] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:42', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 28900, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 100, 'orders': 1}, {'price': 224.4, 'quantity': 800, 'orders': 3}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 300, 'orders': 3}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.2, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}]}}
+[2025-12-30 11:19:45,125] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:45,131] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:45,132] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:45,132] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:46,167] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:46,254] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:46,254] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:45', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 28800, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.4, 'quantity': 100, 'orders': 1}, {'price': 224.3, 'quantity': 200, 'orders': 2}, {'price': 224.2, 'quantity': 200, 'orders': 2}, {'price': 224.1, 'quantity': 1100, 'orders': 6}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.2, 'quantity': 400, 'orders': 2}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}]}}
+[2025-12-30 11:19:46,255] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:46,262] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:46,262] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:46,262] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:47,257] INFO in execution_engine: Processing 3 pending orders
+[2025-12-30 11:19:47,258] INFO in data: Requesting quotes for 3 instruments across 2 exchanges
+[2025-12-30 11:19:47,309] INFO in execution_engine: Multiquotes fetched 3/3 symbols successfully
+[2025-12-30 11:19:47,310] INFO in execution_engine: Processed 3 orders
+[2025-12-30 11:19:47,316] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:47,471] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:47,471] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:45', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 28800, 'totSellQuan': 47500, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.4, 'quantity': 100, 'orders': 1}, {'price': 224.3, 'quantity': 200, 'orders': 2}, {'price': 224.2, 'quantity': 200, 'orders': 2}, {'price': 224.1, 'quantity': 1100, 'orders': 6}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.2, 'quantity': 400, 'orders': 2}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}]}}
+[2025-12-30 11:19:47,471] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:47,478] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:47,478] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:47,478] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:48,510] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:48,572] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:48,572] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:47', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 30400, 'totSellQuan': 47400, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 100, 'orders': 1}, {'price': 224.4, 'quantity': 900, 'orders': 4}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 300, 'orders': 3}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.2, 'quantity': 400, 'orders': 2}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}, {'price': 225.6, 'quantity': 1400, 'orders': 3}]}}
+[2025-12-30 11:19:48,573] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:48,582] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:48,582] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:48,582] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:49,617] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:49,678] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:49,678] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:48', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 30400, 'totSellQuan': 47600, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.4, 'quantity': 1500, 'orders': 6}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 300, 'orders': 3}, {'price': 224.1, 'quantity': 1200, 'orders': 7}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.2, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}]}}
+[2025-12-30 11:19:49,679] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:49,688] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:49,689] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:49,689] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:50,723] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:50,784] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:50,784] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 900, 'exchFeedTime': '30-Dec-2025 11:19:48', 'exchTradeTime': '30-Dec-2025 11:19:14', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.94, 'tradeVolume': 740, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 30400, 'totSellQuan': 47600, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.4, 'quantity': 1500, 'orders': 6}, {'price': 224.3, 'quantity': 100, 'orders': 1}, {'price': 224.2, 'quantity': 300, 'orders': 3}, {'price': 224.1, 'quantity': 1200, 'orders': 7}], 'sell': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 225.2, 'quantity': 100, 'orders': 1}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}, {'price': 225.5, 'quantity': 100, 'orders': 1}]}}
+[2025-12-30 11:19:50,785] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:50,796] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:50,797] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:50,797] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:51,829] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:51,888] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:51,889] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 100, 'exchFeedTime': '30-Dec-2025 11:19:50', 'exchTradeTime': '30-Dec-2025 11:19:50', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.95, 'tradeVolume': 741, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 25600, 'totSellQuan': 46200, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 224.8, 'quantity': 200, 'orders': 2}, {'price': 224.7, 'quantity': 400, 'orders': 2}, {'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 300, 'orders': 2}], 'sell': [{'price': 225.7, 'quantity': 100, 'orders': 1}, {'price': 225.8, 'quantity': 100, 'orders': 1}, {'price': 225.9, 'quantity': 100, 'orders': 1}, {'price': 226.0, 'quantity': 400, 'orders': 4}, {'price': 226.1, 'quantity': 300, 'orders': 2}]}}
+[2025-12-30 11:19:51,889] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:51,897] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:51,897] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:51,898] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:52,336] INFO in execution_engine: Processing 3 pending orders
+[2025-12-30 11:19:52,338] INFO in data: Requesting quotes for 3 instruments across 2 exchanges
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:52,420] INFO in execution_engine: Multiquotes fetched 3/3 symbols successfully
+[2025-12-30 11:19:52,423] INFO in execution_engine: Processed 3 orders
+[2025-12-30 11:19:52,928] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:52,987] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:52,987] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 100, 'exchFeedTime': '30-Dec-2025 11:19:51', 'exchTradeTime': '30-Dec-2025 11:19:50', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.95, 'tradeVolume': 741, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 27000, 'totSellQuan': 48600, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.9, 'quantity': 100, 'orders': 1}, {'price': 224.8, 'quantity': 100, 'orders': 1}, {'price': 224.7, 'quantity': 300, 'orders': 3}, {'price': 224.6, 'quantity': 300, 'orders': 2}, {'price': 224.5, 'quantity': 200, 'orders': 1}], 'sell': [{'price': 225.5, 'quantity': 100, 'orders': 1}, {'price': 225.6, 'quantity': 500, 'orders': 3}, {'price': 225.7, 'quantity': 200, 'orders': 2}, {'price': 225.8, 'quantity': 100, 'orders': 1}, {'price': 225.9, 'quantity': 200, 'orders': 2}]}}
+[2025-12-30 11:19:52,988] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:53,002] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:53,002] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:53,003] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:54,139] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:54,218] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:54,219] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 224.9, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 100, 'exchFeedTime': '30-Dec-2025 11:19:52', 'exchTradeTime': '30-Dec-2025 11:19:50', 'netChange': 7.7, 'percentChange': 3.55, 'avgPrice': 222.95, 'tradeVolume': 741, 'opnInterest': 373900, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 29700, 'totSellQuan': 48600, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.8, 'quantity': 200, 'orders': 2}, {'price': 224.7, 'quantity': 300, 'orders': 3}, {'price': 224.6, 'quantity': 400, 'orders': 3}, {'price': 224.5, 'quantity': 200, 'orders': 1}, {'price': 224.4, 'quantity': 1200, 'orders': 4}], 'sell': [{'price': 225.5, 'quantity': 100, 'orders': 1}, {'price': 225.6, 'quantity': 1500, 'orders': 7}, {'price': 225.7, 'quantity': 100, 'orders': 1}, {'price': 225.8, 'quantity': 100, 'orders': 1}, {'price': 225.9, 'quantity': 800, 'orders': 3}]}}
+[2025-12-30 11:19:54,222] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:54,269] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:54,270] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:54,271] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:55,329] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:55,398] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:55,399] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 225.8, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 100, 'exchFeedTime': '30-Dec-2025 11:19:54', 'exchTradeTime': '30-Dec-2025 11:19:53', 'netChange': 8.6, 'percentChange': 3.96, 'avgPrice': 222.96, 'tradeVolume': 745, 'opnInterest': 372800, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 30200, 'totSellQuan': 50000, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 225.0, 'quantity': 300, 'orders': 3}, {'price': 224.9, 'quantity': 200, 'orders': 2}, {'price': 224.8, 'quantity': 100, 'orders': 1}, {'price': 224.7, 'quantity': 800, 'orders': 3}, {'price': 224.6, 'quantity': 400, 'orders': 3}], 'sell': [{'price': 225.7, 'quantity': 100, 'orders': 1}, {'price': 225.8, 'quantity': 200, 'orders': 2}, {'price': 225.9, 'quantity': 300, 'orders': 3}, {'price': 226.0, 'quantity': 900, 'orders': 5}, {'price': 226.2, 'quantity': 700, 'orders': 2}]}}
+[2025-12-30 11:19:55,403] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:55,423] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:55,423] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:55,423] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200
+[2025-12-30 11:19:56,476] INFO in data: Requesting quotes for 14 instruments across 3 exchanges
+[2025-12-30 11:19:56,538] INFO in data: DEBUG: Found MCX keys in broker response: ['MCX:486508']
+[2025-12-30 11:19:56,539] INFO in data: DEBUG: Sample value for first MCX key: {'exchange': 'MCX', 'tradingSymbol': 'CRUDEOIL14JAN265100CE', 'symbolToken': '486508', 'ltp': 225.8, 'open': 219.7, 'high': 229.4, 'low': 218.1, 'close': 217.2, 'lastTradeQty': 100, 'exchFeedTime': '30-Dec-2025 11:19:55', 'exchTradeTime': '30-Dec-2025 11:19:53', 'netChange': 8.6, 'percentChange': 3.96, 'avgPrice': 222.96, 'tradeVolume': 745, 'opnInterest': 372800, 'lowerCircuit': 0.1, 'upperCircuit': 845.3, 'totBuyQuan': 29200, 'totSellQuan': 48300, '52WeekLow': 145.5, '52WeekHigh': 384.6, 'depth': {'buy': [{'price': 224.6, 'quantity': 100, 'orders': 1}, {'price': 224.1, 'quantity': 800, 'orders': 3}, {'price': 224.0, 'quantity': 400, 'orders': 3}, {'price': 223.9, 'quantity': 200, 'orders': 2}, {'price': 223.8, 'quantity': 300, 'orders': 2}], 'sell': [{'price': 225.0, 'quantity': 200, 'orders': 1}, {'price': 225.1, 'quantity': 100, 'orders': 1}, {'price': 225.2, 'quantity': 400, 'orders': 2}, {'price': 225.3, 'quantity': 100, 'orders': 1}, {'price': 225.4, 'quantity': 100, 'orders': 1}]}}
+[2025-12-30 11:19:56,540] INFO in position_manager: Positions MTM: Multiquotes fetched 14/14 symbols
+[2025-12-30 11:19:56,557] INFO in orders: Monitor Map Keys: [('NIFTY30DEC2525800CE', 'MIS', 'NFO'), ('NIFTY30DEC2525800CE', 'NFO')]
+[2025-12-30 11:19:56,558] INFO in orders: Position Match (Strict): ('NIFTY30DEC2525800CE', 'MIS', 'NFO')
+[2025-12-30 11:19:56,558] INFO in orders: Enriched NIFTY30DEC2525800CE: SL=120.73500000000001, TGT=0.0 (Keys: Strict=True, Relaxed=True)
+[REQUEST LOG] GET /api/positions - Status: 200
+[REQUEST LOG] GET /api/positions - Status: 200

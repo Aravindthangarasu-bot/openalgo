@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/sandbox_service.py
+# hypothesis_version: 6.148.8
+
+[200, 403, 500, 'BUY', 'Error getting funds', 'Failed to cancel', 'Invalid API key', 'MARKET', 'MIS', 'SELL', 'action', 'analyze', 'analyzer_update', 'api_type', 'apikey', 'canceled_orders', 'cancelorder', 'closed_positions', 'data', 'error', 'exchange', 'failed_cancellations', 'failed_closures', 'message', 'mode', 'modifyorder', 'open', 'order_id', 'order_status', 'orderid', 'orders', 'pending', 'placeorder', 'pnl', 'position_size', 'price', 'price_type', 'pricetype', 'product', 'product_type', 'quantity', 'request', 'response', 'scheduler_status', 'signal_data', 'status', 'strategy', 'success', 'symbol', 'targets', 'today_realized_pnl', 'total_pnl', 'total_pnl_today', 'total_unrealized_pnl', 'trigger_pending', 'trigger_price', 'unrealized_pnl']

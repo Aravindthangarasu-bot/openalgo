@@ -29,7 +29,9 @@ from database.sandbox_db import (
 from sandbox.fund_manager import FundManager, validate_margin_consistency, reconcile_margin
 from services.quotes_service import get_quotes, get_multiquotes
 from database.auth_db import get_auth_token_broker
+from services.position_monitor_service import position_monitor
 from utils.logging import get_logger
+import json
 
 logger = get_logger(__name__)
 
@@ -266,16 +268,14 @@ class ExecutionEngine:
 
             elif order.price_type == 'SL':
                 # Stop Loss Limit order
-                # SL BUY: When LTP >= trigger price, order activates. Execute at LTP if LTP <= limit price
-                # SL SELL: When LTP <= trigger price, order activates. Execute at LTP if LTP >= limit price
+                # Modified per User Request: Execute as Market Order once triggered (ignore limit price constraint)
+                # This ensures the order fills even if price gaps beyond the limit
                 if order.action == 'BUY' and ltp >= order.trigger_price:
-                    if ltp <= order.price:
-                        should_execute = True
-                        execution_price = ltp  # Execute at current market price (LTP)
+                    should_execute = True
+                    execution_price = ltp  # Execute at current market price
                 elif order.action == 'SELL' and ltp <= order.trigger_price:
-                    if ltp >= order.price:
-                        should_execute = True
-                        execution_price = ltp  # Execute at current market price (LTP)
+                    should_execute = True
+                    execution_price = ltp  # Execute at current market price
 
             elif order.price_type == 'SL-M':
                 # Stop Loss Market order
@@ -389,6 +389,27 @@ class ExecutionEngine:
                 )
                 db_session.add(position)
                 logger.info(f"Created new position: {order.symbol} {order.action} {order.quantity} (margin blocked: ₹{order_margin})")
+                
+                # Add to Position Monitor for Trailing
+                try:
+                    s_data_str = order.signal_data
+                    s_data = json.loads(s_data_str) if s_data_str else {}
+                    targets = s_data.get('targets', [])
+                    
+                    position_monitor.add_position(
+                        order_id=order.orderid,
+                        symbol=order.symbol,
+                        exchange=order.exchange,
+                        action=order.action,
+                        quantity=order.quantity,
+                        entry_price=float(execution_price),
+                        stop_loss=float(s_data.get('sl')) if s_data.get('sl') else (float(order.trigger_price) if order.trigger_price else 0.0),
+                        targets=[float(t) for t in targets],
+                        signal_data=s_data
+                    )
+                    logger.info(f"Added {order.orderid} to Position Monitor for trailing.")
+                except Exception as pm_e:
+                    logger.error(f"Failed to add to Position Monitor: {pm_e}")
 
             else:
                 # Update existing position (netting logic)

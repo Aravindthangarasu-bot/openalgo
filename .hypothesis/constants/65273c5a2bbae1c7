@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/websocket_proxy/mapping.py
+# hypothesis_version: 6.148.8
+
+['brexchange', 'symbol_mapper', 'token']

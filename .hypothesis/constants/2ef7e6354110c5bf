@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/ticker.py
+# hypothesis_version: 6.148.8
+
+[200, 365, 400, 403, 404, 500, '%H:%M:%S', '%Y-%m-%d', '/<string:symbol>', '10 per second', ':', 'API_RATE_LIMIT', 'Asia/Kolkata', 'D', 'M', 'NSE', 'NSE:RELIANCE', 'RELIANCE', 'W', '_json', 'adjusted', 'apikey', 'data', 'end_date', 'error', 'exchange', 'format', 'from', 'interval', 'json', 'message', 'records', 'request_id', 'sort', 'start_date', 'status', 'success', 'symbol', 'text/plain', 'ticker', 'ticker_unknown_error', 'timestamp', 'to', 'txt', 'volume']

@@ -23,8 +23,8 @@ def get_api_response(endpoint, auth, method="GET", payload=''):
       'Accept': 'application/json',
       'X-UserType': 'USER',
       'X-SourceID': 'WEB',
-      'X-ClientLocalIP': 'CLIENT_LOCAL_IP',
-      'X-ClientPublicIP': 'CLIENT_PUBLIC_IP',
+      'X-ClientLocalIP': '127.0.0.1',
+      'X-ClientPublicIP': '127.0.0.1',
       'X-MACAddress': 'MAC_ADDRESS',
       'X-PrivateKey': api_key
     }
@@ -92,8 +92,8 @@ def place_order_api(data,auth):
         'Accept': 'application/json',
         'X-UserType': 'USER',
         'X-SourceID': 'WEB',
-        'X-ClientLocalIP': 'CLIENT_LOCAL_IP', 
-        'X-ClientPublicIP': 'CLIENT_PUBLIC_IP',
+        'X-ClientLocalIP': '127.0.0.1', 
+        'X-ClientPublicIP': '127.0.0.1',
         'X-MACAddress': 'MAC_ADDRESS',
         'X-PrivateKey': newdata['apikey']
     }
@@ -295,8 +295,8 @@ def cancel_order(orderid,auth):
         'Accept': 'application/json',
         'X-UserType': 'USER',
         'X-SourceID': 'WEB',
-        'X-ClientLocalIP': 'CLIENT_LOCAL_IP', 
-        'X-ClientPublicIP': 'CLIENT_PUBLIC_IP',
+        'X-ClientLocalIP': '127.0.0.1', 
+        'X-ClientPublicIP': '127.0.0.1',
         'X-MACAddress': 'MAC_ADDRESS',
         'X-PrivateKey': api_key
     }
@@ -348,8 +348,8 @@ def modify_order(data,auth):
         'Accept': 'application/json',
         'X-UserType': 'USER',
         'X-SourceID': 'WEB',
-        'X-ClientLocalIP': 'CLIENT_LOCAL_IP', 
-        'X-ClientPublicIP': 'CLIENT_PUBLIC_IP',
+        'X-ClientLocalIP': '127.0.0.1', 
+        'X-ClientPublicIP': '127.0.0.1',
         'X-MACAddress': 'MAC_ADDRESS',
         'X-PrivateKey': api_key
     }

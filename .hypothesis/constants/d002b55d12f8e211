@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/utils/traffic_logger.py
+# hypothesis_version: 6.148.8
+
+[500, 1000, '/api/v1/latency/logs', '/favicon.ico', '/static/', '/traffic/', '/traffic/api/', 'PATH_INFO', 'user_id']

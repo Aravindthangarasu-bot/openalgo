@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/log.py
+# hypothesis_version: 6.148.8
+
+[500, '%Y%m%d_%H%M%S', '%Y-%m-%d', '%Y-%m-%d %I:%M:%S %p', '/', '/export', '/logs', 'API Type', 'Action', 'Asia/Kolkata', 'Content-Disposition', 'Content-Type', 'Disclosed Quantity', 'Exchange', 'ID', 'Order ID', 'Position Size', 'Price', 'Price Type', 'Product', 'Quantity', 'Response', 'Starting log export', 'Strategy', 'Symbol', 'Timestamp', 'Trigger Price', 'Unknown', 'X-Requested-With', 'XMLHttpRequest', 'action', 'api_type', 'apikey', 'created_at', 'current_page', 'disclosed_quantity', 'end_date', 'error', 'exchange', 'id', 'log_bp', 'logs', 'logs.html', 'orderid', 'page', 'position_size', 'price', 'pricetype', 'product', 'quantity', 'request_data', 'response_data', 'search', 'start_date', 'strategy', 'symbol', 'text/csv', 'total_pages', 'trigger_price']

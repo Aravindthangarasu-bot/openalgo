@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/analyzer.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/', '/toggle', '10 per second', 'API_RATE_LIMIT', 'Analyzer Mode API', 'analyzer', 'analyzer_status', 'analyzer_toggle', 'apikey', 'error', 'message', 'status']

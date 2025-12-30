@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/strategy_db.py
+# hypothesis_version: 6.148.8
+
+[100, 255, 300, 600, 1000, 5000, 'DATABASE_URL', 'LONG', 'Strategy', 'Strategy DB', 'all, delete-orphan', 'check_same_thread', 'sqlite', 'strategies', 'strategies.id', 'strategy', 'symbol_mappings', 'tradingview']

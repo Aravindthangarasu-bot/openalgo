@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/motilal/streaming/motilal_mapping.py
+# hypothesis_version: 6.148.8
+
+['B', 'BFO', 'BSE', 'BSEFO', 'C', 'CASH', 'CDS', 'D', 'DERIVATIVES', 'G', 'M', 'MCX', 'N', 'NCDEX', 'NCX', 'NFO', 'NSE', 'NSECD', 'NSEFO']

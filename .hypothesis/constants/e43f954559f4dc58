@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/fyers/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+[30.0, 'Accept', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Content-Type', 'access_token', 'appIdHash', 'application/json', 'authorization_code', 'code', 'data', 'error', 'expires_in', 'grant_type', 'message', 'ok', 'refresh_token', 's', 'status', 'success', 'utf-8']

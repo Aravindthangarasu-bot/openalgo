@@ -17,6 +17,7 @@ from decimal import Decimal
 from datetime import datetime
 import pytz
 import uuid
+import json # Added import for json
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -401,6 +402,7 @@ class OrderManager:
                     pending_quantity=0,
                     rejection_reason=cnc_sell_rejection_reason,
                     margin_blocked=Decimal('0'),  # No margin blocked for rejected orders
+                    signal_data=json.dumps(order_data.get('signal_data', {})),
                     order_timestamp=datetime.now(pytz.timezone('Asia/Kolkata'))
                 )
 
@@ -438,6 +440,7 @@ class OrderManager:
                 pending_quantity=quantity,
                 rejection_reason=None,
                 margin_blocked=actual_margin_to_block,  # Store exact margin blocked
+                signal_data=json.dumps(order_data.get('signal_data', {})),
                 order_timestamp=datetime.now(pytz.timezone('Asia/Kolkata'))
             )
 

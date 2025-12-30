@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/cors.py
+# hypothesis_version: 6.148.8
+
+[',', '/api/*', 'CORS_ALLOWED_HEADERS', 'CORS_ALLOWED_METHODS', 'CORS_ALLOWED_ORIGINS', 'CORS_ENABLED', 'CORS_EXPOSED_HEADERS', 'CORS_MAX_AGE', 'FALSE', 'TRUE', 'allow_headers', 'expose_headers', 'max_age', 'methods', 'origins', 'supports_credentials']

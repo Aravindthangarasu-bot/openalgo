@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/dhan/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+[100, 200, ':::', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Content-Type', 'accessToken', 'app_id', 'app_secret', 'application/json', 'consentAppId', 'ddpi_status', 'dhanClientId', 'dhanClientName', 'dhanClientUcc', 'dhan_client_id', 'dhan_client_name', 'dhan_client_ucc', 'expiryTime', 'givenPowerOfAttorney', 'https://auth.dhan.co', 'status', 'success', 'tokenId', 'token_expiry']

@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/fivepaisa/streaming/fivepaisa_websocket.py
+# hypothesis_version: 6.148.8
+
+['.', '=', 'A', 'B', 'BSE', 'C', 'Cash', 'ClientCode', 'Currency', 'D', 'Derivatives', 'M', 'MCX', 'MarketDepthService', 'MarketFeedData', 'MarketFeedV3', 'Method', 'N', 'NSE', 'Operation', 'RedirectServer', 'Subscribe', 'U', 'Unsubscribe', 'cert_reqs', 'default', 'fivepaisa_websocket']

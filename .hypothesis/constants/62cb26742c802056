@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/core.py
+# hypothesis_version: 6.148.8
+
+['/', '/download', '/faq', '/setup', 'GET', 'PNG', 'POST', 'auth.login', 'black', 'core_bp', 'core_bp.setup', 'download.html', 'email', 'error', 'faq.html', 'index.html', 'password', 'qr_code', 'setup.html', 'success', 'totp_secret', 'totp_setup', 'username', 'white']

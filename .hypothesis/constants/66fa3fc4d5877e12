@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/iifl/streaming/iifl_mapping.py
+# hypothesis_version: 6.148.8
+
+['1', '11', '12', '2', '3', '51', 'BFO', 'BSE', 'BSECM', 'BSEFO', 'BSE_INDEX', 'CDS', 'MCX', 'MCXFO', 'NFO', 'NSE', 'NSECD', 'NSECM', 'NSEFO', 'NSE_INDEX']

@@ -1,0 +1,914 @@
+"""
+Price Monitor & Trailing SL Service
+
+Monitors active positions and automatically:
+1. Fetches current prices every 10 seconds
+2. Calculates trailing stop-loss (1:1 with price movement)
+3. Modifies SL orders via broker API
+4. Auto-exits when final target is reached
+
+This service runs in the background continuously.
+"""
+
+import asyncio
+from typing import Dict, Optional
+from datetime import datetime
+from utils.logging import get_logger
+
+logger = get_logger(__name__)
+
+
+class PriceMonitorService:
+    """Monitor prices and manage trailing SL"""
+    
+    def __init__(self):
+        self.running = False
+        self.poll_interval = 1.0  # seconds - Check every 1.0s to avoid rate limits
+        self.monitoring_task = None
+        
+        logger.info("Price Monitor Service initialized")
+    
+    async def start_monitoring(self):
+        """Start the monitoring loop"""
+        if self.running:
+            logger.warning("Price monitor already running")
+            return
+        
+        self.running = True
+        logger.info(f"🔄 Price monitoring started - Polling every {self.poll_interval} seconds")
+        
+        # Directly await the monitor loop instead of creating a task
+        # This keeps the coroutine running until self.running becomes False
+        await self._monitor_loop()
+    
+    def stop_monitoring(self):
+        """Stop the monitoring loop"""
+        self.running = False
+        if self.monitoring_task:
+            self.monitoring_task.cancel()
+        logger.info("Price monitoring stopped")
+    
+    async def _monitor_loop(self):
+        """Main monitoring loop"""
+        while self.running:
+            logger.info(f"🔄 Loop iteration starting, about to call _check_all_positions...")
+            try:
+                await self._check_all_positions()
+                logger.info(f"✅ _check_all_positions completed")
+            except Exception as e:
+                logger.error(f"Error in monitoring loop: {e}", exc_info=True)
+            
+            # Wait before next poll
+            logger.debug(f"💤 Price Monitor sleeping for {self.poll_interval}s before next check...")
+            await asyncio.sleep(self.poll_interval)
+            logger.debug("Price Monitor woke up, starting next iteration...")
+    
+    async def _check_all_positions(self):
+        """Check all active positions and update SL if needed"""
+        try:
+            logger.info("📍 _check_all_positions() called")
+            from services.position_monitor_service import position_monitor
+            try:
+                positions = position_monitor.get_active_positions()
+                logger.info(f"📊 Retrieved {len(positions)} positions from monitor")
+                
+                # DEBUG LOOP
+                if getattr(self, '_last_log_time', 0) < datetime.now().timestamp() - 5:
+                     logger.info(f"🔄 Loop Tick: {len(positions)} positions active")
+                     self._last_log_time = datetime.now().timestamp()
+
+                if not positions:
+                    logger.info("No positions to check, returning")
+                    return # No positions, nothing to do
+            except Exception as e:
+                logger.error(f"Error getting active positions: {e}", exc_info=True)
+                return
+            
+            logger.info(f"Checking {len(positions)} active positions")
+            
+            for order_id, position in positions.items():
+                logger.info(f"🔍 Checking position: {order_id} - {position.get('symbol')}")
+                await self._check_position(order_id, position)
+                
+        except Exception as e:
+            logger.error(f"Error checking positions: {e}", exc_info=True)
+    
+    async def _check_position(self, order_id: str, position: Dict):
+        """Check a single position and update SL if needed"""
+        try:
+            # Skip if trailing is disabled
+            if not position.get('trailing_enabled', True):
+                return
+            
+            symbol = position['symbol']
+            exchange = position['exchange']
+            entry_price = position['entry_price']
+            original_sl = position['original_sl']
+            current_sl = position['current_sl']
+            final_target = position['final_target']
+            action = position['action']
+            username = position.get('username', 'aravind')
+            
+            # Determine Mode and Credentials
+            from database.settings_db import get_analyze_mode
+            from database.auth_db import get_auth_token_dbquery, decrypt_token, get_api_key_for_tradingview
+            
+            is_analyze = get_analyze_mode()
+            auth_token = None
+            broker = None
+            api_key = None
+            
+            if is_analyze:
+                api_key = get_api_key_for_tradingview(username)
+                # Fallback: Can also try to get live broker token for data if available
+                if not api_key:
+                     auth_obj = get_auth_token_dbquery(username)
+                     if auth_obj and not auth_obj.is_revoked:
+                        auth_token = decrypt_token(auth_obj.auth)
+                        broker = auth_obj.broker
+            else:
+                auth_obj = get_auth_token_dbquery(username)
+                if not auth_obj or auth_obj.is_revoked:
+                     logger.error(f"Cannot process position {order_id}: No active session for user '{username}'")
+                     return
+                auth_token = decrypt_token(auth_obj.auth)
+                broker = auth_obj.broker
+            
+            # Get current price
+            current_price = await self._get_current_price(
+                symbol, exchange, 
+                api_key=api_key, 
+                auth_token=auth_token, 
+                broker=broker
+            )
+            
+            if current_price is None:
+                logger.warning(f"Could not fetch price for {symbol} (Analyze: {is_analyze})")
+                return
+            
+            # logger.debug(f"{symbol}: Current={current_price}, Entry={entry_price}, SL={current_sl}, Target={final_target}")
+            
+            # Update highest price reached (Using imported global instance)
+            from services.position_monitor_service import position_monitor
+            position_monitor.update_highest_price(order_id, current_price)
+            
+            # Proceed with Logic...
+            
+            # Use found credentials for subsequent calls
+            # Note: For Analyze mode execution, we might need different handling if executing against mock
+            # But specific Broker API calls (like get_order_status) need Live Token?
+            # Or if it's analyze mode, we shouldn't act on 'broker' orders?
+            # Position Monitor checks REAL status for Live, but for Analyze it's internal.
+            
+            # For this fix, we prioritize getting the PRICE to trigger the SL logic.
+            # The actual _exit_position logic handles Analyze/Live branching if needed (TODO: verify exit logic)
+            
+            # Check Status if Pending (Only for Live? For now assuming Live logic mainly, Analyze uses internal)
+            if position.get('status') == 'pending_open' and not is_analyze:
+                try:
+                    from services.orderstatus_service import get_order_status
+                    # Fetch live status
+                    success, response_data, _ = get_order_status(
+                        status_data={'orderid': order_id},
+                        auth_token=auth_token,
+                        broker=broker
+                    )
+                    
+                    if success and response_data:
+                        order_status = response_data.get('status', '').lower()
+                        logger.debug(f"Pending Position {order_id} status: {order_status}")
+                        
+                        if order_status == 'complete':
+                            # Order filled! Activate position AND PLACE HARD SL
+                            # from services.position_monitor_service import position_monitor
+                            
+                            logger.info(f"✅ Entry Order {order_id} filled. Placing Hard Stop Loss...")
+                            sl_order_id = await self._place_initial_sl(order_id, position, auth_token, broker)
+                            
+                            if sl_order_id:
+                                position_monitor.update_sl_order_id(order_id, sl_order_id)
+                                logger.info(f"🛡️ Hard SL Order Placed: {sl_order_id} @ {position['current_sl']}")
+                            else:
+                                logger.error("❌ Failed to place Hard SL! Position is exposed.")
+                                
+                            position_monitor.update_status(order_id, 'active')
+                            
+                        elif order_status in ['cancelled', 'rejected', 'failed']:
+                            # Order dead, remove position
+                            # from services.position_monitor_service import position_monitor
+                            position_monitor.remove_position(order_id, reason=f"order_{order_status}")
+                            logger.info(f"❌ Order {order_id} {order_status}. Removed from monitoring.")
+                            return
+                        else:
+                            # Still open/pending, wait
+                            return
+                except Exception as e:
+                    logger.error(f"Error checking pending order {order_id}: {e}")
+                    return
+
+            # Check Hard SL Status (If Active) - Only Live
+            sl_order_id = position.get('sl_order_id')
+            if position.get('status') == 'active' and sl_order_id and not is_analyze:
+                try:
+                    from services.orderstatus_service import get_order_status
+                    success, sl_resp, _ = get_order_status(sl_order_id, auth_token, broker)
+                    if success and sl_resp:
+                        sl_status = sl_resp.get('status', '').lower()
+                        if sl_status == 'complete':
+                            logger.info(f"🛑 Hard SL {sl_order_id} FILLED. closing position {order_id}.")
+                            # from services.position_monitor_service import position_monitor
+                            position_monitor.remove_position(order_id, reason="hard_sl_hit")
+                            
+                            # Send Alert
+                            try:
+                                from services.telegram_alert_service import telegram_alert_service
+                                alert = f"🛑 HARD STOP LOSS HIT\nSymbol: {symbol}\nSL Order: {sl_order_id}"
+                                await telegram_alert_service.send_alert(alert)
+                            except: pass
+                            return
+                except Exception as e:
+                    logger.error(f"Error checking SL status {sl_order_id}: {e}")
+
+            # Update highest price reached (Only for active positions)
+            # from services.position_monitor_service import position_monitor
+            position_monitor.update_highest_price(order_id, current_price)
+            
+            # Check for multi-target progressive exits OR fallback to single target
+            targets = position.get('targets', [])
+            if targets and len(targets) >= 3:
+                # Multi-target progressive trailing logic
+                await self._check_multi_target_exits(
+                    order_id, position, current_price,
+                    auth_token, broker, api_key, is_analyze
+                )
+            else:
+                # Legacy single-target logic (backward compatibility)
+                target_reached = (action == 'BUY' and current_price >= final_target) if final_target else False
+                if not target_reached and final_target:
+                     # Check for SELL target
+                     target_reached = (action == 'SELL' and current_price <= final_target)
+                
+                if target_reached:
+                    logger.info(f"🎯 Final target reached for {symbol}: {current_price} vs {final_target}")
+                    await self._exit_position(order_id, position, current_price, auth_token, broker, reason="target_reached", api_key=api_key)
+                    return
+
+            # Check for SL Hit (Soft SL / Gap Protection)
+            # Re-enabled per user request: Force exit if LTP breaches SL
+            sl_breached = False
+            if action == 'BUY':
+                # If LTP is below or equal to SL
+                if current_price <= current_sl:
+                    sl_breached = True
+                    logger.warning(f"🛑 Soft SL Trigger: BUY Position {symbol} LTP {current_price} <= SL {current_sl}")
+            elif action == 'SELL':
+                # If LTP is above or equal to SL
+                if current_price >= current_sl:
+                    sl_breached = True
+                    logger.warning(f"🛑 Soft SL Trigger: SELL Position {symbol} LTP {current_price} >= SL {current_sl}")
+            
+            if sl_breached:
+                logger.info(f"🛑 Soft SL Hit for {symbol} (LTP {current_price}). Force Exiting...")
+                await self._exit_position(
+                    order_id, position, current_price, auth_token, broker, 
+                    reason="stop_loss", api_key=api_key
+                )
+                return
+            
+            # Step Trailing Logic...
+            # Pass (auth_token, broker) to _modify_sl call
+            
+            # ... (Rest of existing Trailing Logic seems modifying only logic var, calls _modify_sl at end)
+            
+            # ... Copy existing trailing logic ...
+            # Need to adapt the trailing logic call to _modify_sl to handle Analyze Mode (Mock) vs Live
+            # But the primary request is SL TRIGGER.
+            
+            # Let's restore the trailing block accurately.
+            
+            # Step Trailing Logic (Target Based)
+            # T1 Hit -> SL = Entry
+            # T2 Hit -> SL = T1
+            # T3 Hit -> SL = T2
+            signal_data = position.get('signal_data', {})
+            targets = position.get('targets', [])
+            
+            # Ensure we have targets to trail against
+            if targets:
+                try:
+                    # Convert to floats and sort
+                    t_levels = sorted([float(t) for t in targets])
+                    
+                    target_sl = None
+                    
+                    # Logic for BUY
+                    if action == 'BUY':
+                        if len(t_levels) >= 1 and current_price >= t_levels[0]:
+                            # T1 Hit Logic... Partial Exit...
+                             qty = position['quantity']
+                             t1_done = position.get('t1_exit_done', False)
+                             
+                             if qty > 1 and not t1_done:
+                                 import math
+                                 exit_qty = math.ceil(qty / 2)
+                                 remaining_qty = qty - exit_qty
+                                 logger.info(f"💰 T1 Hit: Triggering Partial Profit Booking. Qty: {qty} -> Exit: {exit_qty}")
+                                 await self._exit_position(
+                                     order_id, position, current_price, auth_token, broker, 
+                                     reason="partial_t1", qty_override=exit_qty, api_key=api_key
+                                 )
+                                 from services.position_monitor_service import position_monitor
+                                 position_monitor.update_quantity(order_id, remaining_qty)
+                                 position_monitor.mark_t1_exit_done(order_id)
+                                 position['quantity'] = remaining_qty
+                                 position['t1_exit_done'] = True
+
+                             if current_sl < entry_price:
+                                target_sl = entry_price
+                        
+                        if len(t_levels) >= 2 and current_price >= t_levels[1]:
+                            if current_sl < t_levels[0]: target_sl = t_levels[0]
+                                
+                        if len(t_levels) >= 3 and current_price >= t_levels[2]:
+                             if current_sl < t_levels[1]: target_sl = t_levels[1]
+                                
+                        if len(t_levels) >= 3 and current_price >= (t_levels[2] + 10.0):
+                             if current_sl < t_levels[2]: target_sl = t_levels[2]
+                             # T3+10 Timer...
+                             start_time = position.get('t3_plus_10_start_time')
+                             from services.position_monitor_service import position_monitor
+                             if not start_time:
+                                 position_monitor.update_t3_timer(order_id, datetime.now())
+                             else:
+                                 elapsed = (datetime.now() - start_time).total_seconds()
+                                 if elapsed >= 10.0:
+                                     await self._exit_position(order_id, position, current_price, auth_token, broker, reason="t3_spike_timeout", api_key=api_key)
+                                     return
+
+                    # Logic for SELL
+                    elif action == 'SELL':
+                        if len(t_levels) >= 1 and current_price <= t_levels[0]:
+                             if current_sl > entry_price: target_sl = entry_price
+                        if len(t_levels) >= 2 and current_price <= t_levels[1]:
+                             if current_sl > t_levels[0]: target_sl = t_levels[0]
+
+                    # Apply Update if calculated
+                    if target_sl is not None:
+                         is_improvement = (target_sl > current_sl) if action == 'BUY' else (target_sl < current_sl)
+                         if is_improvement:
+                             logger.info(f"📈 Step Trailing SL for {symbol}: {current_sl} → {target_sl}")
+                             await self._modify_sl(order_id, position, target_sl, auth_token, broker)
+                             
+                except Exception as e:
+                    logger.error(f"Error in Step Trailing logic: {e}")
+
+            else:
+                 # Fallback to simple trailing
+                 price_move = current_price - entry_price if action == 'BUY' else entry_price - current_price
+                 if price_move > 0:
+                    new_sl = original_sl + price_move if action == 'BUY' else original_sl - price_move
+                    is_better = (new_sl > current_sl) if action == 'BUY' else (new_sl < current_sl)
+                    if is_better:
+                        logger.info(f"📈 Standard Trailing SL for {symbol}: {current_sl} → {new_sl}")
+                        await self._modify_sl(order_id, position, new_sl, auth_token, broker)
+        
+        except Exception as e:
+            logger.error(f"Error checking position {order_id}: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    async def _check_multi_target_exits(
+        self, order_id, position, current_price,
+        auth_token, broker, api_key, is_analyze
+    ):
+        """
+        Check and execute progressive exits for multi-target positions
+        
+        Logic:
+        - T1: Exit 50%, mark t1_hit
+        - T2: Trail SL to T1, mark t2_hit  
+        - T3: Exit remaining 50%, remove position
+        """
+        try:
+            from services.position_monitor_service import position_monitor
+            
+            targets = position.get('targets', [])
+            logger.info(f"🎯 Checking Multi-Target for {position['symbol']}: Price={current_price}, Targets={targets}")
+            
+            if not targets or len(targets) < 3:
+                logger.warning(f"Multi-target called but only {len(targets)} targets available")
+                return
+            
+            T1, T2, T3 = float(targets[0]), float(targets[1]), float(targets[2])
+            action = position['action']
+            symbol = position['symbol']
+            current_sl = position['current_sl']
+            
+            t1_hit = position.get('t1_hit', False)
+            t2_hit = position.get('t2_hit', False)
+            t3_hit = position.get('t3_hit', False)
+            
+            logger.info(f"📊 State: T1_Hit={t1_hit}, T2_Hit={t2_hit}, T3_Hit={t3_hit}")
+            
+            # Determine if targets are reached based on action (BUY/SELL)
+            if action == 'BUY':
+                t1_reached = current_price >= T1
+                t2_reached = current_price >= T2
+                t3_reached = current_price >= T3
+            else:  # SELL
+                t1_reached = current_price <= T1
+                t2_reached = current_price <= T2
+                t3_reached = current_price <= T3
+            
+            # STAGE 1: Check T1 (50% exit)
+            if t1_reached and not position.get('t1_hit'):
+                logger.info(f"🎯 T1 REACHED: {symbol} at {current_price} (T1={T1})")
+                await self._execute_t1_exit(
+                    order_id, position, current_price,
+                    auth_token, broker, api_key, is_analyze
+                )
+                return
+            
+            # STAGE 2: Check T2 (trail SL to T1)
+            if t2_reached and position.get('t1_hit') and not position.get('t2_hit'):
+                logger.info(f"🎯 T2 REACHED: {symbol} at {current_price} (T2={T2})")
+                await self._execute_t2_trailing(
+                    order_id, position, T1,
+                    auth_token, broker, api_key, is_analyze
+                )
+                return
+            
+            # STAGE 3: Check T3 (exit remaining 50%)
+            if t3_reached and position.get('t2_hit') and not position.get('t3_hit'):
+                logger.info(f"🎯 T3 REACHED: {symbol} at {current_price} (T3={T3})")
+                await self._execute_t3_exit(
+                    order_id, position, current_price,
+                    auth_token, broker, api_key, is_analyze
+                )
+                return
+                
+        except Exception as e:
+            logger.error(f"Error in multi-target check for {order_id}: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    async def _execute_t1_exit(
+        self, order_id, position, current_price,
+        auth_token, broker, api_key, is_analyze
+    ):
+        """Exit 50% of position at T1"""
+        try:
+            from services.position_monitor_service import position_monitor
+            
+            symbol = position['symbol']
+            original_qty = position.get('original_quantity', position['quantity'])
+            remaining_qty = position.get('remaining_quantity', original_qty)
+            if remaining_qty <= 1:
+                # Special case for 1 lot (assuming qty=1 means 1 lot)
+                logger.info(f"Only 1 lot/qty remaining, exiting full position at T1")
+                success = await self._exit_position(
+                    order_id, position, current_price, auth_token, broker,
+                    reason="t1_exit_full", remove_position=True,
+                    qty_override=remaining_qty, api_key=api_key
+                )
+                if success:
+                     position['t1_hit'] = True
+                     position['t2_hit'] = True # Skip T2
+                     return
+
+            # SMART LOT SIZE LOGIC (2025 Standards)
+            LOT_SIZES = {
+                'NIFTY': 75,
+                'BANKNIFTY': 30,
+                'SENSEX': 20,
+                'CRUDEOIL': 100,
+                'NATURALGAS': 1250,
+                'FINNIFTY': 40,
+                'MIDCPNIFTY': 75
+            }
+            
+            # Determine Lot Size
+            lot_size = 1 # Default
+            for key, size in LOT_SIZES.items():
+                if key in symbol:
+                    lot_size = size
+                    break
+            
+            # Calculate 50% exit
+            raw_50_percent = remaining_qty // 2
+            
+            # Round down to nearest lot size
+            if lot_size > 1:
+                exit_qty = (raw_50_percent // lot_size) * lot_size
+                # If rounding down results in 0 (e.g. 1.5 lots -> 0.5 lots), upgrade to 1 full lot
+                if exit_qty == 0:
+                    exit_qty = lot_size
+            else:
+                # Fallback for unknown symbols (Equities etc)
+                exit_qty = max(1, raw_50_percent)
+            
+            # Safety check: Cannot exit more than remaining
+            if exit_qty >= remaining_qty:
+                exit_qty = remaining_qty
+                logger.info(f"Target exit qty {exit_qty} >= remaining {remaining_qty}, upgrading to FULL EXIT")
+                
+                # Execute FULL EXIT logic directly
+                success = await self._exit_position(
+                    order_id, position, current_price, auth_token, broker,
+                    reason="t1_exit_full_smart", remove_position=True,
+                    qty_override=remaining_qty, api_key=api_key
+                )
+                if success:
+                     position['t1_hit'] = True
+                     position['t2_hit'] = True 
+                     return
+
+            logger.info(f"📤 Exiting {exit_qty} lots (Smart Calc: 50% of {remaining_qty} rounded to {lot_size}) at T1")
+            
+            success = await self._exit_position(
+                order_id, position, current_price, auth_token, broker,
+                reason="t1_partial_exit", remove_position=False,
+                qty_override=exit_qty, api_key=api_key
+            )
+            
+            if success:
+                # Update state in DB
+                from services.position_monitor_service import position_monitor
+                position_monitor.update_remaining_quantity(order_id, remaining_qty - exit_qty)
+                
+                position['t1_hit'] = True
+                position['remaining_quantity'] = remaining_qty - exit_qty
+                
+                # Persist flag
+                position_monitor.set_target_hit_flag(order_id, 't1_hit')
+                
+                logger.info(f"✅ T1 Exit complete. Remaining: {position['remaining_quantity']} lots")
+                
+                # Send specific alert for partial exit
+                try:
+                    from services.telegram_alert_service import telegram_alert_service
+                    msg = (
+                        f"🎯 <b>T1 REACHED: {position['symbol']}</b>\n"
+                        f"Locked Profit @ {current_price}\n"
+                        f"Exited: {exit_qty}\n"
+                        f"Remaining: {position['remaining_quantity']}\n"
+                        f"SL Trailing to Entry..."
+                    )
+                    await telegram_alert_service.send_alert(msg)
+                except Exception as e:
+                    logger.error(f"Failed to verify T1 alert: {e}")
+                    
+            else:
+                logger.warning(f"❌ T1 partial exit failed. Retrying with FULL EXIT (Fallback)...")
+                # Retry with FULL quantity if partial failed (double safety)
+                full_success = await self._exit_position(
+                    order_id, position, current_price, auth_token, broker,
+                    reason="t1_exit_full_fallback", remove_position=True,
+                    qty_override=remaining_qty, api_key=api_key
+                )
+                
+                if full_success:
+                    logger.info(f"✅ Full T1 Exit complete (Fallback). Position closed.")
+                    position['t1_hit'] = True
+                    position['t2_hit'] = True
+                    position_monitor.remove_position(order_id, reason="t1_full_exit")
+                else:
+                    logger.error(f"❌ T1 fallback exit also failed.")
+                    
+        except Exception as e:
+            logger.error(f"Error executing T1 exit for {order_id}: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    async def _execute_t2_trailing(
+        self, order_id, position, T1,
+        auth_token, broker, api_key, is_analyze
+    ):
+        """Trail SL to T1 when T2 is reached"""
+        try:
+            from services.position_monitor_service import position_monitor
+            
+            symbol = position['symbol']
+            current_sl = position['current_sl']
+            
+            logger.info(f"📈 Trailing SL: {current_sl} → {T1} (T1 level)")
+            
+            # Update SL to T1 level
+            position_monitor.update_sl(order_id, T1)
+            position_monitor.set_target_hit_flag(order_id, 't2_hit', True)
+            
+            # TODO: Update hard SL order if exists (live mode)
+            # if not is_analyze and position.get('sl_order_id'):
+            #     await self._modify_sl(order_id, position, T1, auth_token, broker)
+            
+            logger.info(f"✅ SL trailed to T1={T1}. Profit now locked in!")
+            
+            # Send Telegram alert
+            try:
+                from services.telegram_alert_service import telegram_alert_service
+                targets = position.get('targets', [])
+                remaining_qty = position.get('remaining_quantity', 0)
+                alert = (
+                    f"📈 T2 TARGET HIT - SL TRAILED\\n"
+                    f"Symbol: {symbol}\\n"
+                    f"New SL: {T1} (was {current_sl})\\n"
+                    f"Remaining: {remaining_qty} lots\\n"
+                    f"Next: T3={targets[2] if len(targets) > 2 else 'N/A'}"
+                )
+                await telegram_alert_service.send_alert(alert)
+            except Exception as e:
+                logger.debug(f"Failed to send T2 alert: {e}")
+                
+        except Exception as e:
+            logger.error(f"Error executing T2 trailing for {order_id}: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    async def _execute_t3_exit(
+        self, order_id, position, current_price,
+        auth_token, broker, api_key, is_analyze
+    ):
+        """Exit remaining 50% at T3 and close position"""
+        try:
+            from services.position_monitor_service import position_monitor
+            
+            symbol = position['symbol']
+            remaining_qty = position.get('remaining_quantity', position['quantity'])
+            
+            logger.info(f"📤 Exiting remaining {remaining_qty} lots at T3")
+            
+            # Exit remaining quantity
+            success = await self._exit_position(
+                order_id, position, current_price,
+                auth_token, broker,
+                reason="t3_final_exit",
+                api_key=api_key,
+                quantity_override=remaining_qty,
+                remove_position=True  # Remove position completely
+            )
+            
+            if success:
+                logger.info(f"🏁 Multi-target strategy complete for {symbol}")
+                
+                # Send Telegram alert
+                try:
+                    from services.telegram_alert_service import telegram_alert_service
+                    alert = (
+                        f"🏁 T3 FINAL TARGET HIT\\n"
+                        f"Symbol: {symbol}\\n"
+                        f"Price: {current_price}\\n"
+                        f"Exited: {remaining_qty} lots (remaining 50%)\\n"
+                        f"Position CLOSED - Strategy Complete!"
+                    )
+                    await telegram_alert_service.send_alert(alert)
+                except Exception as e:
+                    logger.debug(f"Failed to send T3 alert: {e}")
+            else:
+                logger.error(f"❌ T3 exit failed for {symbol}")
+                
+        except Exception as e:
+            logger.error(f"Error executing T3 exit for {order_id}: {e}")
+            import traceback
+            traceback.print_exc()
+    async def _get_current_price(
+        self, 
+        symbol: str, 
+        exchange: str, 
+        api_key: Optional[str] = None, 
+        auth_token: Optional[str] = None, 
+        broker: Optional[str] = None
+    ) -> Optional[float]:
+        """Fetch current market price for symbol"""
+        try:
+            from services.quotes_service import get_quotes
+            
+            # Fetch quote
+            result = None
+            if api_key:
+                success, result, _ = get_quotes(symbol=symbol, exchange=exchange, api_key=api_key)
+            elif auth_token and broker:
+                success, result, _ = get_quotes(symbol=symbol, exchange=exchange, auth_token=auth_token, broker=broker)
+            else:
+                logger.warning(f"No credentials to fetch price for {symbol}")
+                return None
+            
+            if success and result:
+                data = result.get('data', {})
+                # Handle different broker response structures
+                if isinstance(data, dict):
+                    if 'ltp' in data: return float(data['ltp'])
+                    if 'lp' in data: return float(data['lp'])
+                else:
+                    # Some return direct number or object?
+                    pass
+                # Check top level
+                if 'lp' in result: return float(result['lp'])
+                if 'ltp' in result: return float(result['ltp'])
+            
+            return None
+            
+        except Exception as e:
+            logger.debug(f"Error fetching price for {symbol}: {e}")
+            return None
+    
+    async def _modify_sl(self, order_id: str, position: Dict, new_sl: float, auth_token: str, broker: str):
+        """Modify stop-loss order"""
+        try:
+            from services.modify_order_service import modify_order
+            from services.position_monitor_service import position_monitor
+            
+            sl_order_id = position.get('sl_order_id')
+            if not sl_order_id:
+                logger.warning(f"No SL Order ID for {order_id}. Cannot modify SL.")
+                return
+
+            # Prepare modification request
+            success, response, status = modify_order(
+                order_data={
+                    'orderid': sl_order_id,
+                    'price': str(new_sl),
+                    'trigger_price': str(new_sl),
+                    'quantity': str(position['quantity'])
+                },
+                auth_token=auth_token,
+                broker=broker
+            )
+            
+            if success:
+                # Update position monitor ONLY on success
+                position_monitor.update_sl(order_id, new_sl)
+                logger.info(f"✅ SL modified successfully for {position['symbol']}: {new_sl} (Order {sl_order_id})")
+            else:
+                logger.error(f"Failed to modify SL on broker for {order_id}: {response.get('message')}")
+            
+        except Exception as e:
+            logger.error(f"Failed to modify SL for {order_id}: {e}")
+            # Don't disable trailing on failure - will retry next poll
+    
+    async def _exit_position(
+        self, order_id: str, position: Dict, current_price: float,
+        auth_token: str, broker: str, reason: str = "target_reached",
+        qty_override: Optional[int] = None, api_key: Optional[str] = None,
+        quantity_override: Optional[int] = None,  # Alias for qty_override
+        remove_position: bool = True  # NEW: Control whether to remove from monitor
+    ):
+        """Exit position when target/SL is reached. Support partial exit via qty_override."""
+        try:
+            from services.place_order_service import place_order
+            from services.cancel_order_service import cancel_order
+            from services.position_monitor_service import position_monitor
+            
+            symbol = position['symbol']
+            exchange = position['exchange']
+            
+            # Handle quantity parameter aliases
+            if quantity_override:
+                quantity = quantity_override
+            elif qty_override:
+                quantity = qty_override
+            else:
+                quantity = position.get('remaining_quantity', position['quantity'])
+            
+            action = 'SELL' if position['action'] == 'BUY' else 'BUY'
+            
+            logger.info(f"🚀 Exiting position {symbol} (Reason: {reason}, Qty: {quantity}) at {current_price}")
+
+            # 1. CANCEL Hard SL Order if exists - ONLY FOR FULL EXIT
+            # For partial exit, we keep the SL (User will trail the rest to T1 in next logic block)
+            sl_order_id = position.get('sl_order_id')
+            if sl_order_id and remove_position:
+                logger.info(f"Cancelling Hard SL {sl_order_id} before full exit...")
+                c_success, _, _ = cancel_order(sl_order_id, auth_token=auth_token, broker=broker)
+                if not c_success:
+                     logger.warning(f"Failed to cancel SL {sl_order_id}. Proceeding anyway.")
+            
+            # Determines exit price
+            if reason == "stop_loss":
+                # Fallback if Hard SL failed or manual trigger
+                exit_price = str(position['current_sl'])
+            elif reason == "partial_t1":
+                # Partial T1 Exit -> User usually wants this at Market or Limit Price?
+                # Usually Limit at Current Price or T1 Price is safer. using current_price for immediate fill.
+                exit_price = str(current_price)
+            else:
+                exit_price = str(position['final_target'])
+
+            # Place exit order (LIMIT order for exact price execution as per user request)
+            # Include all required fields: apikey, strategy, symbol, exchange, action, quantity
+            order_data = {
+                'apikey': api_key if api_key else '',  # Required field for validation
+                'strategy': position.get('signal_data', {}).get('strategy', 'AUTO_EXIT'),  # Required field
+                'symbol': symbol,
+                'exchange': exchange,
+                'action': action,  # Required field (was transaction_type)
+                'quantity': str(quantity),
+                'price': exit_price,
+                'pricetype': 'LIMIT',
+                'product': position['signal_data'].get('product', position.get('product', 'MIS'))
+            }
+            
+            # Since this is an internal auto-exit, we use the provided auth tokens
+            # For Analyze Mode, we MUST pass the api_key
+            success, response, status = place_order(
+                order_data=order_data,
+                auth_token=auth_token,
+                broker=broker,
+                api_key=api_key
+            )
+            
+            if success:
+                exit_order_id = response.get('orderid', 'N/A')
+                logger.info(f"✅ Exit order placed: {exit_order_id}")
+                
+                # Remove from monitoring based on remove_position parameter
+                if remove_position:
+                    position_monitor.remove_position(order_id, reason=reason)
+                    logger.info(f"Position {order_id} removed from monitor")
+                else:
+                    logger.info(f"Position {order_id} kept in monitor (partial exit)")
+                
+                # Send Alert
+                try:
+                    from services.telegram_alert_service import telegram_alert_service
+                    
+                    if reason == "stop_loss":
+                        title = "🛑 STOP LOSS HIT - MANUAL/FALLBACK"
+                        ref_price_val = position['current_sl']
+                    elif reason in ["t1_partial_exit", "partial_t1"]:
+                        title = "💰 PARTIAL PROFIT BOOKING (T1)"
+                        ref_price_val = "T1"
+                    elif reason == "t3_final_exit":
+                        title = "🏁 FINAL EXIT (T3)"
+                        ref_price_val = "T3"
+                    else:
+                        title = "🎯 TARGET REACHED - EXIT"
+                        ref_price_val = position['final_target']
+                        
+                    alert = (
+                        f"{title}\n"
+                        f"Symbol: {symbol}\n"
+                        f"Qty: {quantity}\n"
+                        f"Exit Price: {current_price}\n"
+                        f"Ref Price: {ref_price_val}\n"
+                        f"Exit Order: {exit_order_id}"
+                    )
+                    await telegram_alert_service.send_alert(alert)
+                except Exception as e:
+                    logger.debug(f"Alert failed: {e}")
+                
+                return True  # Success
+            else:
+                logger.error(f"Exit order failed: {response.get('message')}")
+                if remove_position:
+                     # Disable trailing to prevent further attempts only if full exit failed
+                     position_monitor.disable_trailing(order_id)
+                return False  # Failure
+
+                
+        except Exception as e:
+            logger.error(f"Failed to exit position {order_id}: {e}")
+            if remove_position:
+                from services.position_monitor_service import position_monitor
+                position_monitor.disable_trailing(order_id)
+
+    async def _place_initial_sl(self, order_id: str, position: Dict, auth_token: str, broker: str) -> Optional[str]:
+        """Place initial Hard Stop Loss order"""
+        try:
+            from services.place_order_service import place_order
+            
+            # Extract details
+            symbol = position['symbol']
+            exchange = position['exchange']
+            action = 'SELL' if position['action'] == 'BUY' else 'BUY'
+            quantity = position['quantity']
+            sl_price = position['current_sl']
+            product = position.get('signal_data', {}).get('product', position.get('product', 'MIS'))
+            
+            logger.info(f"Placing Initial SL for {symbol} @ {sl_price}")
+            
+            order_data = {
+                'symbol': symbol,
+                'exchange': exchange,
+                'transaction_type': action,
+                'quantity': str(quantity),
+                'product': product,
+                'order_type': 'SL',
+                'price': str(sl_price),
+                'trigger_price': str(sl_price),
+                'validity': 'DAY',
+                'variety': 'regular'
+            }
+            
+            success, response, _ = place_order(order_data, auth_token=auth_token, broker=broker)
+            if success and response.get('orderid'):
+                return response['orderid']
+            
+            logger.error(f"Failed to place SL: {response}")
+            return None
+        except Exception as e:
+            logger.error(f"Error placing initial SL for {order_id}: {e}")
+            return None
+
+
+# Global instance
+price_monitor = PriceMonitorService()

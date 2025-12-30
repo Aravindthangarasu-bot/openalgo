@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/utils/email_debug.py
+# hypothesis_version: 6.148.8
+
+[465, 587, '\nDetails:', '   ✅ SUCCESS!', '=', 'Gmail Personal (SSL)', 'SSL', 'STARTTLS', '__main__', 'details', 'ehlo_resp', 'message', 'name', 'port', 'server', 'smtp-relay.gmail.com', 'smtp.gmail.com', 'smtp_password', 'smtp_port', 'smtp_server', 'smtp_use_tls', 'smtp_username', 'ssl_mode', 'success', '🔒 Starting TLS...']

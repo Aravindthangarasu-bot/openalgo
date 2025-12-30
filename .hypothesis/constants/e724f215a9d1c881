@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/history.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/', '10 per second', 'API_RATE_LIMIT', 'Historical Data API', 'apikey', 'end_date', 'error', 'exchange', 'history', 'interval', 'message', 'start_date', 'status', 'symbol']

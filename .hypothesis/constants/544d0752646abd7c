@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/modify_order.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/', '10 per second', 'Modify Order API', 'ORDER_RATE_LIMIT', 'apikey', 'error', 'message', 'modify_order', 'modifyorder', 'status']

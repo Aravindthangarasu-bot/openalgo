@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/utils/security_middleware.py
+# hypothesis_version: 6.148.8
+
+[b'Access Denied: Your IP has been banned', 403, '403 Forbidden', 'Access Denied', 'Content-Type', 'error', 'text/plain']

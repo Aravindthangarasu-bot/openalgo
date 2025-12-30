@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/telegram.py
+# hypothesis_version: 6.148.8
+
+[400, 403, 404, 500, 503, 4096, '/', '/analytics', '/bot/start', '/bot/status', '/bot/stop', '/broadcast', '/config', '/send-message', '/telegram', '/test-message', '/users', '10 per minute', 'Bot is not running', 'GET', 'Invalid telegram_id', 'Message is required', 'POST', 'Test message sent', 'User not found', 'User unlinked', '[REDACTED]', 'active_users', 'bot_token', 'bot_username', 'broadcast_enabled', 'data', 'error', 'eventlet', 'fail_count', 'filters', 'is_active', 'is_configured', 'is_running', 'message', 'openalgo_username', 'stats_30d', 'stats_7d', 'status', 'success', 'success_count', 'telegram/config.html', 'telegram/index.html', 'telegram/users.html', 'telegram_bp', 'telegram_id', 'token', 'total_users', 'user', 'users']

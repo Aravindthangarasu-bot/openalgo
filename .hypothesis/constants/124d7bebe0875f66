@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/websocket_proxy/base_adapter.py
+# hypothesis_version: 6.148.8
+
+[1.0, 1000, 5556, 65000, 65535, '1000', '127.0.0.1', '3', '5555', 'ZMQ_PORT', 'ZeroMQ socket closed', '_uses_shared_zmq', 'broker_adapter', 'code', 'error', 'message', 'socket', 'status', 'success', 'true', 'utf-8', 'zmq_port', 'zmq_port_finder']

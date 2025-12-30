@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/kotak/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+['+91', '91', 'Auth', 'Authorization', 'Content-Type', 'TOTP login failed', 'application/json', 'baseUrl', 'data', 'errMsg', 'message', 'mobileNumber', 'mpin', 'neo-fin-key', 'neotradeapi', 'sid', 'status', 'success', 'token', 'totp', 'ucc']

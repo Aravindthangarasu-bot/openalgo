@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/action_center_db.py
+# hypothesis_version: 6.148.8
+
+[100, 255, 'Action Center DB', 'Asia/Kolkata', 'DATABASE_URL', 'approved', 'check_same_thread', 'created_at', 'idx_created_at', 'idx_user_status', 'pending', 'pending_orders', 'rejected', 'sqlite', 'status', 'user_id']

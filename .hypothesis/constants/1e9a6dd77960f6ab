@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/traffic.py
+# hypothesis_version: 6.148.8
+
+[100, 400, 500, 1000, '%d-%m-%Y %I:%M:%S %p', '+00:00', '/', '/api/logs', '/api/stats', '/api/v1/%', '/export', '/traffic', '10/minute', '60/minute', 'Asia/Kolkata', 'Client IP', 'Content-Disposition', 'Duration (ms)', 'Error', 'GET', 'Host', 'Method', 'Path', 'Status Code', 'Timestamp', 'UTC', 'Z', 'api', 'avg_duration', 'basketorder', 'cancelorder', 'client_ip', 'depth', 'duration_ms', 'endpoints', 'error', 'error_requests', 'errors', 'funds', 'history', 'holdings', 'host', 'intervals', 'limit', 'method', 'modifyorder', 'openposition', 'orderbook', 'orderstatus', 'overall', 'path', 'placeorder', 'placesmartorder', 'positionbook', 'quotes', 'splitorder', 'status_code', 'text/csv', 'timestamp', 'total', 'total_requests', 'tradebook', 'traffic_bp']

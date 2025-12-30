@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/auth_db.py
+# hypothesis_version: 6.148.8
+
+[b'openalgo_static_salt', 100, 255, 300, 512, 1024, 3000, 3600, 36000, 100000, '03:00', '127.0.0.1', ':', 'API_KEY_PEPPER', 'Asia/Kolkata', 'Auth DB', 'DATABASE_URL', 'SESSION_EXPIRY_TIME', 'UTC', 'api_keys', 'auth', 'auto', 'broker', 'check_same_thread', 'created_at', 'idx_auth_broker', 'idx_auth_is_revoked', 'idx_auth_user_id', 'is_revoked', 'order_mode', 'semi_auto', 'sqlite', 'user_id']

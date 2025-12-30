@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/mstock/streaming/mstock_mapping.py
+# hypothesis_version: 6.148.8
+
+['BFO', 'BSE', 'BSE_INDEX', 'CDS', 'MCX', 'NFO', 'NSE', 'NSE_INDEX']

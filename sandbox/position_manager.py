@@ -697,10 +697,15 @@ class PositionManager:
 
         return quote_cache
 
-    def close_position(self, symbol, exchange, product):
+    def close_position(self, symbol, exchange, product, quantity=None):
         """
         Close a position (square-off)
         Creates a reverse order to close the position
+        Args:
+            symbol: Trading Symbol
+            exchange: Exchange
+            product: Product Type
+            quantity: Optional quantity to close. If None, closes full position.
         """
         try:
             position = SandboxPositions.query.filter_by(
@@ -719,7 +724,15 @@ class PositionManager:
 
             # Determine action (opposite of current position)
             action = 'SELL' if position.quantity > 0 else 'BUY'
-            quantity = abs(position.quantity)
+            
+            # Determine quantity to close
+            total_qty = abs(position.quantity)
+            if quantity is None:
+                qty_to_close = total_qty
+            else:
+                qty_to_close = int(quantity)
+                if qty_to_close > total_qty:
+                     return False, {'status': 'error', 'message': f'Cannot close {qty_to_close}. Only {total_qty} open.'}, 400
 
             # Create market order to close position
             from sandbox.order_manager import OrderManager
@@ -729,7 +742,7 @@ class PositionManager:
                 'symbol': symbol,
                 'exchange': exchange,
                 'action': action,
-                'quantity': quantity,
+                'quantity': qty_to_close,
                 'price_type': 'MARKET',
                 'product': product,
                 'strategy': 'AUTO_SQUARE_OFF'

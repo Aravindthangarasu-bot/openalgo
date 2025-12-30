@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/mstock/api/mstockwebsocket.py
+# hypothesis_version: 6.148.8
+
+[2.0, 3.0, 5.0, 100.0, 100, 107, 115, 123, 131, 139, 147, 347, 355, 363, 371, 379, 383, '\x00', '<H', '<Q', '<d', 'BROKER_API_KEY', 'BROKER_API_SECRET', 'Sent LOGIN message', 'action', 'asks', 'avg_price', 'bids', 'close', 'exchangeType', 'exchange_timestamp', 'exchange_type', 'high', 'last_traded_qty', 'low', 'lower_circuit', 'ltp', 'mode', 'oi', 'oi_percent', 'open', 'orders', 'params', 'price', 'quantity', 'sequence_number', 'subscription_mode', 'token', 'tokenList', 'tokens', 'total_buy_qty', 'total_sell_qty', 'upper_circuit', 'utf-8', 'volume', 'week_52_high', 'week_52_low']

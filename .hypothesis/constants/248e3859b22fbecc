@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/telegram_signal.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/config', '/history', '/login', '/status', '/telegram-signal', '/verify-otp', 'GET', 'OTP Sent', 'OTP or Phone missing', 'POST', 'TELEGRAM_API_HASH', 'TELEGRAM_API_ID', 'api_hash', 'api_id', 'error', 'is_running', 'login_phone', 'message', 'otp', 'phone', 'phone_hash', 'status', 'success', 'target_channel', 'telegram_signal_bp']

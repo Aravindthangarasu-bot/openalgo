@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/close_position.py
+# hypothesis_version: 6.148.8
+
+[400, 500, '/', '10 per second', 'API_RATE_LIMIT', 'Close Position API', 'apikey', 'close_position', 'closeposition', 'error', 'message', 'status']

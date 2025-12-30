@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/qty_freeze_db.py
+# hypothesis_version: 6.148.8
+
+[100, '..', 'BANKNIFTY', 'DATABASE_URL', 'FINNIFTY', 'FRZ', 'MIDCPNIFTY', 'NFO', 'NIFTY', 'NIFTYNXT50', 'Qty Freeze DB', 'SYMBOL', 'VOL_FRZ_QTY', '^([A-Z&-]+)', 'check_same_thread', 'data', 'exchange', 'idx_exchange_symbol', 'qty_freeze', 'qtyfreeze.csv', 'r', 'sqlite', 'symbol']

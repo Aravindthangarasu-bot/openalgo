@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/indmoney/streaming/indmoney_adapter.py
+# hypothesis_version: 6.148.8
+
+[1000, '../../../', 'INVALID_MODE', 'LTP', 'QUOTE', 'SUBSCRIPTION_ERROR', 'SYMBOL_NOT_FOUND', 'UNSUBSCRIPTION_ERROR', 'access_token', 'ask_price', 'ask_qty', 'auth_token', 'average_price', 'bid_price', 'bid_qty', 'brexchange', 'close', 'data', 'depth_level', 'exchange', 'high', 'indmoney', 'indmoney_mode', 'indmoney_websocket', 'instrument', 'instrument_token', 'low', 'ltp', 'ltt', 'mode', 'oi', 'oi_change', 'open', 'quote', 'symbol', 'timestamp', 'token', 'volume', 'ws_client']

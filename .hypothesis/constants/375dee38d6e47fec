@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/utils/email_utils.py
+# hypothesis_version: 6.148.8
+
+[465, 'From', 'Mail relay denied', 'OpenAlgo Admin', 'SMTP not configured', 'Subject', 'To', 'User', 'alternative', 'html', 'message', 'plain', 'smtp-relay.gmail.com', 'smtp_from_email', 'smtp_helo_hostname', 'smtp_password', 'smtp_port', 'smtp_server', 'smtp_use_tls', 'smtp_username', 'success']

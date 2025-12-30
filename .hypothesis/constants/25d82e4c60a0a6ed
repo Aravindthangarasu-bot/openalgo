@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/services/option_symbol_service.py
+# hypothesis_version: 6.148.8
+
+[0.0, 100, 200, 400, 404, 500, 'ATM', 'BANKEX', 'BANKNIFTY', 'BFO', 'BSE', 'BSE_INDEX', 'CDS', 'CE', 'FINNIFTY', 'INDIAVIX', 'ITM', 'MCX', 'MIDCPNIFTY', 'NFO', 'NIFTY', 'NIFTYNXT50', 'NSE', 'NSE_INDEX', 'OTM', 'SENSEX', 'SENSEX50', 'brexchange', 'brsymbol', 'cached_entries', 'data', 'error', 'exchange', 'expiry', 'freeze_qty', 'hit_rate', 'hits', 'instrumenttype', 'lotsize', 'ltp', 'message', 'misses', 'name', 'status', 'strike', 'success', 'symbol', 'tick_size', 'token', 'total_queries', 'underlying_ltp']

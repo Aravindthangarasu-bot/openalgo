@@ -84,7 +84,9 @@ def sandbox_place_order(
             'trigger_price': order_data.get('trigger_price', 0),
             'price_type': order_data.get('pricetype') or order_data.get('price_type', 'MARKET'),
             'product': order_data.get('product') or order_data.get('product_type', 'MIS'),
-            'strategy': order_data.get('strategy', '')
+            'strategy': order_data.get('strategy', ''),
+            'targets': order_data.get('targets', []),
+            'signal_data': order_data.get('signal_data', {})
         }
 
         # Place order in sandbox
@@ -472,7 +474,8 @@ def sandbox_close_position(
             }, 200
         else:
             # Close specific position
-            success, response, status_code = position_manager.close_position(symbol, exchange, product)
+            quantity = position_data.get('quantity')
+            success, response, status_code = position_manager.close_position(symbol, exchange, product, quantity=quantity)
             return success, response, status_code
 
     except Exception as e:

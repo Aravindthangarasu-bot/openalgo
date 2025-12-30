@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/restx_api/place_order.py
+# hypothesis_version: 6.148.8
+
+[500, '/', '10 per second', 'ORDER_RATE_LIMIT', 'Place Order API', 'apikey', 'error', 'message', 'place_order', 'status']

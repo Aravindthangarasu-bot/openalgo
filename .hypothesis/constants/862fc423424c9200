@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/definedge/api/auth_api.py
+# hypothesis_version: 6.148.8
+
+['BROKER_API_KEY', 'BROKER_API_SECRET', 'Content-Type', 'Failed to verify OTP', 'Ok', 'ac', 'api_secret', 'api_session_key', 'application/json', 'emsg', 'message', 'otp', 'otp_token', 'stat', 'susertoken', 'uccid', 'uid', 'utf-8']

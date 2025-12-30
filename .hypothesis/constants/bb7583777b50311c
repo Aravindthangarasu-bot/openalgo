@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/motilal/streaming/motilal_adapter.py
+# hypothesis_version: 6.148.8
+
+[0.5, 1000, '../../../', 'BROKER_API_SECRET', 'DEPTH', 'INVALID_DEPTH', 'INVALID_MODE', 'LTP', 'QUOTE', 'SUBSCRIPTION_ERROR', 'SYMBOL_NOT_FOUND', 'UNSUBSCRIPTION_ERROR', 'actual_depth', 'api_key', 'asks', 'auth_token', 'avg_price', 'avg_trade_price', 'bids', 'brexchange', 'buy', 'close', 'depth', 'depth_level', 'exchange', 'exchange_segment', 'high', 'is_fallback', 'low', 'lower_circuit', 'ltp', 'mode', 'motilal', 'motilal_exchange', 'motilal_websocket', 'oi', 'open', 'orders', 'prev_close', 'price', 'quantity', 'sell', 'symbol', 'timestamp', 'token', 'upper_circuit', 'volume', 'ws_client']

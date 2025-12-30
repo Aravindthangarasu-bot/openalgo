@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/utils/logging.py
+# hypothesis_version: 6.148.8
+
+['(Bearer\\s+)[\\w\\-\\.]+', '(\\[.*?\\])', '*.log*', '..', '.env', '/v', '0', '1', '14', '=', 'BUILDKITE', 'CRITICAL', 'DEBUG', 'ERROR', 'FORCE_COLOR', 'False', 'GITHUB_ACTIONS', 'GITLAB_CI', 'HKCU\\Console', 'INFO', 'JENKINS_URL', 'LOG_COLORS', 'LOG_DIR', 'LOG_FORMAT', 'LOG_LEVEL', 'LOG_RETENTION', 'LOG_TO_FILE', 'NO_COLOR', 'TERM', 'True', 'VSCODE_INJECTION', 'VirtualTerminalLevel', 'WARNING', 'WT_SESSION', '[', '\\1[REDACTED]', ']', 'apscheduler', 'args', 'color', 'false', 'hpack', 'hpack.hpack', 'httpcore', 'httpx', 'isatty', 'log', 'midnight', 'module', 'no', 'nt', 'off', 'on', 'query', 'reg', 'requests', 'reset', 'screen', 'screen-256color', 'telegram', 'telegram.ext', 'timestamp', 'true', 'urllib3', 'utf-8', 'websockets', 'websockets.server', 'werkzeug', 'xterm', 'xterm-256color', 'yes']

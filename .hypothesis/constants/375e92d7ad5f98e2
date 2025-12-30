@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/database/user_db.py
+# hypothesis_version: 6.148.8
+
+[100, 120, 255, 1024, 'API_KEY_PEPPER', 'DATABASE_URL', 'OpenAlgo', 'User DB', 'check_same_thread', 'pbkdf2:sha256', 'sqlite', 'users']

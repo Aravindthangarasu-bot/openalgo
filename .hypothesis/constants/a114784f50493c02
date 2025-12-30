@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/gc_json.py
+# hypothesis_version: 6.148.8
+
+[400, 404, 500, '/', '/gocharting', 'API key not found', 'GET', 'GoCharting', 'HOST_SERVER', 'MARKET', 'POST', 'Symbol not found', 'action', 'apikey', 'broker', 'error', 'exchange', 'gc_json_bp', 'gocharting.html', 'pricetype', 'product', 'quantity', 'strategy', 'symbol', 'user']

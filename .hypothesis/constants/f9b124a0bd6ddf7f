@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/sandbox/squareoff_thread.py
+# hypothesis_version: 6.148.8
+
+[300, '%Y-%m-%d %H:%M:%S %Z', '0.00', '00:00', '03:00', '15:15', '16:45', '17:00', '23:30', ':', 'Asia/Kolkata', 'CDS_BCD', 'Friday', 'MCX', 'Monday', 'N/A', 'NCDEX', 'NSE_BSE', 'Never', 'SESSION_EXPIRY_TIME', 'Saturday', 'Schedule reloaded', 'Sunday', 'Thursday', 'Tuesday', 'Wednesday', 'auto_reset', 'coalesce', 'daily_pnl_reset', 'daily_pnl_snapshot', 'id', 'interval', 'jobs', 'max_instances', 'mcx_square_off_time', 'name', 'never', 'next_run', 'reset_day', 'reset_time', 'running', 'squareoff_backup', 't1_settlement', 'timezone', 'today_realized_pnl']

@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/indmoney/streaming/indmoney_mapping.py
+# hypothesis_version: 6.148.8
+
+['BFO', 'BIDX', 'BSE', 'BSE_INDEX', 'CDS', 'MCX', 'NCX', 'NFO', 'NIDX', 'NSE', 'NSE_INDEX', 'ltp', 'quote']

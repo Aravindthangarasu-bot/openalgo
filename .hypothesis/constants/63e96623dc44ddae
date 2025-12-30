@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/upstox/streaming/upstox_client.py
+# hypothesis_version: 6.148.8
+
+['-', 'Accept', 'Authorization', 'IN', 'application/json', 'base_delay', 'data', 'error', 'failed', 'guid', 'instrumentKeys', 'ltpc', 'max_attempts', 'max_delay', 'method', 'mode', 'on_close', 'on_connect', 'on_error', 'on_message', 'status', 'sub', 'unknown', 'unsub', 'upstox_websocket', 'utf-8']

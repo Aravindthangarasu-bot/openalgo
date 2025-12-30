@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/broker/kotak/streaming/kotak_websocket.py
+# hypothesis_version: 6.148.8
+
+[0.0, 21474836.48, '1', 'Authorization', 'Ok', 'Sid', 'ask', 'asks', 'auth_token', 'bid', 'bids', 'bno1', 'bno2', 'bno3', 'bno4', 'bno5', 'bp', 'bp1', 'bp2', 'bp3', 'bp4', 'bq', 'bq1', 'bq2', 'bq3', 'bq4', 'bs', 'bs1', 'bs2', 'bs3', 'bs4', 'c', 'channelnum', 'cn', 'cng', 'dp', 'e', 'h', 'high', 'highPrice', 'ic', 'if', 'iv', 'lo', 'low', 'lowPrice', 'ltp', 'ltq', 'mul', 'mws', 'mwu', 'name', 'nc', 'oi', 'op', 'open', 'openingPrice', 'orders', 'prec', 'prev_close', 'price', 'quantity', 'scrips', 'sid', 'sno1', 'sno2', 'sno3', 'sno4', 'sno5', 'sp', 'sp1', 'sp2', 'sp3', 'sp4', 'stat', 'timestamp', 'tk', 'totalbuyqty', 'totalsellqty', 'ts', 'tvalue', 'type', 'v', 'volume']

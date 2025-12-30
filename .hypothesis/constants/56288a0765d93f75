@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/pnltracker.py
+# hypothesis_version: 6.148.8
+
+[0.0, 1.0, 200, 400, 401, 500, 1000, '%H:%M', '%H:%M:%S %d-%m-%Y', '%Y-%m-%d', '%Y-%m-%d %H:%M:%S', '%Y-%m-%dT%H:%M:%S', '%d-%b-%Y %H:%M:%S', '%d-%m-%Y %H:%M:%S', '/', '/pnltracker', '/pnltracker/api/pnl', '/test_chart', '1m', '1min', ':', 'Asia/Kolkata', 'BUY', 'Drawdown', 'POST', 'Peak', 'SELL', 'Total_PnL', 'UTC', '_', 'action', 'average_price', 'broker', 'close', 'current_mtm', 'data', 'datetime', 'drawdown_series', 'end_time', 'error', 'exchange', 'exit_price', 'fill_time', 'fill_timestamp', 'ltp', 'max_drawdown', 'max_mtm', 'max_mtm_time', 'message', 'min_mtm', 'min_mtm_time', 'ms', 'outer', 'parsed_time', 'pnl', 'pnl_series', 'pnltracker.html', 'pnltracker_bp', 'price', 'qty', 'quantity', 's', 'start_time', 'status', 'success', 'symbol', 'test_chart.html', 'time', 'timestamp', 'trade_value', 'tz', 'user', 'value']

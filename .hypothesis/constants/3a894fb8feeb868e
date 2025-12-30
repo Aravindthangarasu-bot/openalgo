@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/utils/auth_utils.py
+# hypothesis_version: 6.148.8
+
+['*', 'AUTH_TOKEN', 'FEED_TOKEN', 'Password is required', 'USER_ID', '[!@#$%^&*]', '[0-9]', '[A-Z]', '[a-z]', 'broker', 'broker.html', 'downloading', 'error', 'logged_in', 'message', 'status', 'success', 'user_session_key']

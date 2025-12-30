@@ -15,15 +15,13 @@ from utils.constants import (
     VALID_PRODUCT_TYPES,
     REQUIRED_ORDER_FIELDS
 )
-from restx_api.schemas import OrderSchema
 from utils.logging import get_logger
 from services.telegram_alert_service import telegram_alert_service
 
 # Initialize logger
 logger = get_logger(__name__)
 
-# Initialize schema
-order_schema = OrderSchema()
+# Initialize schema removed from global scope to avoid circular import
 
 def import_broker_module(broker_name: str) -> Optional[Any]:
     """
@@ -119,6 +117,8 @@ def validate_order_data(data: Dict[str, Any]) -> Tuple[bool, Optional[Dict[str, 
 
     # Validate and deserialize input
     try:
+        from restx_api.schemas import OrderSchema
+        order_schema = OrderSchema()
         order_data = order_schema.load(data)
         return True, order_data, None
     except Exception as err:

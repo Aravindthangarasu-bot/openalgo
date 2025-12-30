@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/blueprints/tv_json.py
+# hypothesis_version: 6.148.8
+
+[400, 404, 500, '/', '/tradingview', 'API key not found', 'GET', 'HOST_SERVER', 'MARKET', 'POST', 'Symbol not found', 'TradingView Strategy', 'action', 'apikey', 'broker', 'error', 'exchange', 'line', 'mode', 'position_size', 'pricetype', 'product', 'quantity', 'strategy', 'symbol', 'tradingview.html', 'tv_json_bp', 'user']

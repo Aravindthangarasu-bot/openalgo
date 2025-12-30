@@ -1,0 +1,4 @@
+# file: /Users/aravind/Desktop/open algo/openalgo/csp.py
+# hypothesis_version: 6.148.8
+
+["'none'", "'self'", "'self' data:", "'self' wss: ws:", '; ', 'CSP_BASE_URI', 'CSP_CHILD_SRC', 'CSP_CONNECT_SRC', 'CSP_DEFAULT_SRC', 'CSP_ENABLED', 'CSP_FONT_SRC', 'CSP_FORM_ACTION', 'CSP_FRAME_ANCESTORS', 'CSP_FRAME_SRC', 'CSP_IMG_SRC', 'CSP_MEDIA_SRC', 'CSP_OBJECT_SRC', 'CSP_REPORT_ONLY', 'CSP_REPORT_TO', 'CSP_REPORT_URI', 'CSP_SCRIPT_SRC', 'CSP_STYLE_SRC', 'FALSE', 'PERMISSIONS_POLICY', 'Permissions-Policy', 'REFERRER_POLICY', 'Referrer-Policy', 'TRUE', 'base-uri', 'child-src', 'connect-src', 'default-src', 'font-src', 'form-action', 'frame-ancestors', 'frame-src', 'img-src', 'media-src', 'object-src', 'report-to', 'report-uri', 'script-src', 'style-src']
