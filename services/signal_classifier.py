@@ -410,12 +410,15 @@ class SignalClassifier:
             re.I
         )
         
+        logger.info(f"DEBUG TARGETS: target_section_match = {target_section_match}")
         if target_section_match:
             # Extract all numbers from the captured section
             target_str = target_section_match.group(1)
+            logger.info(f"DEBUG TARGETS: target_str = '{target_str}'")
             # Split by common delimiters: comma, slash, space, plus
             # Then extract numbers from each part
             potential_targets = re.findall(r'\d+(?:\.\d+)?', target_str)
+            logger.info(f"DEBUG TARGETS: potential_targets from regex = {potential_targets}")
             
             for t in potential_targets:
                 try:
@@ -427,6 +430,9 @@ class SignalClassifier:
                     # Also exclude small numbers that look like labels (1, 2, 3)
                     if val != price_val and val != sl_val and val > 5:
                         targets.append(t)
+                        logger.info(f"DEBUG TARGETS: Added target {t} (val={val}, price={price_val}, sl={sl_val})")
+                    else:
+                        logger.info(f"DEBUG TARGETS: SKIPPED target {t} (val={val}, price={price_val}, sl={sl_val})")
                 except:
                     continue
         
@@ -452,10 +458,12 @@ class SignalClassifier:
         
         # Clean duplicates preserving order
         targets = list(dict.fromkeys(targets))
+        logger.info(f"DEBUG TARGETS: Extracted targets after dedup: {targets}")
         
         # Set targets and determine final target
         if targets:
             data['targets'] = targets
+            logger.info(f"DEBUG TARGETS: Set data['targets'] = {targets}")
             # Logic: If BUY, max is final target. If SELL, min is final target.
             try:
                 nums = [float(x) for x in targets]
@@ -463,6 +471,7 @@ class SignalClassifier:
                     data['tgt'] = str(min(nums))
                 else:
                     data['tgt'] = str(max(nums))
+                logger.info(f"DEBUG TARGETS: Computed final tgt={data['tgt']} from {nums}")
             except:
                 data['tgt'] = targets[-1]
         

@@ -280,6 +280,35 @@ class SignalExecutionService:
                         target_floats.append(base_tgt + 4.0) # T3
                         logger.info(f"Auto-generated targets: {target_floats}")
                     
+                # CRITICAL FIX: Only add to position monitor if order is filled!
+                # - MARKET orders fill instantly in sandbox, safe to add immediately
+                # - SL/LIMIT orders are "open" until triggered - should NOT be monitored yet
+                # 
+                # User Bug Report: SL entry orders at 235.1 were being monitored before fill,
+                # causing false SL exits at 229.95 that created unwanted SHORT positions
+                
+                # Check if this is a MARKET order (instant fill) or verify order filled
+                should_add_to_monitor = False
+                price_type = order_data.get('price_type', 'LIMIT').upper()
+                
+                if price_type == 'MARKET':
+                    # MARKET orders execute instantly in sandbox - safe to monitor
+                    should_add_to_monitor = True
+                    logger.info(f"MARKET order filled instantly - adding to monitor")
+                else:
+                    # For SL/LIMIT orders, check if order actually filled
+                    # Query the database to get current order status
+                    from database.sandbox_db import SandboxOrders
+                    filled_order = SandboxOrders.query.filter_by(orderid=order_id).first()
+                    
+                    if filled_order and filled_order.order_status == 'complete':
+                        should_add_to_monitor = True
+                        logger.info(f"{price_type} order confirmed filled - adding to monitor")
+                    else:
+                        should_add_to_monitor = False
+                        logger.warning(f"⚠️ {price_type} order {order_id} NOT filled yet (Status: {filled_order.order_status if filled_order else 'Unknown'}) - SKIPPING monitor add. Will be added when order fills.")
+                
+                if should_add_to_monitor:
                     # Add to position monitor
                     position_monitor.add_position(
                         order_id=order_id,
@@ -295,6 +324,8 @@ class SignalExecutionService:
                         product=order_data.get('product', 'MIS') # Pass product
                     )
                     logger.info(f"Position added to monitoring - Targets: {target_floats}")
+                else:
+                    logger.info(f"Position NOT added to monitor (order pending) - will be added on fill callback")
                 except Exception as e:
                     logger.error(f"Failed to add position to monitor: {e}")
                 
@@ -405,20 +436,13 @@ class SignalExecutionService:
             # Smart Entry Logic: Fetch LTP to decide Order Type
             current_ltp = 0
             try:
-                # Fetch quote with Timeout Protection (Safety against API stalls during heavy load)
-                # Run in executor to prevent blocking main loop if get_quotes is synchronous
-                if asyncio.iscoroutinefunction(get_quotes):
-                    quote_res = await asyncio.wait_for(get_quotes(exchange=order['exchange'], symbol=order['symbol']), timeout=2.0)
-                else:
-                    # If synchronous, just call it (assuming it's fast enough or has internal timeout)
-                    # For safety, wrap in generic try-catch block
-                    quote_res = get_quotes(exchange=order['exchange'], symbol=order['symbol'])
+                # Fetch quote with basic error handling
+                # get_quotes is synchronous, so we just call it directly
+                quote_res = get_quotes(exchange=order['exchange'], symbol=order['symbol'])
 
                 if quote_res and 'lp' in quote_res:
                     current_ltp = float(quote_res['lp'])
                     logger.info(f"Smart Entry: Fetched LTP for {order['symbol']} = {current_ltp} (Entry: {entry_price})")
-            except asyncio.TimeoutError:
-                logger.warning(f"⚠️ LTP Fetch Timeout for {order['symbol']} - Proceeding with Default Logic")
             except Exception as e:
                 logger.error(f"Error fetching LTP for Smart Entry: {e}")
 
@@ -436,27 +460,34 @@ class SignalExecutionService:
                 # Entry = 100, Current LTP > 101.5 → Skip/Wait (don't chase)
                 # Entry = 100, Current LTP < 100 → SL Order (wait for breakout)
                 
-                entry_tolerance = 1.5  # Accept up to +1.5 points above entry
+                min_entry_tolerance = 0.1  # Minimum 0.1 above entry
+                max_entry_tolerance = 1.5  # Maximum 1.5 above entry
                 
                 if action == 'BUY':
                     if current_ltp < entry_price:
                         # Breakout Scenario (Wait for price to go UP to entry)
-                        # SL Order: Trigger at entry, allow up to entry+1.5 on limit price
+                        # SL Order: Trigger at entry+0.1, allow up to entry+1.5 on limit price
                         final_pricetype = 'SL'
-                        final_trigger = str(entry_price)
-                        order['price'] = str(entry_price + entry_tolerance)  # Allow fill up to entry+1.5
-                        logger.info(f"📊 Entry: Breakout (LTP {current_ltp} < Entry {entry_price}) → SL Order (Trigger: {entry_price}, Limit: {entry_price + entry_tolerance})")
+                        final_trigger = str(entry_price + min_entry_tolerance)  # Trigger at entry+0.1
+                        order['price'] = str(entry_price + max_entry_tolerance)  # Allow fill up to entry+1.5
+                        logger.info(f"📊 Entry: Breakout (LTP {current_ltp} < Entry {entry_price}) → SL Order (Trigger: {entry_price + min_entry_tolerance}, Limit: {entry_price + max_entry_tolerance})")
                     
-                    elif current_ltp <= (entry_price + entry_tolerance):
-                        # Within Tolerance Window (Entry to Entry+1.5)
-                        # LIMIT Order at entry+1.5 to capture any fill within range
+                    elif (entry_price + min_entry_tolerance) <= current_ltp <= (entry_price + max_entry_tolerance):
+                        # Within Tolerance Window (Entry+0.1 to Entry+1.5) - USER REQUIREMENT
+                        # LIMIT Order at LTP to ensure fill
                         final_pricetype = 'LIMIT'
-                        order['price'] = str(entry_price + entry_tolerance)
-                        logger.info(f"✅ Entry: Immediate (LTP {current_ltp} within {entry_price} to {entry_price + entry_tolerance}) → LIMIT @ {entry_price + entry_tolerance}")
+                        order['price'] = str(current_ltp + 0.05)  # Slight buffer to ensure fill
+                        logger.info(f"✅ Entry: Immediate (LTP {current_ltp} within {entry_price + min_entry_tolerance} to {entry_price + max_entry_tolerance}) → LIMIT @ {current_ltp + 0.05}")
+                    
+                    elif current_ltp < (entry_price + min_entry_tolerance):
+                        # LTP is between entry and entry+0.1 - Wait for +0.1
+                        error_msg = f"⏳ LTP {current_ltp} is below minimum entry {entry_price + min_entry_tolerance}. Waiting..."
+                        logger.warning(error_msg)
+                        raise ValueError(error_msg)
                         
                     else:
                         # LTP > Entry + 1.5: Don't chase, wait for pullback
-                        error_msg = f"❌ LTP {current_ltp} is > {entry_tolerance} pts away from Entry {entry_price}. Waiting for pullback to {entry_price}-{entry_price + entry_tolerance} range."
+                        error_msg = f"❌ LTP {current_ltp} is > {max_entry_tolerance} pts away from Entry {entry_price}. Waiting for pullback to {entry_price + min_entry_tolerance}-{entry_price + max_entry_tolerance} range."
                         logger.warning(error_msg)
                         raise ValueError(error_msg)
                 
@@ -483,24 +514,27 @@ class SignalExecutionService:
                         raise ValueError(error_msg)
 
             else:
-                 # Fallback to explicit condition logic if LTP failed
-                 # If condition is 'above' (BUY) or 'below' (SELL), use STOPLOSS_LIMIT
-                is_stop_order = (
-                    (condition == 'above' and order['action'] == 'BUY') or
-                    (condition == 'below' and order['action'] == 'SELL')
-                )
-                if is_stop_order:
-                    # Use SL with 1-point slippage tolerance
+                # Fallback: No LTP - Use condition-based logic with STRICT entry+0.1 minimum
+                min_entry_buffer = 0.1
+                max_entry_buffer = 1.0
+                
+                if condition == 'above':
+                    # BUY signal: Place SL order with trigger at entry+0.1 (NOT entry+0.0)
                     final_pricetype = 'SL'
-                    final_trigger = str(price)
-                    # Add slippage based on action
-                    slippage_price = float(price) + 1.0 if order['action'] == 'BUY' else float(price) - 1.0
-                    order['price'] = str(slippage_price)
-                    logger.info(f"Fallback Entry: LTP unavailable. Condition '{condition}' -> SL Order (Trigger: {price}, Limit: {slippage_price})")
+                    final_trigger = str(entry_price + min_entry_buffer)  # Trigger at entry+0.1
+                    order['price'] = str(entry_price + max_entry_buffer)  # Limit at entry+1.0
+                    logger.info(f"Fallback Entry (above): No LTP → SL Order (Trigger: {entry_price + min_entry_buffer}, Limit: {entry_price + max_entry_buffer})")
+                elif condition == 'below':
+                    # SELL signal: Place SL order with trigger at entry-0.1
+                    final_pricetype = 'SL'
+                    final_trigger = str(entry_price - min_entry_buffer)
+                    order['price'] = str(entry_price - max_entry_buffer)
+                    logger.info(f"Fallback Entry (below): No LTP → SL Order (Trigger: {entry_price - min_entry_buffer}, Limit: {entry_price - max_entry_buffer})")
                 else:
+                    # 'at' condition: Simple LIMIT order at entry+0.1
                     final_pricetype = 'LIMIT'
-                    order['price'] = str(price)
-                    logger.info(f"Fallback Entry: LTP unavailable. No condition -> Placing LIMIT Order @ {price}")
+                    order['price'] = str(entry_price + min_entry_buffer)
+                    logger.info(f"Fallback Entry (at): No LTP → LIMIT @ {entry_price + min_entry_buffer}")
             
             # Apply determined types
             order['pricetype'] = final_pricetype

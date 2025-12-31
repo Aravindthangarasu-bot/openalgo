@@ -42,9 +42,22 @@ class PositionMonitor:
             # Fetch all OPEN sandbox positions (quantity != 0)
             positions = SandboxPositions.query.filter(SandboxPositions.quantity != 0).all()
             
+            # Date Check: Close positions from previous days (Daily Reset)
+            today_date = datetime.now().date()
+            
             restored_count = 0
             for pos in positions:
                 try:
+                    # Check if position is from a previous day (Intraday/Daily Refresh logic)
+                    # We treat all monitored positions as daily sessions for now per user request
+                    if pos.created_at and pos.created_at.date() < today_date:
+                        logger.info(f"🧹 Expiring stale position {pos.symbol} from {pos.created_at.date()} (Qty: {pos.quantity})")
+                        pos.quantity = 0
+                        pos.updated_at = datetime.now()
+                        db_session.add(pos)
+                        db_session.commit()
+                        continue
+
                     # Parse signal data
                     signal_data = {}
                     if pos.signal_data:

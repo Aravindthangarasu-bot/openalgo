@@ -387,6 +387,16 @@ class PositionManager:
                 unrealized_pnl = Decimal(str(position.pnl))  # Current unrealized P&L from MTM
                 today_realized = Decimal(str(position.today_realized_pnl or 0))
 
+                # DAILY REFRESH: Skip closed positions (quantity=0) from previous sessions
+                # User requirement: "closed positions must be removed from positions tab on  the next day"
+                # Keep only OPEN positions OR recently closed positions (within last 5 minutes for UI display)
+                if position.quantity == 0:
+                    from datetime import timedelta
+                    # If position was closed more than 5 minutes ago, don't show it
+                    cutoff_time = now - timedelta(minutes=5)
+                    if position.updated_at < cutoff_time:
+                        continue  # Skip this closed position from response
+
                 # For open positions: total_pnl_today = today's realized + unrealized
                 # For closed positions (qty=0): total_pnl_today = today's realized only
                 if position.quantity != 0:
